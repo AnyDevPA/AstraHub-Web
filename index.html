@@ -13,7 +13,7 @@
             --text-main: #ffffff;
             --text-muted: #bda6d1;
             --box-bg: rgba(20, 5, 35, 0.4);
-            --text-script: #00f2fe; /* NUEVO Cyan Neón súper brillante para el script */
+            --text-script: #00f2fe; /* Cyan Neón súper brillante para el script */
         }
 
         * {
@@ -98,12 +98,11 @@
             align-items: center;
             position: relative;
             margin-bottom: 25px;
-            /* Resplandor morado pulsante alrededor de ambos avatares */
             box-shadow: 0 0 30px 10px var(--accent-glow);
             width: fit-content;
             margin-left: auto;
             margin-right: auto;
-            border-radius: 60px; /* Borde suave para el resplandor */
+            border-radius: 60px;
             animation: pulseGlow 3s infinite alternate;
         }
 
@@ -112,32 +111,34 @@
             100% { box-shadow: 0 0 40px 15px var(--accent-glow); }
         }
 
+        /* LA CLASE LOGO AHORA APLICA PERFECTO A VIDEOS Y FOTOS */
         .logo {
-            width: 110px; /* Ligeramente más pequeños para que quepan dos */
+            width: 110px; 
             height: 110px;
             border-radius: 50%;
-            object-fit: cover;
+            object-fit: cover; /* Esto hace que el video no se deforme y rellene el círculo */
             border: 3px solid var(--accent);
             position: relative;
+            background-color: #000; /* Fondo negro por si el video tarda en cargar */
         }
 
         .logo:first-child {
-            margin-right: -15px; /* Efecto de solapamiento para Nath */
-            z-index: 2; /* Astra sobre Nath */
+            margin-right: -15px; 
+            z-index: 2; 
         }
 
         .logo:last-child {
             z-index: 1;
         }
 
-        /* TÍTULO FUTURISTA CON FUENTE ORBITRON */
+        /* TÍTULO FUTURISTA */
         h1 {
-            font-family: 'Orbitron', sans-serif; /* NUEVA fuente sci-fi/tech */
+            font-family: 'Orbitron', sans-serif;
             font-weight: 900;
             font-size: 2.2em;
             letter-spacing: 2px;
             margin-bottom: 30px;
-            text-shadow: 0 0 20px var(--accent); /* Resplandor intenso */
+            text-shadow: 0 0 20px var(--accent);
             text-transform: uppercase;
         }
 
@@ -152,7 +153,7 @@
             margin-left: 5px;
         }
 
-        /* CAJAS CON EFECTO CRISTAL (GLASSMORPHISM) */
+        /* CAJAS CON EFECTO CRISTAL */
         .glass-box {
             background-color: var(--box-bg);
             backdrop-filter: blur(8px);
@@ -170,17 +171,16 @@
             gap: 15px;
         }
 
-        /* CÓDIGO DEL SCRIPT CON COLOR MEJORADO */
         code {
-            color: var(--text-script); /* NUEVO Cyan Neón */
+            color: var(--text-script); 
             font-family: monospace;
             font-size: 1em;
             word-break: break-all;
             text-align: left;
-            text-shadow: 0 0 5px rgba(0, 242, 254, 0.5); /* Resplandor cian suave */
+            text-shadow: 0 0 5px rgba(0, 242, 254, 0.5); 
         }
 
-        /* BOTÓN PRINCIPAL CON LATIDO */
+        /* BOTONES */
         .btn {
             background-color: var(--accent);
             color: var(--text-main);
@@ -206,7 +206,7 @@
         .btn:hover {
             background-color: #c433ff;
             box-shadow: 0 0 25px var(--accent);
-            animation: none; /* Se quita el latido al pasar el mouse */
+            animation: none; 
             transform: scale(1.02);
         }
 
@@ -266,7 +266,7 @@
             border: 1px solid rgba(170, 0, 255, 0.5);
             color: var(--text-main);
             padding: 10px 18px;
-            border-radius: 30px; /* Forma de píldora */
+            border-radius: 30px; 
             text-decoration: none;
             font-weight: 700;
             font-size: 0.9em;
@@ -319,8 +319,9 @@
 
     <div class="main-panel">
         <div class="avatar-container">
-            <img src="https://github.com/AnyDevPA.png" alt="Logo Astra" class="logo">
-            <img src="https://singlecolorimage.com/get/ff00ff/110x110" alt="Logo Nath" class="logo" title="Cambia mi foto en index.html">
+            <video src="TU_VIDEO_AQUI.mp4" class="logo" autoplay loop muted playsinline></video>
+            
+            <video src="EL_VIDEO_DE_NATH_AQUI.mp4" class="logo" autoplay loop muted playsinline></video>
         </div>
         
         <h1>AstraHub Duels & MM2</h1>

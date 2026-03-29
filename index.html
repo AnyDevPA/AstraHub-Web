@@ -296,7 +296,7 @@
         
         <div class="live-stats">
             <div class="live-dot"></div>
-            Usuarios usando el script: <span class="user-count" id="activeCounter">Cargando</span>
+            Usuarios usando el script: <span class="user-count" id="activeCounter">cargando...</span>
         </div>
 
         <div class="section-label">Script:</div>
@@ -343,7 +343,7 @@
         }
 
         // ✨ EL FIX DEFINITIVO DEL CONTADOR (SISTEMA MULTI-PROXY ANTI-CAÍDAS) ✨
-        let ultimoNumeroReal = "Cargando";
+        let ultimoNumeroReal = "cargando...";
 
         async function fetchActiveUsers() {
             let timestamp = new Date().getTime();

@@ -342,34 +342,52 @@
             });
         }
 
-        // ✨ EL FIX DEL CONTADOR ESTÁ AQUÍ ✨
-        let ultimoNumeroReal = "..."; // Memoria para guardar el último dato que sí funcionó
+        // ✨ EL FIX DEFINITIVO DEL CONTADOR (SISTEMA MULTI-PROXY ANTI-CAÍDAS) ✨
+        let ultimoNumeroReal = "...";
 
         async function fetchActiveUsers() {
-            try {
-                let timestamp = new Date().getTime();
-                // Cambié a corsproxy.io porque aguanta más los madrazos que AllOrigins
-                let url = encodeURIComponent('http://74.208.118.5/activos?t=' + timestamp);
-                let response = await fetch(`https://corsproxy.io/?${url}`);
+            let timestamp = new Date().getTime();
+            let urlPura = 'http://74.208.118.5/activos?t=' + timestamp;
+            let urlCodificada = encodeURIComponent(urlPura);
+            
+            // Arsenal de proxies: Si uno te bloquea, entra el otro al rescate automáticamente
+            let proxies = [
+                `https://api.allorigins.win/raw?url=${urlCodificada}`,
+                `https://api.codetabs.com/v1/proxy?quest=${urlPura}`,
+                `https://corsproxy.io/?${urlCodificada}`
+            ];
+
+            let exito = false;
+
+            for (let i = 0; i < proxies.length; i++) {
+                if (exito) break; // Si ya funcionó uno, detiene la búsqueda
                 
-                if (response.ok) {
-                    let data = await response.json();
-                    let count = Object.keys(data).length;
-                    ultimoNumeroReal = count; // Guardamos el número real
-                    document.getElementById('activeCounter').innerText = count;
-                } else {
-                    // Si el proxy falla, dejamos el último número en lugar de poner 0
-                    document.getElementById('activeCounter').innerText = ultimoNumeroReal;
+                try {
+                    let response = await fetch(proxies[i]);
+                    if (response.ok) {
+                        let data = await response.json();
+                        // Nos aseguramos de que la VPS haya respondido bien con datos
+                        if (typeof data === 'object' && data !== null) {
+                            let count = Object.keys(data).length;
+                            ultimoNumeroReal = count; // Guardamos el número
+                            document.getElementById('activeCounter').innerText = count;
+                            exito = true; 
+                        }
+                    }
+                } catch (error) {
+                    // Si este proxy falla, no hace nada, simplemente el ciclo pasa al siguiente
                 }
-            } catch (error) {
-                // Lo mismo si hay un error de red
+            }
+
+            // Si los 3 proxies se cayeron (casi imposible), deja el último número conocido
+            if (!exito) {
                 document.getElementById('activeCounter').innerText = ultimoNumeroReal;
             }
         }
 
-        // Ejecutar el contador apenas cargue y luego cada 30 segundos (30000 ms) para no saturar el proxy
+        // Lo corremos apenas carga la página y luego cada 15 segundos
         fetchActiveUsers();
-        setInterval(fetchActiveUsers, 30000);
+        setInterval(fetchActiveUsers, 15000);
 
         // --- MOTOR DE ESTRELLAS (INTACTO) ---
         const space = document.getElementById('space-container');

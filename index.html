@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstraHub | Murder Mystery 2 & Duels</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f0519; /* Morado abismo */
+            --box-bg: #230f37;
+            --accent: #aa00ff; /* Morado neón */
+            --accent2: #ff00aa; /* Fucsia resplandor */
+            --text-main: #ffffff;
+            --text-muted: #a082c8;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            background-image: radial-gradient(circle at top, #2a0b4e 0%, transparent 40%);
+        }
+
+        .container {
+            background-color: rgba(25, 10, 40, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 20px rgba(170, 0, 255, 0.3);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            font-weight: 900;
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            color: var(--text-main);
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .subtitle {
+            color: var(--accent2);
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .script-box {
+            background-color: var(--box-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--text-muted);
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        code {
+            display: block;
+            color: #00ff80;
+            word-wrap: break-word;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: var(--text-main);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent2);
+            box-shadow: 0 0 15px var(--accent2);
+            transform: translateY(-2px);
+        }
+
+        .btn-copy {
+            background-color: transparent;
+            border: 2px solid var(--accent);
+        }
+
+        .btn-copy:hover {
+            background-color: var(--accent);
+        }
+
+        .social-links {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>AstraHub</h1>
+        <div class="subtitle">EXPERIENCIA PREMIUM PARA DUELS Y MM2</div>
+
+        <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 20px;">
+            Copia el código de abajo y pégalo en tu ejecutor favorito.
+        </p>
+
+        <div class="script-box">
+            <code id="scriptCode">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
+            <button class="btn btn-copy" onclick="copiarScript()" id="copyBtn">📋 Copiar Script</button>
+        </div>
+
+        <div class="social-links">
+            <h3 style="margin-bottom: 15px;">Únete a la Comunidad</h3>
+            <a href="https://discord.gg/TU_LINK_AQUI" target="_blank" class="btn">👾 Discord</a>
+            
+            <a href="https://t.me/TU_LINK_AQUI" target="_blank" class="btn">✈️ Telegram</a>
+        </div>
+    </div>
+
+    <script>
+        function copiarScript() {
+            var codigo = document.getElementById("scriptCode").innerText;
+            navigator.clipboard.writeText(codigo).then(function() {
+                var btn = document.getElementById("copyBtn");
+                btn.innerText = "✅ ¡Copiado!";
+                btn.style.backgroundColor = "#00ff80";
+                btn.style.color = "#000";
+                btn.style.borderColor = "#00ff80";
+                
+                setTimeout(function() {
+                    btn.innerText = "📋 Copiar Script";
+                    btn.style.backgroundColor = "transparent";
+                    btn.style.color = "var(--text-main)";
+                    btn.style.borderColor = "var(--accent)";
+                }, 2500);
+            });
+        }
+    </script>
+
+</body>
+</html>

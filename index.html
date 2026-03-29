@@ -3,152 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AstraHub | Murder Mystery 2 & Duels</title>
+    <title>AstraHub | Duels & MM2</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* VARIABLES DE COLOR */
         :root {
-            --bg-color: #0f0519; /* Morado abismo */
-            --box-bg: #230f37;
-            --accent: #aa00ff; /* Morado neón */
-            --accent2: #ff00aa; /* Fucsia resplandor */
+            --bg-dark: #05010a;
+            --accent: #aa00ff;
+            --accent-glow: rgba(170, 0, 255, 0.8);
             --text-main: #ffffff;
-            --text-muted: #a082c8;
+            --text-muted: #bda6d1;
+            --box-bg: rgba(20, 5, 35, 0.7);
+        }
+
+        /* RESET Y CUERPO */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            text-align: center;
-            background-image: radial-gradient(circle at top, #2a0b4e 0%, transparent 40%);
+            overflow-x: hidden; /* Evita barras de scroll por las estrellas */
+            position: relative;
         }
 
-        .container {
-            background-color: rgba(25, 10, 40, 0.8);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid var(--accent);
-            box-shadow: 0 0 20px rgba(170, 0, 255, 0.3);
-            max-width: 600px;
+        /* FONDO ANIMADO DE ESTRELLAS */
+        #space-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            background: radial-gradient(circle at center, #130524 0%, var(--bg-dark) 100%);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle infinite alternate;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(170,0,255,0) 100%);
+            transform: rotate(-45deg);
+            animation: shoot linear forwards;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 5px white; }
+        }
+
+        @keyframes shoot {
+            0% { transform: translate(0, 0) rotate(-45deg); opacity: 1; }
+            100% { transform: translate(-1000px, 1000px) rotate(-45deg); opacity: 0; }
+        }
+
+        /* CONTENEDOR PRINCIPAL (CRISTAL) */
+        .main-panel {
+            position: relative;
+            z-index: 10;
+            background: rgba(10, 2, 20, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(170, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
             width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(10, 2, 20, 0.8);
+        }
+
+        /* LOGO CON RESPLANDOR MORADO */
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 25px 8px var(--accent-glow);
+            margin-bottom: 20px;
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 20px 5px var(--accent-glow); }
+            100% { box-shadow: 0 0 40px 15px var(--accent-glow); }
         }
 
         h1 {
             font-weight: 900;
-            font-size: 2.5em;
-            margin-bottom: 5px;
-            color: var(--text-main);
+            font-size: 1.8em;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
             text-shadow: 0 0 10px var(--accent);
         }
 
-        .subtitle {
-            color: var(--accent2);
+        .section-label {
+            color: var(--text-muted);
             font-weight: 700;
-            margin-bottom: 30px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-align: left;
         }
 
+        /* CAJA DEL SCRIPT */
         .script-box {
             background-color: var(--box-bg);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--text-muted);
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            padding: 15px;
             margin-bottom: 25px;
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         code {
-            display: block;
-            color: #00ff80;
-            word-wrap: break-word;
-            font-size: 0.9em;
-            margin-bottom: 15px;
+            color: #00ff88;
+            font-family: monospace;
+            font-size: 0.95em;
+            word-break: break-all;
+            text-align: left;
         }
 
+        /* BOTONES */
         .btn {
             background-color: var(--accent);
             color: var(--text-main);
             border: none;
-            padding: 12px 25px;
+            padding: 12px;
             border-radius: 8px;
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
+            font-size: 1em;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            margin: 5px;
+            transition: all 0.2s;
+            width: 100%;
         }
 
         .btn:hover {
-            background-color: var(--accent2);
-            box-shadow: 0 0 15px var(--accent2);
+            background-color: #c433ff;
+            box-shadow: 0 0 15px var(--accent);
             transform: translateY(-2px);
         }
 
-        .btn-copy {
-            background-color: transparent;
-            border: 2px solid var(--accent);
+        .btn:active {
+            transform: translateY(1px);
         }
 
-        .btn-copy:hover {
-            background-color: var(--accent);
+        /* BOTÓN DEL EXECUTOR */
+        .executor-btn {
+            background-color: var(--box-bg);
+            border: 1px dashed var(--accent);
+            color: var(--text-main);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
         }
 
-        .social-links {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--text-muted);
+        .executor-btn:hover {
+            background-color: rgba(170, 0, 255, 0.2);
+            border-style: solid;
+        }
+
+        .click-hint {
+            font-size: 0.7em;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* DEVELOPERS FOOTER */
+        .developers {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(170, 0, 255, 0.3);
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+        .dev-names {
+            color: var(--accent);
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>AstraHub</h1>
-        <div class="subtitle">EXPERIENCIA PREMIUM PARA DUELS Y MM2</div>
+    <div id="space-container"></div>
 
-        <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 20px;">
-            Copia el código de abajo y pégalo en tu ejecutor favorito.
-        </p>
+    <div class="main-panel">
+        <img src="https://github.com/AnyDevPA.png" alt="Logo AstraHub" class="logo">
+        
+        <h1>AstraHub Duels & MM2</h1>
 
+        <div class="section-label">Script:</div>
         <div class="script-box">
             <code id="scriptCode">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
-            <button class="btn btn-copy" onclick="copiarScript()" id="copyBtn">📋 Copiar Script</button>
+            <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, '📋 Copiar Script')">📋 Copiar Script</button>
         </div>
 
-        <div class="social-links">
-            <h3 style="margin-bottom: 15px;">Únete a la Comunidad</h3>
-            <a href="https://discord.gg/TU_LINK_AQUI" target="_blank" class="btn">👾 Discord</a>
-            
-            <a href="https://t.me/TU_LINK_AQUI" target="_blank" class="btn">✈️ Telegram</a>
+        <div class="section-label">Executor recomendado:</div>
+        <button class="executor-btn" id="copyExecBtn" onclick="copiarString('Delta Executor', this)">
+            Delta Executor
+            <span class="click-hint">(clic para copiar nombre)</span>
+        </button>
+
+        <div class="developers">
+            Developers: <span class="dev-names">Astra & Nath</span>
         </div>
     </div>
 
     <script>
-        function copiarScript() {
-            var codigo = document.getElementById("scriptCode").innerText;
+        // --- FUNCIÓN PARA COPIAR EL SCRIPT ---
+        function copiarTexto(elementoId, boton, textoOriginal) {
+            var codigo = document.getElementById(elementoId).innerText;
             navigator.clipboard.writeText(codigo).then(function() {
-                var btn = document.getElementById("copyBtn");
-                btn.innerText = "✅ ¡Copiado!";
-                btn.style.backgroundColor = "#00ff80";
-                btn.style.color = "#000";
-                btn.style.borderColor = "#00ff80";
+                boton.innerText = "✅ ¡Copiado!";
+                boton.style.backgroundColor = "#00ff88";
+                boton.style.color = "#000";
                 
                 setTimeout(function() {
-                    btn.innerText = "📋 Copiar Script";
-                    btn.style.backgroundColor = "transparent";
-                    btn.style.color = "var(--text-main)";
-                    btn.style.borderColor = "var(--accent)";
-                }, 2500);
+                    boton.innerText = textoOriginal;
+                    boton.style.backgroundColor = "var(--accent)";
+                    boton.style.color = "var(--text-main)";
+                }, 2000);
             });
         }
-    </script>
 
+        // --- FUNCIÓN PARA COPIAR EL NOMBRE DEL EXECUTOR ---
+        function copiarString(texto, boton) {
+            navigator.clipboard.writeText(texto).then(function() {
+                var originalHtml = boton.innerHTML;
+                boton.innerHTML = "✅ ¡Copiado!";
+                boton.style.borderColor = "#00ff88";
+                boton.style.color = "#00ff88";
+                
+                setTimeout(function() {
+                    boton.innerHTML = originalHtml;
+                    boton.style.borderColor = "var(--accent)";
+                    boton.style.color = "var(--text-main)";
+                }, 2000);
+            });
+        }
+
+        // --- MOTOR ASTRONÓMICO (ESTRELLAS Y CONSTELACIONES) ---
+        const space = document.getElementById('space-container');
+        
+        // 1. Generar estrellas estáticas parpadeantes
+        for (let i = 0; i < 150; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            
+            // Tamaño aleatorio entre 1px y 3px
+            let size = Math.random() * 2 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            // Posición aleatoria
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            
+            // Animación desfasada para que no parpadeen juntas
+            star.style.animationDuration = (Math.random() * 3 + 1) + 's';
+            star.style.animationDelay = (Math.random() * 5) + 's';
+            
+            space.appendChild(star);
+        }
+
+        // 2. Generar estrellas fugaces (Shooting Stars)
+        function spawnShootingStar() {
+            let sStar = document.createElement('div');
+            sStar.className = 'shooting-star';
+            
+            // Empiezan desde la esquina superior derecha o más allá
+            sStar.style.left = (Math.random() * 150) + 'vw';
+            sStar.style.top = '-50px';
+            
+            // Duración aleatoria del vuelo (velocidad)
+            sStar.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
+            
+            space.appendChild(sStar);
+            
+            // Borrar la estrella cuando termine la animación para no saturar la RAM
+            setTimeout(() => {
+                sStar.remove();
+            }, 2000);
+        }
+
+        // Disparar estrellas fugaces cada cierto tiempo al azar (entre 2 y 6 segundos)
+        setInterval(() => {
+            spawnShootingStar();
+        }, Math.random() * 4000 + 2000);
+        
+        // Tirar la primera estrella rápido para que se vea luego luego
+        setTimeout(spawnShootingStar, 1000);
+
+    </script>
 </body>
 </html>

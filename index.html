@@ -342,30 +342,36 @@
             });
         }
 
-        // SISTEMA PARA OBTENER USUARIOS ACTIVOS DE LA VPS
+        // ✨ EL FIX DEL CONTADOR ESTÁ AQUÍ ✨
+        let ultimoNumeroReal = "..."; // Memoria para guardar el último dato que sí funcionó
+
         async function fetchActiveUsers() {
             try {
-                // Usamos AllOrigins como proxy gratis para evitar el bloqueo HTTPS -> HTTP
                 let timestamp = new Date().getTime();
+                // Cambié a corsproxy.io porque aguanta más los madrazos que AllOrigins
                 let url = encodeURIComponent('http://74.208.118.5/activos?t=' + timestamp);
-                let response = await fetch(`https://api.allorigins.win/raw?url=${url}`);
+                let response = await fetch(`https://corsproxy.io/?${url}`);
                 
                 if (response.ok) {
                     let data = await response.json();
-                    let count = Object.keys(data).length; // Cuenta cuántas personas hay en el JSON
+                    let count = Object.keys(data).length;
+                    ultimoNumeroReal = count; // Guardamos el número real
                     document.getElementById('activeCounter').innerText = count;
                 } else {
-                    document.getElementById('activeCounter').innerText = "0";
+                    // Si el proxy falla, dejamos el último número en lugar de poner 0
+                    document.getElementById('activeCounter').innerText = ultimoNumeroReal;
                 }
             } catch (error) {
-                document.getElementById('activeCounter').innerText = "0";
+                // Lo mismo si hay un error de red
+                document.getElementById('activeCounter').innerText = ultimoNumeroReal;
             }
         }
 
-        // Ejecutar el contador apenas cargue la página y luego cada 10 segundos
+        // Ejecutar el contador apenas cargue y luego cada 30 segundos (30000 ms) para no saturar el proxy
         fetchActiveUsers();
-        setInterval(fetchActiveUsers, 10000);
+        setInterval(fetchActiveUsers, 30000);
 
+        // --- MOTOR DE ESTRELLAS (INTACTO) ---
         const space = document.getElementById('space-container');
         const isMobile = window.innerWidth <= 768;
         const starCount = isMobile ? 40 : 100; 

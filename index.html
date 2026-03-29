@@ -114,12 +114,11 @@
             font-weight: 900;
             font-size: 2.2em;
             letter-spacing: 2px;
-            margin-bottom: 10px; /* Reduje el margen para meter el contador */
+            margin-bottom: 10px; 
             text-shadow: 0 0 20px var(--accent);
             text-transform: uppercase;
         }
         
-        /* ESTILOS DEL CONTADOR EN VIVO */
         .live-stats {
             margin-bottom: 30px;
             font-size: 0.9em;
@@ -207,19 +206,25 @@
             transform: scale(1.02);
         }
         .btn:active { transform: scale(0.98); }
-        .executor-container {
+        
+        /* ✨ NUEVOS ESTILOS PARA LOS DOS BOTONES DE EXECUTOR ✨ */
+        .executors-wrapper {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
             margin-bottom: 35px;
         }
         .executor-btn {
-            padding: 15px 40px;
+            flex: 1;
+            min-width: 140px; /* Para que no se apachurren en celulares chicos */
+            padding: 15px 10px;
             border-radius: 12px;
             border: 2px dashed rgba(170, 0, 255, 0.6);
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            font-size: 1.1em;
+            font-size: 1em;
             text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -236,6 +241,7 @@
             transform: scale(1.05);
         }
         .click-hint { font-size: 0.75em; color: var(--text-muted); font-weight: 400; }
+        
         .social-container {
             display: flex;
             justify-content: center;
@@ -305,11 +311,16 @@
             <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">Copiar Script</button>
         </div>
 
-        <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executor recomendado:</div>
-        <div class="executor-container">
+        <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
+        <div class="executors-wrapper">
             <a href="https://files.catbox.moe/kx8byc.apk" class="executor-btn glass-box">
-                Delta Executor
-                <span class="click-hint">(Descarga directa APK)</span>
+                🤖 Android
+                <span class="click-hint">(Descargar APK)</span>
+            </a>
+            
+            <a href="https://pixeldrain.com/api/file/kPRKicAS" class="executor-btn glass-box">
+                🍏 iOS
+                <span class="click-hint">(Descargar IPA)</span>
             </a>
         </div>
 
@@ -342,7 +353,6 @@
             });
         }
 
-        // ✨ EL FIX DEFINITIVO DEL CONTADOR (SISTEMA MULTI-PROXY ANTI-CAÍDAS) ✨
         let ultimoNumeroReal = "cargando...";
 
         async function fetchActiveUsers() {
@@ -350,7 +360,6 @@
             let urlPura = 'http://74.208.118.5/activos?t=' + timestamp;
             let urlCodificada = encodeURIComponent(urlPura);
             
-            // Arsenal de proxies: Si uno te bloquea, entra el otro al rescate automáticamente
             let proxies = [
                 `https://api.allorigins.win/raw?url=${urlCodificada}`,
                 `https://api.codetabs.com/v1/proxy?quest=${urlPura}`,
@@ -360,36 +369,30 @@
             let exito = false;
 
             for (let i = 0; i < proxies.length; i++) {
-                if (exito) break; // Si ya funcionó uno, detiene la búsqueda
+                if (exito) break;
                 
                 try {
                     let response = await fetch(proxies[i]);
                     if (response.ok) {
                         let data = await response.json();
-                        // Nos aseguramos de que la VPS haya respondido bien con datos
                         if (typeof data === 'object' && data !== null) {
                             let count = Object.keys(data).length;
-                            ultimoNumeroReal = count; // Guardamos el número
+                            ultimoNumeroReal = count; 
                             document.getElementById('activeCounter').innerText = count;
                             exito = true; 
                         }
                     }
-                } catch (error) {
-                    // Si este proxy falla, no hace nada, simplemente el ciclo pasa al siguiente
-                }
+                } catch (error) {}
             }
 
-            // Si los 3 proxies se cayeron (casi imposible), deja el último número conocido
             if (!exito) {
                 document.getElementById('activeCounter').innerText = ultimoNumeroReal;
             }
         }
 
-        // Lo corremos apenas carga la página y luego cada 15 segundos
         fetchActiveUsers();
         setInterval(fetchActiveUsers, 15000);
 
-        // --- MOTOR DE ESTRELLAS (INTACTO) ---
         const space = document.getElementById('space-container');
         const isMobile = window.innerWidth <= 768;
         const starCount = isMobile ? 40 : 100; 

@@ -12,7 +12,7 @@
             --accent-glow: rgba(170, 0, 255, 0.8);
             --text-main: #ffffff;
             --text-muted: #bda6d1;
-            --box-bg: rgba(20, 5, 35, 0.7);
+            --box-bg: rgba(20, 5, 35, 0.4); /* Más transparente para el efecto cristal */
         }
 
         * {
@@ -76,11 +76,10 @@
         /* EFECTO DE LEVITACIÓN */
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-12px); }
             100% { transform: translateY(0px); }
         }
 
-        /* CONTENEDOR PRINCIPAL SIN CUADRO, SOLO FLOTANDO */
         .main-panel {
             position: relative;
             z-index: 10;
@@ -88,7 +87,7 @@
             width: 90%;
             max-width: 500px;
             text-align: center;
-            animation: float 5s ease-in-out infinite; /* Aquí está el efecto de levitación */
+            animation: float 6s ease-in-out infinite;
         }
 
         .logo {
@@ -107,7 +106,6 @@
             100% { box-shadow: 0 0 40px 15px var(--accent-glow); }
         }
 
-        /* NUEVA FUENTE PERRA PARA EL TÍTULO */
         h1 {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
@@ -129,16 +127,22 @@
             margin-left: 5px;
         }
 
-        .script-box {
+        /* CAJAS CON EFECTO CRISTAL (GLASSMORPHISM) */
+        .glass-box {
             background-color: var(--box-bg);
-            border: 1px solid var(--accent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(170, 0, 255, 0.4);
             border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .script-box {
             padding: 18px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            box-shadow: 0 0 20px rgba(170, 0, 255, 0.2), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         code {
@@ -147,8 +151,10 @@
             font-size: 1em;
             word-break: break-all;
             text-align: left;
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
         }
 
+        /* BOTÓN PRINCIPAL CON LATIDO */
         .btn {
             background-color: var(--accent);
             color: var(--text-main);
@@ -161,11 +167,20 @@
             cursor: pointer;
             transition: all 0.2s;
             width: 100%;
+            animation: heartbeat 2.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); box-shadow: 0 0 10px var(--accent-glow); }
+            5% { transform: scale(1.02); box-shadow: 0 0 20px var(--accent-glow); }
+            10% { transform: scale(1); box-shadow: 0 0 10px var(--accent-glow); }
+            100% { transform: scale(1); box-shadow: 0 0 10px var(--accent-glow); }
         }
 
         .btn:hover {
             background-color: #c433ff;
-            box-shadow: 0 0 20px var(--accent);
+            box-shadow: 0 0 25px var(--accent);
+            animation: none; /* Se quita el latido al pasar el mouse */
             transform: scale(1.02);
         }
 
@@ -173,36 +188,35 @@
             transform: scale(0.98);
         }
 
-        /* BOTÓN DEL EXECUTOR CENTRADO Y COMO LINK */
+        /* BOTÓN DEL EXECUTOR */
         .executor-container {
             display: flex;
-            justify-content: center; /* Centra el botón */
-            margin-bottom: 40px;
+            justify-content: center;
+            margin-bottom: 35px;
         }
 
         .executor-btn {
-            background-color: var(--box-bg);
-            border: 2px dashed var(--accent);
-            color: var(--text-main);
             padding: 15px 40px;
             border-radius: 12px;
+            border: 2px dashed rgba(170, 0, 255, 0.6);
+            color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             font-size: 1.1em;
-            text-decoration: none; /* Quita la raya de abajo del link */
+            text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 5px;
-            box-shadow: 0 0 15px rgba(170, 0, 255, 0.1);
         }
 
         .executor-btn:hover {
             background-color: rgba(170, 0, 255, 0.2);
             border-style: solid;
-            box-shadow: 0 0 25px rgba(170, 0, 255, 0.4);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(170, 0, 255, 0.3);
             transform: scale(1.05);
         }
 
@@ -212,11 +226,58 @@
             font-weight: 400;
         }
 
+        /* REDES SOCIALES (NUEVO) */
+        .social-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            background: rgba(20, 5, 35, 0.5);
+            border: 1px solid rgba(170, 0, 255, 0.5);
+            color: var(--text-main);
+            padding: 10px 18px;
+            border-radius: 30px; /* Forma de píldora */
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .social-btn:hover {
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        .social-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: #555;
+        }
+
+        .social-disabled:hover {
+            background: rgba(20, 5, 35, 0.5);
+            box-shadow: none;
+            transform: none;
+            border-color: #555;
+        }
+
         .developers {
             font-size: 0.9em;
             color: var(--text-muted);
             padding-top: 15px;
             margin-top: 10px;
+            border-top: 1px dashed rgba(170, 0, 255, 0.3);
         }
 
         .dev-names {
@@ -236,18 +297,24 @@
         <h1>AstraHub Duels & MM2</h1>
 
         <div class="section-label">Script:</div>
-        <div class="script-box">
+        <div class="script-box glass-box">
             <code id="scriptCode">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
             <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, '📋 Copiar Script')">📋 Copiar Script</button>
         </div>
 
         <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executor recomendado:</div>
-        
         <div class="executor-container">
-            <a href="https://delta.filenetwork.vip/android.html#" target="_blank" class="executor-btn">
+            <a href="https://delta.filenetwork.vip/android.html#" target="_blank" class="executor-btn glass-box">
                 Delta Executor
                 <span class="click-hint">(Clic para descargar)</span>
             </a>
+        </div>
+
+        <div class="section-label" style="text-align: center; margin-bottom: 15px;">Comunidad Oficial:</div>
+        <div class="social-container">
+            <a href="https://t.me/astraacommunity" target="_blank" class="social-btn">✈️ Telegram</a>
+            <a href="https://www.tiktok.com/@dxzydev" target="_blank" class="social-btn">🎵 TikTok</a>
+            <a href="#" class="social-btn social-disabled" onclick="return false;" title="Próximamente...">👾 Discord</a>
         </div>
 
         <div class="developers">
@@ -262,11 +329,13 @@
                 boton.innerText = "✅ ¡Copiado!";
                 boton.style.backgroundColor = "#00ff88";
                 boton.style.color = "#000";
+                boton.style.animation = "none";
                 
                 setTimeout(function() {
                     boton.innerText = textoOriginal;
                     boton.style.backgroundColor = "var(--accent)";
                     boton.style.color = "var(--text-main)";
+                    boton.style.animation = "heartbeat 2.5s infinite";
                 }, 2000);
             });
         }

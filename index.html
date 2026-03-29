@@ -15,13 +15,7 @@
             --box-bg: rgba(20, 5, 35, 0.4);
             --text-script: #00f2fe;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
@@ -33,21 +27,15 @@
             overflow-x: hidden;
             position: relative;
         }
-
-        /* FONDO ANIMADO DE ESTRELLAS */
         #space-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: 0;
             background: radial-gradient(circle at center, #130524 0%, var(--bg-dark) 100%);
             overflow: hidden;
             pointer-events: none;
         }
-
-        /* OPTIMIZACIÓN: will-change usa la GPU del celular para evitar lag */
         .star {
             position: absolute;
             background-color: white;
@@ -55,35 +43,28 @@
             animation: twinkle infinite alternate;
             will-change: transform, opacity; 
         }
-
         .shooting-star {
             position: absolute;
-            width: 80px;
-            height: 2px;
+            width: 80px; height: 2px;
             background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(170,0,255,0) 100%);
             transform: rotate(-45deg);
             animation: shoot linear forwards;
             opacity: 0;
             will-change: transform, opacity;
         }
-
-        /* OPTIMIZACIÓN: Se quitó el box-shadow que mataba los FPS */
         @keyframes twinkle {
             0% { opacity: 0.2; transform: scale(0.8); }
             100% { opacity: 1; transform: scale(1.2); }
         }
-
         @keyframes shoot {
             0% { transform: translate(0, 0) rotate(-45deg); opacity: 1; }
             100% { transform: translate(-1000px, 1000px) rotate(-45deg); opacity: 0; }
         }
-
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-12px); }
             100% { transform: translateY(0px); }
         }
-
         .main-panel {
             position: relative;
             z-index: 10;
@@ -94,7 +75,6 @@
             animation: float 6s ease-in-out infinite;
             will-change: transform;
         }
-
         .avatar-container {
             display: flex;
             justify-content: center;
@@ -103,37 +83,25 @@
             margin-bottom: 25px;
             box-shadow: 0 0 30px 10px var(--accent-glow);
             width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: auto; margin-right: auto;
             border-radius: 60px;
             animation: pulseGlow 3s infinite alternate;
             will-change: box-shadow;
         }
-
         @keyframes pulseGlow {
             0% { box-shadow: 0 0 20px 5px var(--accent-glow); }
             100% { box-shadow: 0 0 40px 15px var(--accent-glow); }
         }
-
         .logo {
-            width: 110px; 
-            height: 110px;
+            width: 110px; height: 110px;
             border-radius: 50%;
             object-fit: cover; 
             border: 3px solid var(--accent);
             position: relative;
             background-color: #000; 
         }
-
-        .logo:first-child {
-            margin-right: -15px; 
-            z-index: 2; 
-        }
-
-        .logo:last-child {
-            z-index: 1;
-        }
-
+        .logo:first-child { margin-right: -15px; z-index: 2; }
+        .logo:last-child { z-index: 1; }
         h1 {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
@@ -143,7 +111,6 @@
             text-shadow: 0 0 20px var(--accent);
             text-transform: uppercase;
         }
-
         .section-label {
             color: var(--text-muted);
             font-weight: 700;
@@ -154,7 +121,6 @@
             text-align: left;
             margin-left: 5px;
         }
-
         .glass-box {
             background-color: var(--box-bg);
             backdrop-filter: blur(8px);
@@ -163,7 +129,6 @@
             border-radius: 12px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
-
         .script-box {
             padding: 18px;
             margin-bottom: 30px;
@@ -171,7 +136,6 @@
             flex-direction: column;
             gap: 15px;
         }
-
         code {
             color: var(--text-script); 
             font-family: monospace;
@@ -180,7 +144,6 @@
             text-align: left;
             text-shadow: 0 0 5px rgba(0, 242, 254, 0.5); 
         }
-
         .btn {
             background-color: var(--accent);
             color: var(--text-main);
@@ -196,31 +159,22 @@
             animation: heartbeat 2.5s infinite;
             will-change: transform, box-shadow;
         }
-
         @keyframes heartbeat {
-            0% { transform: scale(1); box-shadow: 0 0 10px var(--accent-glow); }
+            0%, 10%, 100% { transform: scale(1); box-shadow: 0 0 10px var(--accent-glow); }
             5% { transform: scale(1.02); box-shadow: 0 0 20px var(--accent-glow); }
-            10% { transform: scale(1); box-shadow: 0 0 10px var(--accent-glow); }
-            100% { transform: scale(1); box-shadow: 0 0 10px var(--accent-glow); }
         }
-
         .btn:hover {
             background-color: #c433ff;
             box-shadow: 0 0 25px var(--accent);
             animation: none; 
             transform: scale(1.02);
         }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
+        .btn:active { transform: scale(0.98); }
         .executor-container {
             display: flex;
             justify-content: center;
             margin-bottom: 35px;
         }
-
         .executor-btn {
             padding: 15px 40px;
             border-radius: 12px;
@@ -237,7 +191,6 @@
             align-items: center;
             gap: 5px;
         }
-
         .executor-btn:hover {
             background-color: rgba(170, 0, 255, 0.2);
             border-style: solid;
@@ -245,13 +198,7 @@
             box-shadow: 0 0 20px rgba(170, 0, 255, 0.3);
             transform: scale(1.05);
         }
-
-        .click-hint {
-            font-size: 0.75em;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
+        .click-hint { font-size: 0.75em; color: var(--text-muted); font-weight: 400; }
         .social-container {
             display: flex;
             justify-content: center;
@@ -259,7 +206,6 @@
             gap: 12px;
             margin-bottom: 25px;
         }
-
         .social-btn {
             background: rgba(20, 5, 35, 0.5);
             border: 1px solid rgba(170, 0, 255, 0.5);
@@ -276,27 +222,17 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
         }
-
         .social-btn:hover {
             background: var(--accent);
             box-shadow: 0 0 15px var(--accent-glow);
             transform: translateY(-3px);
             border-color: var(--accent);
         }
-
-        .social-disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            border-color: #555;
-        }
-
+        .social-disabled { opacity: 0.5; cursor: not-allowed; border-color: #555; }
         .social-disabled:hover {
             background: rgba(20, 5, 35, 0.5);
-            box-shadow: none;
-            transform: none;
-            border-color: #555;
+            box-shadow: none; transform: none; border-color: #555;
         }
-
         .developers {
             font-size: 0.9em;
             color: var(--text-muted);
@@ -304,7 +240,6 @@
             margin-top: 10px;
             border-top: 1px dashed rgba(170, 0, 255, 0.3);
         }
-
         .dev-names {
             color: var(--accent);
             font-weight: 900;
@@ -313,13 +248,11 @@
     </style>
 </head>
 <body>
-
     <div id="space-container"></div>
-
     <div class="main-panel">
         <div class="avatar-container">
-            <video src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/main/From Main Klickpin CF- Pinterest Video - 7Lv5CMgbC.mp4" class="logo" autoplay loop muted playsinline></video>
-            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/Nath.jpg" alt="Logo Nath" class="logo" title="Cambia mi foto en index.html">
+            <video src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/main/From_Main_Klickpin_CF-_Pinterest_Video_-_7Lv5CMgbC.mp4" class="logo" autoplay loop muted playsinline></video>
+            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/main/Nath.jpg" alt="Logo Nath" class="logo">
         </div>
         
         <h1>AstraHub Duels & MM2</h1>
@@ -327,7 +260,7 @@
         <div class="section-label">Script:</div>
         <div class="script-box glass-box">
             <code id="scriptCode">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
-            <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, '📋 Copiar Script')">📋 Copiar Script</button>
+            <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">📋 Copiar Script</button>
         </div>
 
         <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executor recomendado:</div>
@@ -342,7 +275,7 @@
         <div class="social-container">
             <a href="https://t.me/astraacommunity" target="_blank" class="social-btn">✈️ Telegram</a>
             <a href="https://www.tiktok.com/@dxzydev" target="_blank" class="social-btn">🎵 TikTok</a>
-            <a href="#" class="social-btn social-disabled" onclick="return false;" title="Próximamente...">👾 Discord</a>
+            <a href="#" class="social-btn social-disabled" onclick="return false;">👾 Discord</a>
         </div>
 
         <div class="developers">
@@ -358,7 +291,6 @@
                 boton.style.backgroundColor = "#00ff88";
                 boton.style.color = "#000";
                 boton.style.animation = "none";
-                
                 setTimeout(function() {
                     boton.innerText = textoOriginal;
                     boton.style.backgroundColor = "var(--accent)";
@@ -367,52 +299,32 @@
                 }, 2000);
             });
         }
-
         const space = document.getElementById('space-container');
-        
-        // OPTIMIZACIÓN: Calculamos las estrellas dependiendo si es celular o PC
         const isMobile = window.innerWidth <= 768;
-        const starCount = isMobile ? 40 : 100; // Si es cel, solo mete 40 estrellas para no dar lag
-        
+        const starCount = isMobile ? 40 : 100; 
         for (let i = 0; i < starCount; i++) {
             let star = document.createElement('div');
             star.className = 'star';
-            
             let size = Math.random() * 2 + 1;
             star.style.width = size + 'px';
             star.style.height = size + 'px';
-            
             star.style.left = Math.random() * 100 + 'vw';
             star.style.top = Math.random() * 100 + 'vh';
-            
             star.style.animationDuration = (Math.random() * 3 + 1) + 's';
             star.style.animationDelay = (Math.random() * 5) + 's';
-            
             space.appendChild(star);
         }
-
         function spawnShootingStar() {
             let sStar = document.createElement('div');
             sStar.className = 'shooting-star';
-            
             sStar.style.left = (Math.random() * 150) + 'vw';
             sStar.style.top = '-50px';
-            
             sStar.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
-            
             space.appendChild(sStar);
-            
-            setTimeout(() => {
-                sStar.remove();
-            }, 2000);
+            setTimeout(() => { sStar.remove(); }, 2000);
         }
-
-        // OPTIMIZACIÓN: Las estrellas fugaces salen más lento en celulares
         const spawnDelay = isMobile ? (Math.random() * 6000 + 4000) : (Math.random() * 4000 + 2000);
-        setInterval(() => {
-            spawnShootingStar();
-        }, spawnDelay);
-        
+        setInterval(() => { spawnShootingStar(); }, spawnDelay);
         setTimeout(spawnShootingStar, 1000);
     </script>
 </body>

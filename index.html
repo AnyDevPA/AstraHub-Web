@@ -12,7 +12,8 @@
             --accent-glow: rgba(170, 0, 255, 0.8);
             --text-main: #ffffff;
             --text-muted: #bda6d1;
-            --box-bg: rgba(20, 5, 35, 0.4); /* Más transparente para el efecto cristal */
+            --box-bg: rgba(20, 5, 35, 0.4);
+            --text-script: #00f2fe; /* NUEVO Cyan Neón súper brillante para el script */
         }
 
         * {
@@ -90,14 +91,19 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        .logo {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 30px 10px var(--accent-glow);
+        /* CONTENEDOR DE AVATARES DUALES */
+        .avatar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
             margin-bottom: 25px;
+            /* Resplandor morado pulsante alrededor de ambos avatares */
+            box-shadow: 0 0 30px 10px var(--accent-glow);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 60px; /* Borde suave para el resplandor */
             animation: pulseGlow 3s infinite alternate;
         }
 
@@ -106,13 +112,32 @@
             100% { box-shadow: 0 0 40px 15px var(--accent-glow); }
         }
 
+        .logo {
+            width: 110px; /* Ligeramente más pequeños para que quepan dos */
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            position: relative;
+        }
+
+        .logo:first-child {
+            margin-right: -15px; /* Efecto de solapamiento para Nath */
+            z-index: 2; /* Astra sobre Nath */
+        }
+
+        .logo:last-child {
+            z-index: 1;
+        }
+
+        /* TÍTULO FUTURISTA CON FUENTE ORBITRON */
         h1 {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', sans-serif; /* NUEVA fuente sci-fi/tech */
             font-weight: 900;
             font-size: 2.2em;
             letter-spacing: 2px;
             margin-bottom: 30px;
-            text-shadow: 0 0 15px var(--accent);
+            text-shadow: 0 0 20px var(--accent); /* Resplandor intenso */
             text-transform: uppercase;
         }
 
@@ -145,13 +170,14 @@
             gap: 15px;
         }
 
+        /* CÓDIGO DEL SCRIPT CON COLOR MEJORADO */
         code {
-            color: #00ff88;
+            color: var(--text-script); /* NUEVO Cyan Neón */
             font-family: monospace;
             font-size: 1em;
             word-break: break-all;
             text-align: left;
-            text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+            text-shadow: 0 0 5px rgba(0, 242, 254, 0.5); /* Resplandor cian suave */
         }
 
         /* BOTÓN PRINCIPAL CON LATIDO */
@@ -226,7 +252,7 @@
             font-weight: 400;
         }
 
-        /* REDES SOCIALES (NUEVO) */
+        /* REDES SOCIALES */
         .social-container {
             display: flex;
             justify-content: center;
@@ -292,7 +318,10 @@
     <div id="space-container"></div>
 
     <div class="main-panel">
-        <img src="https://github.com/AnyDevPA.png" alt="Logo AstraHub" class="logo">
+        <div class="avatar-container">
+            <img src="https://github.com/AnyDevPA.png" alt="Logo Astra" class="logo">
+            <img src="https://singlecolorimage.com/get/ff00ff/110x110" alt="Logo Nath" class="logo" title="Cambia mi foto en index.html">
+        </div>
         
         <h1>AstraHub Duels & MM2</h1>
 

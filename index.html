@@ -391,7 +391,47 @@
             });
         }
 
-        // ✨ FUNCIÓN MAESTRA: BYPASS + ANTI-SPAM (15s) ✨
+        // ✨ FUNCIÓN PARA REVISAR SI ESTÁN CASTIGADOS AL ABRIR LA PÁGINA ✨
+        window.onload = function() {
+            checkCooldown();
+        };
+
+        function checkCooldown() {
+            let lastTime = localStorage.getItem("astra_cooldown");
+            if (lastTime) {
+                let tiempoPasado = Math.floor((Date.now() - parseInt(lastTime)) / 1000);
+                let tiempoRestante = 15 - tiempoPasado;
+
+                if (tiempoRestante > 0) {
+                    iniciarReloj(tiempoRestante);
+                } else {
+                    localStorage.removeItem("astra_cooldown");
+                }
+            }
+        }
+
+        // ✨ EL RELOJ SEPARADO PARA QUE SOBREVIVA AL F5 ✨
+        function iniciarReloj(segundos) {
+            const btn = document.getElementById("bypassBtn");
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            btn.innerText = "Espera " + segundos + "s...";
+
+            let contador = setInterval(function() {
+                segundos--;
+                if (segundos > 0) {
+                    btn.innerText = "Espera " + segundos + "s...";
+                } else {
+                    clearInterval(contador); 
+                    btn.innerText = "Desbloquear Link"; 
+                    btn.disabled = false; 
+                    btn.style.opacity = "1";
+                    localStorage.removeItem("astra_cooldown");
+                }
+            }, 1000);
+        }
+
+        // ✨ FUNCIÓN MAESTRA DE BYPASS ✨
         async function procesarBypass() {
             const link = document.getElementById("linkInput").value;
             const resultBox = document.getElementById("result-box");
@@ -402,15 +442,14 @@
                 return;
             }
 
-            // Bloquear la UI mientras procesa
-            btn.innerText = "Procesando..";
-            btn.disabled = true;
-            btn.style.opacity = "0.7";
+            // Guardamos la hora actual en el navegador y prendemos el reloj
+            localStorage.setItem("astra_cooldown", Date.now());
+            iniciarReloj(20);
+
             resultBox.style.display = "block";
             resultBox.innerHTML = "<span style='color: var(--text-muted);'>Espere...</span>";
 
             try {
-                // LLAMADA A TU VPS PROTEGIDO
                 const response = await fetch("https://api.astrahub.space/api/bypass", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -428,25 +467,8 @@
                     resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error: ${data.error}</span>`;
                 }
             } catch (error) {
-                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error: La API esta apagada. Intenta más tarde.</span>`;
+                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error de conexión con el servidor.</span>`;
             }
-
-            // ⏳ COOLDOWN DE 15 SEGUNDOS (ANTI-SPAM VISUAL) ⏳
-            let segundos = 15;
-            btn.innerText = "Espera " + segundos + "s...";
-            
-            let contador = setInterval(function() {
-                segundos--;
-                
-                if (segundos > 0) {
-                    btn.innerText = "Espera " + segundos + "s...";
-                } else {
-                    clearInterval(contador); 
-                    btn.innerText = "Desbloquear Link"; 
-                    btn.disabled = false; 
-                    btn.style.opacity = "1";
-                }
-            }, 1000);
         }
 
         // Lógica de contador de usuarios (Se queda intacta)

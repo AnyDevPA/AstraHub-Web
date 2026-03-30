@@ -391,14 +391,14 @@
             });
         }
 
-        // ✨ FUNCIÓN MAESTRA: BYPASS + ANTI-SPAM (20s) ✨
+        // ✨ FUNCIÓN MAESTRA: BYPASS + ANTI-SPAM (15s) ✨
         async function procesarBypass() {
             const link = document.getElementById("linkInput").value;
             const resultBox = document.getElementById("result-box");
             const btn = document.getElementById("bypassBtn");
 
             if(!link) {
-                alert("Pega un link primero, wey.");
+                alert("Pega un link primero.");
                 return;
             }
 
@@ -425,14 +425,14 @@
                         <a href="${data.url_limpia}" target="_blank" class="clean-link">${data.url_limpia}</a>
                     `;
                 } else {
-                    resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error del sistema: ${data.error}</span>`;
+                    resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error: ${data.error}</span>`;
                 }
             } catch (error) {
                 resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error: La API esta apagada. Intenta más tarde.</span>`;
             }
 
-            // ⏳ COOLDOWN DE 20 SEGUNDOS (ANTI-SPAM VISUAL) ⏳
-            let segundos = 20;
+            // ⏳ COOLDOWN DE 15 SEGUNDOS (ANTI-SPAM VISUAL) ⏳
+            let segundos = 15;
             btn.innerText = "Espera " + segundos + "s...";
             
             let contador = setInterval(function() {

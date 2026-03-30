@@ -340,11 +340,11 @@
             <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">Copiar Script</button>
         </div>
 
-        <div class="section-label">Bypass Premium:</div>
+        <div class="section-label">Bypass Premium (Para key de delta):</div>
         <div class="script-box glass-box" style="margin-bottom: 30px;">
             <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise y Lootlinks al instante.</p>
             <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link con anuncios aquí..." autocomplete="off">
-            <button class="btn" id="bypassBtn" onclick="procesarBypass()" style="animation: none;">Desbloquear Link 🚀</button>
+            <button class="btn" id="bypassBtn" onclick="procesarBypass()" style="animation: none;">Desbloquear Link</button>
             <div id="result-box"></div>
         </div>
 
@@ -428,7 +428,7 @@
                     resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error del script: ${data.error}</span>`;
                 }
             } catch (error) {
-                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error crítico: La API sigue propagándose. Intenta más tarde.</span>`;
+                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error: La API esta apagada. Intenta más tarde.</span>`;
             }
 
             // Restaurar botón

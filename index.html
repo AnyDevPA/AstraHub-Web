@@ -506,6 +506,55 @@
         const spawnDelay = isMobile ? (Math.random() * 6000 + 4000) : (Math.random() * 4000 + 2000);
         setInterval(() => { spawnShootingStar(); }, spawnDelay);
         setTimeout(spawnShootingStar, 1000);
+
+
+        // ==========================================
+        // 🛡️ SISTEMA ANTI-CURIOSOS (ANTI-INSPECT)
+        // ==========================================
+        
+        // Bloquear clic derecho
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Bloquear atajos de teclado para desarrolladores
+        document.onkeydown = function(e) {
+            // Bloquear F12
+            if (e.keyCode === 123) {
+                return false;
+            }
+            // Bloquear Ctrl+Shift+I (Herramientas de desarrollador)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                return false;
+            }
+            // Bloquear Ctrl+Shift+J (Consola)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                return false;
+            }
+            // Bloquear Ctrl+U (Ver código fuente)
+            if (e.ctrlKey && e.keyCode === 85) {
+                return false;
+            }
+            // Bloquear Ctrl+Shift+C (Inspector de elementos)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+                return false;
+            }
+        };
+
+        // Truco extra: Pausar el debugger si logran abrir la consola
+        setInterval(function() {
+            var antes = new Date().getTime();
+            debugger;
+            var despues = new Date().getTime();
+            if (despues - antes > 100) {
+                // Si el debugger se activó, podemos borrar la página o asustarlos
+                document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20vh; font-family:Orbitron;'>Nice try, bro. 👀</h1>";
+            }
+        }, 100);
     </script>
+
+
+
+    
 </body>
 </html>

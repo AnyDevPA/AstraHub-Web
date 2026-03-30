@@ -343,13 +343,7 @@
         <div class="section-label">Bypass Premium (Para key de delta):</div>
         <div class="script-box glass-box" style="margin-bottom: 30px;">
             <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise y Lootlinks al instante.</p>
-            <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aquí..." autocomplete="off" style="margin-bottom: 15px;">
-
-            <div id="captcha-box" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; background: rgba(10, 2, 20, 0.6); padding: 10px 15px; border-radius: 8px; border: 1px solid rgba(170, 0, 255, 0.4);">
-                <span id="captcha-pregunta" style="color: var(--text-main); font-weight: bold; font-size: 0.9em;">Anti-Bot: Cargando...</span>
-                <input type="number" id="captcha-respuesta" class="bypass-input" style="width: 70px; padding: 8px; text-align: center; margin: 0;" placeholder="=" autocomplete="off">
-            </div>
-
+            <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aquí..." autocomplete="off">
             <button class="btn" id="bypassBtn" onclick="procesarBypass()" style="animation: none;">Desbloquear Link</button>
             <div id="result-box"></div>
         </div>
@@ -397,36 +391,14 @@
             });
         }
 
-        // ✨ GENERADOR DEL CAPTCHA MATEMÁTICO ✨
-        let captchaCorrecto = 0;
-        function generarCaptcha() {
-            let num1 = Math.floor(Math.random() * 10) + 1;
-            let num2 = Math.floor(Math.random() * 10) + 1;
-            captchaCorrecto = num1 + num2;
-            document.getElementById("captcha-pregunta").innerText = `Anti-Bot: ¿Cuánto es ${num1} + ${num2}?`;
-            document.getElementById("captcha-respuesta").value = ""; // Limpiar el cuadro
-        }
-
-        // Cargamos el primer captcha al abrir la página
-        window.onload = function() {
-            generarCaptcha();
-        };
-
-        // ✨ FUNCIÓN MAESTRA: BYPASS + ANTI-SPAM (20s) + CAPTCHA ✨
+        // ✨ FUNCIÓN MAESTRA: BYPASS + ANTI-SPAM (20s) ✨
         async function procesarBypass() {
             const link = document.getElementById("linkInput").value;
-            const respuestaUsuario = document.getElementById("captcha-respuesta").value;
             const resultBox = document.getElementById("result-box");
             const btn = document.getElementById("bypassBtn");
 
             if(!link) {
                 alert("Pega un link primero, wey.");
-                return;
-            }
-
-            if(respuestaUsuario === "" || parseInt(respuestaUsuario) !== captchaCorrecto) {
-                alert("Respuesta incorrecta. Demuestra que no eres un bot.");
-                generarCaptcha(); // Le cambiamos los números por si quería adivinar
                 return;
             }
 
@@ -438,6 +410,7 @@
             resultBox.innerHTML = "<span style='color: var(--text-muted);'>Espere...</span>";
 
             try {
+                // LLAMADA A TU VPS PROTEGIDO
                 const response = await fetch("https://api.astrahub.space/api/bypass", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -458,7 +431,7 @@
                 resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error: La API esta apagada. Intenta más tarde.</span>`;
             }
 
-            // ⏳ COOLDOWN DE 20 SEGUNDOS ⏳
+            // ⏳ COOLDOWN DE 20 SEGUNDOS (ANTI-SPAM VISUAL) ⏳
             let segundos = 20;
             btn.innerText = "Espera " + segundos + "s...";
             
@@ -472,7 +445,6 @@
                     btn.innerText = "Desbloquear Link"; 
                     btn.disabled = false; 
                     btn.style.opacity = "1";
-                    generarCaptcha(); // Ponemos una suma nueva para su próximo intento
                 }
             }, 1000);
         }

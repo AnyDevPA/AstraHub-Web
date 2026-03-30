@@ -167,7 +167,7 @@
         }
         .script-box {
             padding: 18px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -207,7 +207,36 @@
         }
         .btn:active { transform: scale(0.98); }
         
-        /* ✨ NUEVOS ESTILOS PARA LOS DOS BOTONES DE EXECUTOR ✨ */
+        /* ✨ NUEVOS ESTILOS PARA EL BYPASS ✨ */
+        .bypass-input {
+            width: 100%;
+            padding: 14px;
+            background-color: rgba(10, 2, 20, 0.6);
+            border: 1px solid rgba(170, 0, 255, 0.4);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .bypass-input:focus {
+            box-shadow: 0 0 10px var(--accent-glow);
+            border-color: var(--accent);
+        }
+        #result-box {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: rgba(10, 2, 20, 0.6);
+            border-radius: 8px;
+            display: none;
+            word-wrap: break-word;
+            font-size: 0.9em;
+            border: 1px dashed rgba(170, 0, 255, 0.4);
+        }
+        .clean-link { color: #00ff88; font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
+        .clean-link:hover { text-decoration: underline; }
+
+        /* ESTILOS PARA LOS EXECUTORS */
         .executors-wrapper {
             display: flex;
             justify-content: center;
@@ -217,7 +246,7 @@
         }
         .executor-btn {
             flex: 1;
-            min-width: 140px; /* Para que no se apachurren en celulares chicos */
+            min-width: 140px; 
             padding: 15px 10px;
             border-radius: 12px;
             border: 2px dashed rgba(170, 0, 255, 0.6);
@@ -311,6 +340,14 @@
             <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">Copiar Script</button>
         </div>
 
+        <div class="section-label">Bypass Premium:</div>
+        <div class="script-box glass-box" style="margin-bottom: 30px;">
+            <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise y Lootlinks al instante.</p>
+            <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link con anuncios aquí..." autocomplete="off">
+            <button class="btn" id="bypassBtn" onclick="procesarBypass()" style="animation: none;">Desbloquear Link 🚀</button>
+            <div id="result-box"></div>
+        </div>
+
         <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
         <div class="executors-wrapper">
             <a href="https://files.catbox.moe/kx8byc.apk" class="executor-btn glass-box">
@@ -337,6 +374,7 @@
     </div>
 
     <script>
+        // Función para copiar el script
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;
             navigator.clipboard.writeText(codigo).then(function() {
@@ -353,6 +391,53 @@
             });
         }
 
+        // ✨ NUEVA FUNCIÓN PARA CONECTAR EL BYPASS A TU VPS ✨
+        async function procesarBypass() {
+            const link = document.getElementById("linkInput").value;
+            const resultBox = document.getElementById("result-box");
+            const btn = document.getElementById("bypassBtn");
+
+            if(!link) {
+                alert("Wey, pega un link primero.");
+                return;
+            }
+
+            // Cambiar estado del botón mientras carga
+            btn.innerText = "Procesando en el VPS... ⏳";
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+            resultBox.style.display = "block";
+            resultBox.innerHTML = "<span style='color: var(--text-muted);'>Hackeando la NASA, espere...</span>";
+
+            try {
+                // AQUÍ USAMOS TU NUEVO DOMINIO SEGURO DE CLOUDFLARE
+                const response = await fetch("https://api.astrahub.space/api/bypass", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ url: link })
+                });
+
+                const data = await response.json();
+
+                if(data.success) {
+                    resultBox.innerHTML = `
+                        <span style="color: #00ff88; font-weight: bold;">¡Éxito! 🎉 Link desbloqueado:</span>
+                        <a href="${data.url_limpia}" target="_blank" class="clean-link">${data.url_limpia}</a>
+                    `;
+                } else {
+                    resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">❌ Error del script: ${data.error}</span>`;
+                }
+            } catch (error) {
+                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">❌ Error crítico: La API sigue propagándose en Cloudflare o está apagada. Intenta más tarde.</span>`;
+            }
+
+            // Restaurar botón
+            btn.innerText = "Desbloquear Link 🚀";
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+
+        // Lógica de contador de usuarios (Se queda intacta)
         let ultimoNumeroReal = "cargando...";
 
         async function fetchActiveUsers() {
@@ -393,6 +478,7 @@
         fetchActiveUsers();
         setInterval(fetchActiveUsers, 15000);
 
+        // Lógica de fondo espacial (Se queda intacta)
         const space = document.getElementById('space-container');
         const isMobile = window.innerWidth <= 768;
         const starCount = isMobile ? 40 : 100; 

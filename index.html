@@ -398,12 +398,12 @@
             const btn = document.getElementById("bypassBtn");
 
             if(!link) {
-                alert("Wey, pega un link primero.");
+                alert("Pega un link primero.");
                 return;
             }
 
             // Cambiar estado del botón mientras carga
-            btn.innerText = "Procesando en el VPS... ⏳";
+            btn.innerText = "Procesando..";
             btn.disabled = true;
             btn.style.opacity = "0.7";
             resultBox.style.display = "block";
@@ -432,7 +432,7 @@
             }
 
             // Restaurar botón
-            btn.innerText = "Desbloquear Link 🚀";
+            btn.innerText = "Desbloquear Link";
             btn.disabled = false;
             btn.style.opacity = "1";
         }

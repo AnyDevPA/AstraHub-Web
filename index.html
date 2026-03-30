@@ -400,7 +400,7 @@
             let lastTime = localStorage.getItem("astra_cooldown");
             if (lastTime) {
                 let tiempoPasado = Math.floor((Date.now() - parseInt(lastTime)) / 1000);
-                let tiempoRestante = 15 - tiempoPasado;
+                let tiempoRestante = 15 - tiempoPasado; // ✨ CAMBIAMOS A 15 AQUÍ
 
                 if (tiempoRestante > 0) {
                     iniciarReloj(tiempoRestante);
@@ -438,13 +438,14 @@
             const btn = document.getElementById("bypassBtn");
 
             if(!link) {
-                alert("Pega un link primero.");
+                alert("Pega un link primero, wey.");
                 return;
             }
 
             // Guardamos la hora actual en el navegador y prendemos el reloj
             localStorage.setItem("astra_cooldown", Date.now());
-            iniciarReloj(20);
+            iniciarReloj(15); // ✨ CAMBIAMOS A 15 AQUÍ TAMBIÉN
+
 
             resultBox.style.display = "block";
             resultBox.innerHTML = "<span style='color: var(--text-muted);'>Espere...</span>";

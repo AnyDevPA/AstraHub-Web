@@ -407,7 +407,7 @@
             btn.disabled = true;
             btn.style.opacity = "0.7";
             resultBox.style.display = "block";
-            resultBox.innerHTML = "<span style='color: var(--text-muted);'>Hackeando la NASA, espere...</span>";
+            resultBox.innerHTML = "<span style='color: var(--text-muted);'>Espere...</span>";
 
             try {
                 // AQUÍ USAMOS TU NUEVO DOMINIO SEGURO DE CLOUDFLARE
@@ -421,14 +421,14 @@
 
                 if(data.success) {
                     resultBox.innerHTML = `
-                        <span style="color: #00ff88; font-weight: bold;">¡Éxito! 🎉 Link desbloqueado:</span>
+                        <span style="color: #00ff88; font-weight: bold;">¡Éxito! Link desbloqueado:</span>
                         <a href="${data.url_limpia}" target="_blank" class="clean-link">${data.url_limpia}</a>
                     `;
                 } else {
-                    resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">❌ Error del script: ${data.error}</span>`;
+                    resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error del script: ${data.error}</span>`;
                 }
             } catch (error) {
-                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">❌ Error crítico: La API sigue propagándose en Cloudflare o está apagada. Intenta más tarde.</span>`;
+                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error crítico: La API sigue propagándose. Intenta más tarde.</span>`;
             }
 
             // Restaurar botón

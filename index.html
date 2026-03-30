@@ -499,10 +499,23 @@
                 const data = await response.json();
 
                 if(data.success) {
-                    resultBox.innerHTML = `
-                        <span style="color: #00ff88; font-weight: bold;">¡Éxito! Link desbloqueado:</span>
-                        <a href="${data.url_limpia}" target="_blank" class="clean-link">${data.url_limpia}</a>
-                    `;
+                    let resultado = data.url_limpia;
+                    
+                    // ✨ VERIFICAMOS SI ES UN LINK (http) O UNA KEY CRUDA (FREE_...)
+                    if (resultado.startsWith("http")) {
+                        resultBox.innerHTML = `
+                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Link desbloqueado:</span>
+                            <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
+                        `;
+                    } else {
+                        // ✨ CAJA MAMALONA PARA LA KEY DE DELTA/PLATOBOOST
+                        resultBox.innerHTML = `
+                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada:</span>
+                            <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
+                                ${resultado}
+                            </div>
+                        `;
+                    }
                 } else {
                     resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error: ${data.error}</span>`;
                 }

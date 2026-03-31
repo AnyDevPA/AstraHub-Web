@@ -19,12 +19,12 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            /* Para evitar que la raza seleccione el texto de la página */
+            /* Para evitar que seleccionen el texto de la página */
             user-select: none; 
             -webkit-user-select: none;
         }
 
-        /* Excepción para que sí puedan seleccionar el texto del input y del código si es necesario */
+        /* para que si puedan seleccionar el texto del input y del codigo si es necesario */
         input, code, .bypass-input {
             user-select: text;
             -webkit-user-select: text;
@@ -86,7 +86,7 @@
             z-index: 10;
             padding: 40px 20px 80px 20px;
             width: 90%;
-            max-width: 600px; /* ✨ Lo hice un poquito más ancho para que quepan bien los 4 botones */
+            max-width: 600px;
             text-align: center;
             animation: float 6s ease-in-out infinite;
             will-change: transform;
@@ -244,7 +244,7 @@
         .clean-link { color: #00ff88; font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
         .clean-link:hover { text-decoration: underline; }
 
-        /* ✨ ESTILOS PARA LOS SITIOS SOPORTADOS ✨ */
+        /* ESTILOS PARA LOS SITIOS SOPORTADOS  */
         .supported-box {
             padding: 15px;
             margin-bottom: 35px;
@@ -293,7 +293,7 @@
         }
         .executor-btn {
             flex: 1;
-            min-width: 130px; /* ✨ Lo ajusté tantito para que quepan bien los de PC */
+            min-width: 130px; 
             padding: 15px 10px;
             border-radius: 12px;
             border: 2px dashed rgba(170, 0, 255, 0.6);
@@ -428,9 +428,32 @@
             <div id="result-box"></div>
         </div>
 
-        <div class="section-label" style="text-align: center; margin-bottom: 12px;">Sitios Soportados:</div>
+        <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
+        <div class="executors-wrapper">
+            <a href="https://files.catbox.moe/kx8byc.apk" class="executor-btn glass-box">
+                Delta Android
+                <span class="click-hint">(Descarga directa APK)</span>
+            </a>
+            
+            <a href="https://www.mediafire.com/file/6lsh3ks2i6sj7c4/Delta-2.711.871.ipa/file" target="_blank" class="executor-btn glass-box">
+                Delta iOS
+                <span class="click-hint">(Descargar por MediaFire)</span>
+            </a>
+
+            <a href="https://xeno.now/install" target="_blank" class="executor-btn glass-box">
+                Xeno PC
+                <span class="click-hint">(Gratis)</span>
+            </a>
+
+            <a href="https://potassium.pro/" target="_blank" class="executor-btn glass-box">
+                Potassium PC
+                <span class="click-hint">(De Paga)</span>
+            </a>
+        </div>
+
+        <div class="section-label" style="text-align: center; margin-bottom: 12px;">Sitios Soportados (Bypass):</div>
         <div class="glass-box supported-box">
-            <span class="tag tag-premium">🚀 Platoboost (Para Keys de Delta)</span>
+            <span class="tag tag-premium">Platoboost (Para Keys de Delta)</span>
             <span class="tag">Linkvertise</span>
             <span class="tag">Lootlinks / Lootlabs</span>
             <span class="tag">Work.ink</span>
@@ -440,29 +463,6 @@
             <span class="tag">Paster.so</span>
             <span class="tag">Pastebin</span>
             <span class="tag">Acortadores (Bit.ly, etc)</span>
-        </div>
-
-        <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
-        <div class="executors-wrapper">
-            <a href="https://files.catbox.moe/kx8byc.apk" class="executor-btn glass-box">
-                🤖 Delta Android
-                <span class="click-hint">(Descarga directa APK)</span>
-            </a>
-            
-            <a href="https://www.mediafire.com/file/6lsh3ks2i6sj7c4/Delta-2.711.871.ipa/file" target="_blank" class="executor-btn glass-box">
-                🍏 Delta iOS
-                <span class="click-hint">(Descargar por MediaFire)</span>
-            </a>
-
-            <a href="https://xeno.now/install" target="_blank" class="executor-btn glass-box">
-                💻 Xeno PC
-                <span class="click-hint">(Gratis)</span>
-            </a>
-
-            <a href="https://potassium.pro/" target="_blank" class="executor-btn glass-box">
-                🖥️ Potassium PC
-                <span class="click-hint">(De Paga)</span>
-            </a>
         </div>
 
         <div class="section-label" style="text-align: center; margin-bottom: 15px;">Comunidad Oficial:</div>
@@ -488,18 +488,17 @@
     </div>
 
     <script>
-        // ✨ BLOQUE ANTI-SKIDS / ANTI-INSPECCIONAR ✨
-        document.addEventListener('contextmenu', event => event.preventDefault()); // Clic derecho bloqueado
+        // ANTI-INSPECCIONAR 
+        document.addEventListener('contextmenu', event => event.preventDefault()); 
 
         document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; } // F12 bloqueado
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I bloqueado
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C bloqueado
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J bloqueado
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U (Ver código fuente) bloqueado
+            if(e.keyCode == 123) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
         }
 
-        // Mini anti-debug (Congela el navegador si logran abrir la consola)
         setInterval(function() {
             let before = new Date().getTime();
             debugger;
@@ -508,10 +507,9 @@
                 document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top: 50px;'>No intentes robar el código 🐀</h1>";
             }
         }, 100);
-        // ✨ FIN DEL BLOQUE ANTI-SKIDS ✨
+        
 
 
-        // Función para copiar el script
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;
             navigator.clipboard.writeText(codigo).then(function() {
@@ -611,13 +609,11 @@
                     let resultado = data.url_limpia;
                     
                     if (resultado.startsWith("http")) {
-                        // Si es un link normal de Mediafire
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s ⚡</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
                         `;
                     } else {
-                        // ✨ CAJA MAMALONA PARA LA KEY DE DELTA/PLATOBOOST ✨
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s ⚡</span>
                             <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">

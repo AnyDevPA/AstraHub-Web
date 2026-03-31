@@ -526,6 +526,23 @@
             });
         }
 
+        function copiarAlPortapapeles(texto, boton) {
+            navigator.clipboard.writeText(texto).then(function() {
+                let textoOriginal = boton.innerText;
+                boton.innerText = "¡Copiado!";
+                boton.style.backgroundColor = "#00ff88";
+                boton.style.color = "#000";
+                
+                setTimeout(function() {
+                    boton.innerText = textoOriginal;
+                    boton.style.backgroundColor = "var(--accent)";
+                    boton.style.color = "var(--text-main)";
+                }, 2000);
+            }).catch(function(err) {
+                alert("Error al copiar, intenta de nuevo.");
+            });
+        }
+
         window.onload = function() { checkCooldown(); };
 
         function checkCooldown() {
@@ -610,15 +627,17 @@
                     
                     if (resultado.startsWith("http")) {
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s ⚡</span>
+                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.3s;">Copiar Link</button>
                         `;
                     } else {
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s ⚡</span>
+                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s</span>
                             <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
                                 ${resultado}
                             </div>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.3s;">Copiar Key</button>
                         `;
                     }
                 } else {
@@ -626,7 +645,7 @@
                 }
             } catch (error) {
                 clearInterval(cronometroActivo);
-                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error de conexión con tu VPS.</span>`;
+                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error de conexión con el VPS.</span>`;
             }
         }
 

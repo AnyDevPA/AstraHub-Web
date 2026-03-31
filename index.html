@@ -373,7 +373,10 @@
         <div class="section-label">Bypass (Para key de delta):</div>
         <div class="script-box glass-box" style="margin-bottom: 30px;">
             <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise, Lootlinks, Platoboost.</p>
-            <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aquí..." autocomplete="off">
+            <div style="position: relative; width: 100%; margin-bottom: 15px;">
+                <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aquí..." autocomplete="off" style="padding-right: 80px; margin-bottom: 0;">
+                <button onclick="pegarPortapapeles()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--accent); color: var(--text-main); border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif; box-shadow: 0 0 10px var(--accent-glow);">Pegar</button>
+            </div>
             <button class="btn" id="bypassBtn" onclick="procesarBypass()" style="animation: none;">Desbloquear Link</button>
             <div id="result-box"></div>
         </div>
@@ -471,6 +474,19 @@
             }, 1000);
         }
 
+       
+        // ✨ FUNCIÓN PARA LEER EL PORTAPAPELES SALTÁNDOSE EL ANTI-COPIA ✨
+        async function pegarPortapapeles() {
+            try {
+                const texto = await navigator.clipboard.readText();
+                document.getElementById("linkInput").value = texto;
+            } catch (err) {
+                alert("Tu navegador bloqueó el portapapeles. Dale permisos a la página para pegar.");
+            }
+        }
+
+
+ 
         // ✨ FUNCIÓN MAESTRA DE BYPASS (CON CRONÓMETRO EN TIEMPO REAL) ✨
         async function procesarBypass() {
             const link = document.getElementById("linkInput").value;

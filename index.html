@@ -357,7 +357,7 @@
             <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/Astra%20Icon.jpg" alt="AstraHub Logo" class="main-logo">
         </div>
         
-        <h1>AstraHub Scripts</h1>
+        <h1>AstraHub</h1>
         
         <div class="live-stats">
             <div class="live-dot"></div>
@@ -372,7 +372,7 @@
 
         <div class="section-label">Bypass (Para key de delta):</div>
         <div class="script-box glass-box" style="margin-bottom: 30px;">
-            <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise y Lootlinks al instante.</p>
+            <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise, Lootlinks, Platoboost.</p>
             <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aquí..." autocomplete="off">
             <button class="btn" id="bypassBtn" onclick="procesarBypass()" style="animation: none;">Desbloquear Link</button>
             <div id="result-box"></div>
@@ -471,7 +471,7 @@
             }, 1000);
         }
 
-        // ✨ FUNCIÓN MAESTRA DE BYPASS ✨
+        // ✨ FUNCIÓN MAESTRA DE BYPASS (CON CRONÓMETRO EN TIEMPO REAL) ✨
         async function procesarBypass() {
             const link = document.getElementById("linkInput").value;
             const resultBox = document.getElementById("result-box");
@@ -482,14 +482,22 @@
                 return;
             }
 
-            // Guardamos la hora actual en el navegador y prendemos el reloj
+            // 1. Guardamos la hora y bloqueamos el botón con Anti-Spam
             localStorage.setItem("astra_cooldown", Date.now());
             iniciarReloj(15); 
 
             resultBox.style.display = "block";
-            resultBox.innerHTML = "<span style='color: var(--text-muted);'>Espere...</span>";
+
+            // ⏱️ 2. INICIA EL CRONÓMETRO VISUAL (Corre cada 100ms)
+            const tiempoInicio = performance.now();
+            let cronometroActivo = setInterval(() => {
+                let tiempoActual = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
+                // Esto es lo que va a parpadear en pantalla en vivo
+                resultBox.innerHTML = `<span style='color: var(--text-script); font-weight: bold; text-shadow: 0 0 5px rgba(0, 242, 254, 0.5);'>Bypasseando... ${tiempoActual}s ⚡</span>`;
+            }, 100); 
 
             try {
+                // 3. Mandamos la petición al VPS
                 const response = await fetch("https://api.astrahub.space/api/bypass", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -497,30 +505,38 @@
                 });
 
                 const data = await response.json();
+                
+                // 🛑 4. LLEGÓ LA RESPUESTA: APAGAMOS EL CRONÓMETRO DE GOLPE
+                clearInterval(cronometroActivo);
+                const tiempoFin = performance.now();
+                const segundosTardados = ((tiempoFin - tiempoInicio) / 1000).toFixed(1);
 
                 if(data.success) {
                     let resultado = data.url_limpia;
                     
-                    // ✨ VERIFICAMOS SI ES UN LINK (http) O UNA KEY CRUDA (FREE_...)
                     if (resultado.startsWith("http")) {
+                        // Si es un link normal de Mediafire
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Link desbloqueado:</span>
+                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s ⚡</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
                         `;
                     } else {
-                        // ✨ CAJA MAMALONA PARA LA KEY DE DELTA/PLATOBOOST
+                        // ✨ CAJA MAMALONA PARA LA KEY DE DELTA/PLATOBOOST ✨
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada:</span>
+                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s ⚡</span>
                             <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
                                 ${resultado}
                             </div>
                         `;
                     }
                 } else {
-                    resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error: ${data.error}</span>`;
+                    // Si hubo error, también paramos el reloj y mostramos el error
+                    resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error (${segundosTardados}s): ${data.error}</span>`;
                 }
             } catch (error) {
-                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error de conexión con el servidor.</span>`;
+                // Si el servidor está apagado
+                clearInterval(cronometroActivo);
+                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error de conexión con tu VPS.</span>`;
             }
         }
 

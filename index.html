@@ -222,6 +222,7 @@
         .bypass-input:focus {
             box-shadow: 0 0 10px var(--accent-glow);
             border-color: var(--accent);
+        }
         #result-box {
             margin-top: 15px;
             padding: 12px;
@@ -231,9 +232,6 @@
             word-wrap: break-word;
             font-size: 0.9em;
             border: 1px dashed rgba(170, 0, 255, 0.4);
-            /* ✨ ESTO FUERZA A QUE SÍ SE PUEDA COPIAR ✨ */
-            user-select: text !important;
-            -webkit-user-select: text !important;
         }
         .clean-link { color: #00ff88; font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
         .clean-link:hover { text-decoration: underline; }
@@ -533,20 +531,18 @@
                     let resultado = data.url_limpia;
                     
                     if (resultado.startsWith("http")) {
-                        // Si es un link normal
+                        // Si es un link normal de Mediafire
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s ⚡</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
-                            <button onclick="navigator.clipboard.writeText('${resultado}'); this.innerText='¡Copiado! ✔️'; this.style.background='#00ff88'; this.style.color='#000';" style="margin-top: 12px; padding: 8px 15px; background: var(--accent); color: var(--text-main); border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Montserrat', sans-serif; transition: 0.3s; width: 100%;">📋 Copiar Link</button>
                         `;
                     } else {
-                        // ✨ CAJA MAMALONA PARA LA KEY CON BOTÓN DE COPIAR ✨
+                        // ✨ CAJA MAMALONA PARA LA KEY DE DELTA/PLATOBOOST ✨
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s ⚡</span>
                             <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
                                 ${resultado}
                             </div>
-                            <button onclick="navigator.clipboard.writeText('${resultado}'); this.innerText='¡Copiado! ✔️'; this.style.background='#00ff88'; this.style.color='#000';" style="margin-top: 12px; padding: 8px 15px; background: var(--accent); color: var(--text-main); border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Montserrat', sans-serif; transition: 0.3s; width: 100%;">📋 Copiar Key</button>
                         `;
                     }
                 } else {

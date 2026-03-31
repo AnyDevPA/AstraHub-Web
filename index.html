@@ -19,6 +19,15 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
+            /* Para evitar que la raza seleccione el texto de la página */
+            user-select: none; 
+            -webkit-user-select: none;
+        }
+
+        /* Excepción para que sí puedan seleccionar el texto del input y del código si es necesario */
+        input, code, .bypass-input {
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         html, body {
@@ -75,7 +84,7 @@
         .main-panel {
             position: relative;
             z-index: 10;
-            padding: 40px 20px 80px 20px; /* Le di espacio abajo para que no estorbe el banner */
+            padding: 40px 20px 80px 20px;
             width: 90%;
             max-width: 500px;
             text-align: center;
@@ -91,7 +100,7 @@
             box-shadow: 0 0 30px 10px var(--accent-glow);
             width: fit-content;
             margin-left: auto; margin-right: auto;
-            border-radius: 50%; /* Hecho circular para el nuevo logo */
+            border-radius: 50%;
             animation: pulseGlow 3s infinite alternate;
             will-change: box-shadow;
         }
@@ -100,7 +109,6 @@
             100% { box-shadow: 0 0 40px 15px var(--accent-glow); }
         }
         
-        /* 🌟 EL LOGO GIGANTE DE ARRIBA 🌟 */
         .main-logo {
             width: 130px;
             height: 130px;
@@ -236,6 +244,46 @@
         .clean-link { color: #00ff88; font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
         .clean-link:hover { text-decoration: underline; }
 
+        /* ✨ ESTILOS PARA LOS SITIOS SOPORTADOS ✨ */
+        .supported-box {
+            padding: 15px;
+            margin-bottom: 35px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+        }
+        .tag {
+            background: rgba(20, 5, 35, 0.6);
+            border: 1px solid rgba(170, 0, 255, 0.3);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            transition: all 0.3s;
+            cursor: default;
+        }
+        .tag:hover {
+            border-color: var(--text-script);
+            color: var(--text-main);
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+        }
+        .tag-premium {
+            border-color: #00ff88;
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 8px rgba(0, 255, 136, 0.2);
+        }
+        .tag-premium:hover {
+            border-color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            color: #fff;
+        }
+
+        /* ESTILOS PARA LOS EXECUTORS */
         .executors-wrapper {
             display: flex;
             justify-content: center;
@@ -305,7 +353,6 @@
             box-shadow: none; transform: none; border-color: #555;
         }
 
-        /* ✨ EL BANNER DE LOS JEFES ABAJO ✨ */
         .dev-banner {
             position: fixed;
             bottom: 0;
@@ -370,8 +417,8 @@
             <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">Copiar Script</button>
         </div>
 
-        <div class="section-label">Bypass (Para key de delta):</div>
-        <div class="script-box glass-box" style="margin-bottom: 30px;">
+        <div class="section-label">Bypass (para key de Delta):</div>
+        <div class="script-box glass-box" style="margin-bottom: 20px;">
             <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise, Lootlinks, Platoboost.</p>
             <div style="position: relative; width: 100%; margin-bottom: 15px;">
                 <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aquí..." autocomplete="off" style="padding-right: 80px; margin-bottom: 0;">
@@ -379,6 +426,20 @@
             </div>
             <button class="btn" id="bypassBtn" onclick="procesarBypass()" style="animation: none;">Desbloquear Link</button>
             <div id="result-box"></div>
+        </div>
+
+        <div class="section-label" style="text-align: center; margin-bottom: 12px;">Sitios Soportados:</div>
+        <div class="glass-box supported-box">
+            <span class="tag tag-premium">Platoboost (Para Keys de Delta)</span>
+            <span class="tag">Linkvertise</span>
+            <span class="tag">Lootlinks / Lootlabs</span>
+            <span class="tag">Work.ink</span>
+            <span class="tag">Rekonise</span>
+            <span class="tag">Mboost.me</span>
+            <span class="tag">Sub2Unlock</span>
+            <span class="tag">Paster.so</span>
+            <span class="tag">Pastebin</span>
+            <span class="tag">Acortadores (Bit.ly, etc)</span>
         </div>
 
         <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
@@ -417,6 +478,29 @@
     </div>
 
     <script>
+        // ✨ BLOQUE ANTI-SKIDS / ANTI-INSPECCIONAR ✨
+        document.addEventListener('contextmenu', event => event.preventDefault()); // Clic derecho bloqueado
+
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } // F12 bloqueado
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I bloqueado
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C bloqueado
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J bloqueado
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U (Ver código fuente) bloqueado
+        }
+
+        // Mini anti-debug (Congela el navegador si logran abrir la consola)
+        setInterval(function() {
+            let before = new Date().getTime();
+            debugger;
+            let after = new Date().getTime();
+            if (after - before > 100) {
+                document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top: 50px;'>No intentes robar el código 🐀</h1>";
+            }
+        }, 100);
+        // ✨ FIN DEL BLOQUE ANTI-SKIDS ✨
+
+
         // Función para copiar el script
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;
@@ -434,10 +518,7 @@
             });
         }
 
-        // ✨ FUNCIÓN PARA REVISAR SI ESTÁN CASTIGADOS AL ABRIR LA PÁGINA ✨
-        window.onload = function() {
-            checkCooldown();
-        };
+        window.onload = function() { checkCooldown(); };
 
         function checkCooldown() {
             let lastTime = localStorage.getItem("astra_cooldown");
@@ -453,7 +534,6 @@
             }
         }
 
-        // ✨ EL RELOJ SEPARADO PARA QUE SOBREVIVA AL F5 ✨
         function iniciarReloj(segundos) {
             const btn = document.getElementById("bypassBtn");
             btn.disabled = true;
@@ -474,8 +554,6 @@
             }, 1000);
         }
 
-       
-        // ✨ FUNCIÓN PARA LEER EL PORTAPAPELES SALTÁNDOSE EL ANTI-COPIA ✨
         async function pegarPortapapeles() {
             try {
                 const texto = await navigator.clipboard.readText();
@@ -485,9 +563,6 @@
             }
         }
 
-
- 
-        // ✨ FUNCIÓN MAESTRA DE BYPASS (CON CRONÓMETRO EN TIEMPO REAL) ✨
         async function procesarBypass() {
             const link = document.getElementById("linkInput").value;
             const resultBox = document.getElementById("result-box");
@@ -498,22 +573,18 @@
                 return;
             }
 
-            // 1. Guardamos la hora y bloqueamos el botón con Anti-Spam
             localStorage.setItem("astra_cooldown", Date.now());
             iniciarReloj(15); 
 
             resultBox.style.display = "block";
 
-            // ⏱️ 2. INICIA EL CRONÓMETRO VISUAL (Corre cada 100ms)
             const tiempoInicio = performance.now();
             let cronometroActivo = setInterval(() => {
                 let tiempoActual = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
-                // Esto es lo que va a parpadear en pantalla en vivo
                 resultBox.innerHTML = `<span style='color: var(--text-script); font-weight: bold; text-shadow: 0 0 5px rgba(0, 242, 254, 0.5);'>Bypasseando... ${tiempoActual}s ⚡</span>`;
             }, 100); 
 
             try {
-                // 3. Mandamos la petición al VPS
                 const response = await fetch("https://api.astrahub.space/api/bypass", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -522,7 +593,6 @@
 
                 const data = await response.json();
                 
-                // 🛑 4. LLEGÓ LA RESPUESTA: APAGAMOS EL CRONÓMETRO DE GOLPE
                 clearInterval(cronometroActivo);
                 const tiempoFin = performance.now();
                 const segundosTardados = ((tiempoFin - tiempoInicio) / 1000).toFixed(1);
@@ -531,13 +601,11 @@
                     let resultado = data.url_limpia;
                     
                     if (resultado.startsWith("http")) {
-                        // Si es un link normal de Mediafire
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s ⚡</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
                         `;
                     } else {
-                        // ✨ CAJA MAMALONA PARA LA KEY DE DELTA/PLATOBOOST ✨
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s ⚡</span>
                             <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
@@ -546,17 +614,14 @@
                         `;
                     }
                 } else {
-                    // Si hubo error, también paramos el reloj y mostramos el error
                     resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error (${segundosTardados}s): ${data.error}</span>`;
                 }
             } catch (error) {
-                // Si el servidor está apagado
                 clearInterval(cronometroActivo);
                 resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error de conexión con tu VPS.</span>`;
             }
         }
 
-        // Lógica de contador de usuarios (Se queda intacta)
         let ultimoNumeroReal = "cargando...";
 
         async function fetchActiveUsers() {
@@ -597,7 +662,6 @@
         fetchActiveUsers();
         setInterval(fetchActiveUsers, 15000);
 
-        // Lógica de fondo espacial (Se queda intacta)
         const space = document.getElementById('space-container');
         const isMobile = window.innerWidth <= 768;
         const starCount = isMobile ? 40 : 100; 

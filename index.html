@@ -86,7 +86,7 @@
             z-index: 10;
             padding: 40px 20px 80px 20px;
             width: 90%;
-            max-width: 500px;
+            max-width: 600px; /* ✨ Lo hice un poquito más ancho para que quepan bien los 4 botones */
             text-align: center;
             animation: float 6s ease-in-out infinite;
             will-change: transform;
@@ -293,7 +293,7 @@
         }
         .executor-btn {
             flex: 1;
-            min-width: 140px; 
+            min-width: 130px; /* ✨ Lo ajusté tantito para que quepan bien los de PC */
             padding: 15px 10px;
             border-radius: 12px;
             border: 2px dashed rgba(170, 0, 255, 0.6);
@@ -417,7 +417,7 @@
             <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">Copiar Script</button>
         </div>
 
-        <div class="section-label">Bypass (para key de Delta):</div>
+        <div class="section-label">Bypass Premium:</div>
         <div class="script-box glass-box" style="margin-bottom: 20px;">
             <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise, Lootlinks, Platoboost.</p>
             <div style="position: relative; width: 100%; margin-bottom: 15px;">
@@ -430,7 +430,7 @@
 
         <div class="section-label" style="text-align: center; margin-bottom: 12px;">Sitios Soportados:</div>
         <div class="glass-box supported-box">
-            <span class="tag tag-premium">Platoboost (Para Keys de Delta)</span>
+            <span class="tag tag-premium">🚀 Platoboost (Para Keys de Delta)</span>
             <span class="tag">Linkvertise</span>
             <span class="tag">Lootlinks / Lootlabs</span>
             <span class="tag">Work.ink</span>
@@ -445,13 +445,23 @@
         <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
         <div class="executors-wrapper">
             <a href="https://files.catbox.moe/kx8byc.apk" class="executor-btn glass-box">
-                Delta Android
+                🤖 Delta Android
                 <span class="click-hint">(Descarga directa APK)</span>
             </a>
             
             <a href="https://www.mediafire.com/file/6lsh3ks2i6sj7c4/Delta-2.711.871.ipa/file" target="_blank" class="executor-btn glass-box">
-                Delta iOS
+                🍏 Delta iOS
                 <span class="click-hint">(Descargar por MediaFire)</span>
+            </a>
+
+            <a href="https://xeno.now/install" target="_blank" class="executor-btn glass-box">
+                💻 Xeno PC
+                <span class="click-hint">(Gratis)</span>
+            </a>
+
+            <a href="https://potassium.pro/" target="_blank" class="executor-btn glass-box">
+                🖥️ Potassium PC
+                <span class="click-hint">(De Paga)</span>
             </a>
         </div>
 
@@ -601,11 +611,13 @@
                     let resultado = data.url_limpia;
                     
                     if (resultado.startsWith("http")) {
+                        // Si es un link normal de Mediafire
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s ⚡</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
                         `;
                     } else {
+                        // ✨ CAJA MAMALONA PARA LA KEY DE DELTA/PLATOBOOST ✨
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s ⚡</span>
                             <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">

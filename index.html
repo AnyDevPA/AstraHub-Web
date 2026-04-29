@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RaikaHub | Scripts </title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #050505; /* Negro profundo */
@@ -34,7 +34,7 @@
         html, body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -84,8 +84,8 @@
         }
 
         h1 {
-            font-family: 'Inter', sans-serif;
-            font-weight: 900;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
             font-size: 2.2em;
             letter-spacing: 2px;
             margin-bottom: 10px; 
@@ -146,7 +146,7 @@
         }
         code {
             color: var(--text-script); 
-            font-family: 'Roboto Mono', monospace; /* Fuente estilo hacker/código */
+            font-family: 'JetBrains Mono', monospace;
             font-size: 1em;
             word-break: break-all;
             text-align: left;
@@ -158,8 +158,8 @@
             border: none;
             padding: 14px;
             border-radius: 4px; /* Bordes cuadrados minimalistas */
-            font-family: 'Inter', sans-serif;
-            font-weight: 900;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
             font-size: 1.05em;
             cursor: pointer;
             /* Transición suave solo para el movimiento y color */
@@ -188,7 +188,7 @@
             border: 1px solid rgba(170, 0, 255, 0.4);
             border-radius: 8px;
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             outline: none;
             transition: all 0.3s;
         }
@@ -354,7 +354,7 @@
         .dev-names {
             color: var(--text-script);
             font-size: 0.9em;
-            font-weight: 900;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
@@ -587,7 +587,7 @@
                         resultBox.innerHTML = `
                             <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.3s;">Copiar Link</button>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: all 0.3s;">Copiar Link</button>
                         `;
                     } else {
                         resultBox.innerHTML = `
@@ -595,7 +595,7 @@
                             <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
                                 ${resultado}
                             </div>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.3s;">Copiar Key</button>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: all 0.3s;">Copiar Key</button>
                         `;
                     }
                 } else {

@@ -686,7 +686,8 @@
 
         // ✨ GENERADOR DE BRILLOS (PARTÍCULAS) ✨
         const particlesContainer = document.getElementById('particles-container');
-        for (let i = 0; i < 25; i++) {
+        // Cambiamos el 25 por 100 para multiplicar los brillos
+        for (let i = 0; i < 100; i++) {
             let p = document.createElement('div');
             p.className = 'particle';
             let size = Math.random() * 2 + 1; // Tamaño sutil entre 1px y 3px

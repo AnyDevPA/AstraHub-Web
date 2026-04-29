@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RaikaHub | Scripts </title>
+    <title>RaikaHub | Scripts</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,20 +12,18 @@
             --accent-glow: rgba(217, 4, 41, 0.4);
             --text-main: #ffffff; /* Blanco puro */
             --text-muted: #888888; /* Gris minimalista */
-            --box-bg: #111111; /* Negro ligeramente más claro para las cajas */
+            --box-bg: #111111; /* Negro para las cajas */
             --text-script: #ffffff; 
-            --border-color: #222222; 
+            --border-color: #222222; /* Borde gris oscuro limpio */
         }
         * { 
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            /* Para evitar que la raza seleccione el texto de la página */
             user-select: none; 
             -webkit-user-select: none;
         }
 
-        /* Excepción para que sí puedan seleccionar el texto del input, código y el RESULTADO del bypass */
         input, code, .bypass-input, #result-box, #result-box * {
             user-select: text;
             -webkit-user-select: text;
@@ -45,11 +43,6 @@
             position: relative;
         }
         
-        
-        
-        
-        
-        
         .main-panel {
             position: relative;
             z-index: 10;
@@ -57,29 +50,28 @@
             width: 90%;
             max-width: 600px;
             text-align: center;
-            will-change: transform;
         }
+        
         .avatar-container {
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             margin-bottom: 25px;
-            box-shadow: 0 0 30px 10px var(--accent-glow);
             width: fit-content;
-            margin-left: auto; margin-right: auto;
+            margin-left: auto; 
+            margin-right: auto;
             border-radius: 50%;
-            animation: pulseGlow 3s infinite alternate;
-            will-change: box-shadow;
+            box-shadow: none; /* Cero resplandores */
+            animation: none;
         }
-        
         
         .main-logo {
             width: 130px;
             height: 130px;
             border-radius: 50%;
             object-fit: cover; 
-            border: 3px solid var(--accent);
+            border: 3px solid #000000; /* Borde negro sólido */
             background-color: #000;
         }
 
@@ -87,9 +79,10 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
             font-size: 2.2em;
-            letter-spacing: 2px;
+            letter-spacing: 5px; /* Más espacio para elegancia */
             margin-bottom: 10px; 
-            text-shadow: 0 0 20px var(--accent-glow);
+            color: var(--text-main);
+            text-shadow: none; /* Cero neón */
             text-transform: uppercase;
         }
         
@@ -107,24 +100,25 @@
             background-color: #00ff88;
             border-radius: 50%;
             margin-right: 8px;
-            animation: pulseGreen 1.5s infinite;
+            /* Mantenemos un pulso muy sutil solo en el verde para que no se vea muerto */
+            animation: pulseGreen 2s infinite; 
         }
         @keyframes pulseGreen {
-            0% { box-shadow: 0 0 5px #00ff88; }
-            50% { box-shadow: 0 0 15px #00ff88; }
-            100% { box-shadow: 0 0 5px #00ff88; }
+            0% { box-shadow: 0 0 2px #00ff88; }
+            50% { box-shadow: 0 0 8px #00ff88; }
+            100% { box-shadow: 0 0 2px #00ff88; }
         }
         .user-count {
             color: #00ff88;
-            text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
             margin-left: 5px;
             font-size: 1.1em;
+            font-weight: 800;
         }
 
         .section-label {
             color: var(--text-muted);
-            font-weight: 700;
-            font-size: 0.9em;
+            font-weight: 600; /* Más delgado y limpio */
+            font-size: 0.85em;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 10px;
@@ -134,8 +128,8 @@
         .glass-box {
             background-color: var(--box-bg);
             border: 1px solid var(--border-color);
-            border-radius: 4px; /* Bordes más cuadrados y agresivos */
-            box-shadow: none; /* Quitamos el brillo excesivo */
+            border-radius: 4px;
+            box-shadow: none;
         }
         .script-box {
             padding: 18px;
@@ -150,66 +144,59 @@
             font-size: 1em;
             word-break: break-all;
             text-align: left;
-            text-shadow: 0 0 5px rgba(0, 242, 254, 0.5); 
         }
         .btn {
             background-color: var(--accent);
             color: var(--text-main);
             border: none;
             padding: 14px;
-            border-radius: 4px; /* Bordes cuadrados minimalistas */
+            border-radius: 4px; 
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.05em;
+            font-weight: 700;
+            font-size: 1em;
+            letter-spacing: 1px;
             cursor: pointer;
-            /* Transición suave solo para el movimiento y color */
             transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
             width: 100%;
             text-transform: uppercase;
         }
-        @keyframes heartbeat {
-            0%, 10%, 100% { transform: scale(1); box-shadow: 0 0 10px var(--accent-glow); }
-            5% { transform: scale(1.02); box-shadow: 0 0 20px var(--accent-glow); }
-        }
         .btn:hover {
-            background-color: #ff0a35; /* Un rojo un poco más claro */
-            transform: translateY(-3px); /* El botón se mueve sutilmente hacia arriba */
-            box-shadow: 0 6px 15px rgba(217, 4, 41, 0.2); /* Sombra suave en la parte inferior */
+            background-color: #ff0a35; 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 15px rgba(217, 4, 41, 0.2);
         }
         .btn:active {
-            transform: translateY(0); /* El botón baja al hacer clic, dando sensación de presión */
+            transform: translateY(0); 
             box-shadow: 0 2px 5px rgba(217, 4, 41, 0.2);
         }
         
         .bypass-input {
             width: 100%;
             padding: 14px;
-            background-color: rgba(10, 2, 20, 0.6);
-            border: 1px solid rgba(170, 0, 255, 0.4);
-            border-radius: 8px;
+            background-color: #0a0a0a; /* Sin morado */
+            border: 1px solid #333333; /* Gris oscuro */
+            border-radius: 4px;
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
             outline: none;
             transition: all 0.3s;
         }
         .bypass-input:focus {
-            box-shadow: 0 0 10px var(--accent-glow);
-            border-color: var(--accent);
+            border-color: #666666; /* Ilumina a gris claro */
         }
         #result-box {
             margin-top: 15px;
             padding: 12px;
-            background-color: rgba(10, 2, 20, 0.6);
-            border-radius: 8px;
+            background-color: #0a0a0a;
+            border-radius: 4px;
             display: none;
             word-wrap: break-word;
             font-size: 0.9em;
-            border: 1px dashed rgba(170, 0, 255, 0.4);
+            border: 1px dashed #333333;
         }
         .clean-link { color: #00ff88; font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
         .clean-link:hover { text-decoration: underline; }
 
-        /* ✨ ESTILOS PARA LOS SITIOS SOPORTADOS ✨ */
         .supported-box {
             padding: 15px;
             margin-bottom: 35px;
@@ -220,35 +207,26 @@
             text-align: center;
         }
         .tag {
-            background: rgba(20, 5, 35, 0.6);
-            border: 1px solid rgba(170, 0, 255, 0.3);
+            background: #111111;
+            border: 1px solid #222222;
             color: var(--text-muted);
             padding: 6px 12px;
-            border-radius: 20px;
+            border-radius: 4px;
             font-size: 0.75em;
             font-weight: 700;
             transition: all 0.3s;
             cursor: default;
         }
         .tag:hover {
-            border-color: var(--text-script);
+            border-color: #444444;
             color: var(--text-main);
-            transform: translateY(-2px);
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
         }
         .tag-premium {
-            border-color: #00ff88;
+            border-color: rgba(0, 255, 136, 0.5);
             color: #00ff88;
-            background: rgba(0, 255, 136, 0.1);
-            box-shadow: 0 0 8px rgba(0, 255, 136, 0.2);
-        }
-        .tag-premium:hover {
-            border-color: #00ff88;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
-            color: #fff;
+            background: rgba(0, 255, 136, 0.05);
         }
 
-        /* ESTILOS PARA LOS EXECUTORS */
         .executors-wrapper {
             display: flex;
             justify-content: center;
@@ -260,10 +238,10 @@
             flex: 1;
             min-width: 130px; 
             padding: 15px 10px;
-            border-radius: 12px;
-            border: 2px dashed rgba(170, 0, 255, 0.6);
+            border-radius: 4px;
+            border: 1px dashed #333333;
             color: var(--text-main);
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 700;
             font-size: 1em;
             text-decoration: none;
@@ -275,11 +253,9 @@
             gap: 5px;
         }
         .executor-btn:hover {
-            background-color: rgba(170, 0, 255, 0.2);
-            border-style: solid;
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(170, 0, 255, 0.3);
-            transform: scale(1.05);
+            background-color: #0a0a0a;
+            border-color: #666666;
+            transform: scale(1.02);
         }
         .click-hint { font-size: 0.75em; color: var(--text-muted); font-weight: 400; }
         
@@ -291,11 +267,11 @@
             margin-bottom: 25px;
         }
         .social-btn {
-            background: rgba(20, 5, 35, 0.5);
-            border: 1px solid rgba(170, 0, 255, 0.5);
+            background: #111111;
+            border: 1px solid #333333;
             color: var(--text-main);
             padding: 10px 18px;
-            border-radius: 30px; 
+            border-radius: 4px; 
             text-decoration: none;
             font-weight: 700;
             font-size: 0.9em;
@@ -303,19 +279,16 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
         }
         .social-btn:hover {
             background: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-            transform: translateY(-3px);
             border-color: var(--accent);
+            transform: translateY(-2px);
         }
-        .social-disabled { opacity: 0.5; cursor: not-allowed; border-color: #555; }
+        .social-disabled { opacity: 0.5; cursor: not-allowed; }
         .social-disabled:hover {
-            background: rgba(20, 5, 35, 0.5);
-            box-shadow: none; transform: none; border-color: #555;
+            background: #111111;
+            transform: none; border-color: #333333;
         }
 
         .dev-banner {
@@ -323,12 +296,9 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(10, 2, 20, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(170, 0, 255, 0.5);
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
-            padding: 10px 0;
+            background: #050505;
+            border-top: 1px solid #1a1a1a;
+            padding: 12px 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -343,21 +313,21 @@
         }
 
         .dev-avatar {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--accent);
-            box-shadow: 0 0 10px var(--accent-glow);
+            border: 1px solid #333333;
+            box-shadow: none;
         }
 
         .dev-names {
-            color: var(--text-script);
-            font-size: 0.9em;
-            font-weight: 800;
-            text-transform: uppercase;
+            color: #ffffff;
+            font-size: 0.85em;
+            font-weight: 700;
             letter-spacing: 1px;
-            text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+            text-transform: uppercase;
+            text-shadow: none;
         }
     </style>
 </head>
@@ -366,7 +336,7 @@
     <div class="main-panel">
         
         <div class="avatar-container">
-            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/Astra%20Icon.jpg" alt="AstraHub Logo" class="main-logo">
+            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/Astra%20Icon.jpg" alt="RaikaHub Logo" class="main-logo">
         </div>
         
         <h1>RaikaHub</h1>
@@ -387,9 +357,9 @@
             <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise, Lootlinks, Platoboost.</p>
             <div style="position: relative; width: 100%; margin-bottom: 15px;">
                 <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aquí..." autocomplete="off" style="padding-right: 80px; margin-bottom: 0;">
-                <button onclick="pegarPortapapeles()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--accent); color: var(--text-main); border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif; box-shadow: 0 0 10px var(--accent-glow);">Pegar</button>
+                <button onclick="pegarPortapapeles()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #222; color: var(--text-main); border: 1px solid #444; padding: 6px 12px; border-radius: 4px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Pegar</button>
             </div>
-            <button class="btn" id="bypassBtn" onclick="procesarBypass()" style="animation: none;">Desbloquear Link</button>
+            <button class="btn" id="bypassBtn" onclick="procesarBypass()">Desbloquear Link</button>
             <div id="result-box"></div>
         </div>
 
@@ -408,9 +378,10 @@
             <a href="https://www.mediafire.com/file/5teqwhdsk3xazny/Madium1.1.0.rar/file" target="_blank" class="executor-btn glass-box">
                 💻 Madium PC
                 <span class="click-hint">(Gratis)</span>
+            </a>
             <a href="https://gofile.io/d/Mnyt8we" target="_blank" class="executor-btn glass-box">
                 💻 Madium PC Updater
-                <span class="click-hint">(Para actalizar Madium)</span>
+                <span class="click-hint">(Para actualizar Madium)</span>
             </a>
         </div>
 
@@ -437,7 +408,7 @@
     </div>
 
     <div class="dev-banner">
-        <span style="color: var(--text-muted); font-size: 0.75em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-right: 10px;">Developer:</span>
+        <span style="color: var(--text-muted); font-size: 0.75em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-right: 10px;">Developer:</span>
         
         <div class="dev-profile">
             <video src="Astra.mp4" class="dev-avatar" autoplay loop muted playsinline></video>
@@ -472,14 +443,13 @@
             var codigo = document.getElementById(elementoId).innerText;
             navigator.clipboard.writeText(codigo).then(function() {
                 boton.innerText = "¡Copiado!";
-                boton.style.backgroundColor = "#00ff88";
+                boton.style.backgroundColor = "#ffffff";
                 boton.style.color = "#000";
-                boton.style.animation = "none";
+                
                 setTimeout(function() {
                     boton.innerText = textoOriginal;
                     boton.style.backgroundColor = "var(--accent)";
                     boton.style.color = "var(--text-main)";
-                    boton.style.animation = "heartbeat 2.5s infinite";
                 }, 2000);
             });
         }
@@ -488,7 +458,7 @@
             navigator.clipboard.writeText(texto).then(function() {
                 let textoOriginal = boton.innerText;
                 boton.innerText = "¡Copiado!";
-                boton.style.backgroundColor = "#00ff88";
+                boton.style.backgroundColor = "#ffffff";
                 boton.style.color = "#000";
                 
                 setTimeout(function() {
@@ -564,7 +534,8 @@
             const tiempoInicio = performance.now();
             let cronometroActivo = setInterval(() => {
                 let tiempoActual = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
-                resultBox.innerHTML = `<span style='color: var(--text-script); font-weight: bold; text-shadow: 0 0 5px rgba(0, 242, 254, 0.5);'>Bypasseando... ${tiempoActual}s ⚡</span>`;
+                // Quitamos el resplandor raro de las letras al cargar
+                resultBox.innerHTML = `<span style='color: var(--text-muted); font-weight: bold;'>Bypasseando... ${tiempoActual}s ⚡</span>`;
             }, 100); 
 
             try {
@@ -585,37 +556,34 @@
                     
                     if (resultado.startsWith("http")) {
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s</span>
+                            <span style="color: var(--text-main); font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: all 0.3s;">Copiar Link</button>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Link</button>
                         `;
                     } else {
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s</span>
-                            <div style="margin-top: 8px; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--text-script); border-radius: 8px; color: var(--text-main); font-family: monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
+                            <span style="color: var(--text-main); font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s</span>
+                            <div style="margin-top: 8px; padding: 12px; background: #050505; border: 1px solid #333; border-radius: 4px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
                                 ${resultado}
                             </div>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: all 0.3s;">Copiar Key</button>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: var(--text-main); border: none; padding: 8px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Key</button>
                         `;
                     }
                 } else {
-                    resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error (${segundosTardados}s): ${data.error}</span>`;
+                    resultBox.innerHTML = `<span style="color: #d90429; font-weight: bold;">Error (${segundosTardados}s): ${data.error}</span>`;
                 }
             } catch (error) {
                 clearInterval(cronometroActivo);
-                resultBox.innerHTML = `<span style="color: #ff5050; font-weight: bold;">Error de conexión con el VPS.</span>`;
+                resultBox.innerHTML = `<span style="color: #d90429; font-weight: bold;">Error de conexión con el servidor.</span>`;
             }
         }
 
-        let ultimoNumeroReal = "cargando...";
-
         async function fetchActiveUsers() {
             try {
-                // Le pegamos directo a tu dominio de Cloudflare con HTTPS
                 let response = await fetch('https://hub.astrahub.space/activos', {
                     method: 'GET',
                     headers: {
-                        'Astra-Auth': 'AstraVIP2026!' // 🔑 La llave secreta
+                        'Astra-Auth': 'AstraVIP2026!'
                     }
                 });
                 
@@ -633,11 +601,6 @@
 
         fetchActiveUsers();
         setInterval(fetchActiveUsers, 15000);
-
-        fetchActiveUsers();
-        setInterval(fetchActiveUsers, 15000);
-
-        
     </script>
 </body>
 </html>

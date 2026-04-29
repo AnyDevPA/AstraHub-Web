@@ -13,7 +13,7 @@
             --accent-glow: rgba(255, 204, 0, 0.4);
             --text-main: #ffffff; /* Blanco puro */
             --text-muted: #888888; /* Gris minimalista */
-            --box-bg: #111111; /* Negro para las cajas */
+            --box-bg: #111111; /* Negro para las cajas (Fallback) */
             --text-script: #ffffff; 
             --border-color: #222222; /* Borde gris oscuro limpio */
         }
@@ -87,15 +87,17 @@
             box-shadow: none;
         }
         
+        /* LOGO CON EFECTO TRANSLÚCIDO Y BRILLO SUTIL */
         .main-logo {
             width: 130px;
             height: 130px;
             border-radius: 50%;
             object-fit: cover; 
-            border: 3px solid #000000;
-            background-color: #000;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background-color: transparent;
             position: relative;
             z-index: 2;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.15);
         }
 
         /* Efecto Resplandor SUAVE continuo para el Título */
@@ -154,12 +156,41 @@
             text-align: left;
             margin-left: 5px;
         }
+
+        /* EFECTO LIQUID GLASSMORPHISM */
         .glass-box {
-            background-color: var(--box-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px; /* Mayor redondez */
-            box-shadow: none;
+            background: rgba(17, 17, 17, 0.45); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.15); 
+            border-left: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 20px; 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); 
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
+
+        /* Brillo suave de fondo (Corregido para que no se vea rectangular) */
+        .glass-box::before {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(255, 204, 0, 0.1) 0%, transparent 70%);
+            animation: liquidPulse 4s ease-in-out infinite alternate;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes liquidPulse {
+            0% { opacity: 0.5; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
         .script-box {
             padding: 18px;
             margin-bottom: 25px;
@@ -227,8 +258,8 @@
         .bypass-input {
             width: 100%;
             padding: 14px;
-            background-color: #0a0a0a; 
-            border: 1px solid #333333; 
+            background-color: rgba(10, 10, 10, 0.7); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
             border-radius: 25px; /* Input más redondeado */
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -237,6 +268,7 @@
         }
         .bypass-input:focus {
             border-color: var(--accent); 
+            background-color: rgba(10, 10, 10, 0.9);
         }
         
         /* Botón pequeño de pegar */
@@ -245,9 +277,9 @@
             right: 8px; 
             top: 50%; 
             transform: translateY(-50%); 
-            background: #222; 
+            background: rgba(34, 34, 34, 0.8); 
             color: var(--text-main); 
-            border: 1px solid #444; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
             padding: 6px 16px; /* Ajuste de padding para compensar el borde redondeado */
             border-radius: 20px; /* Botón pequeño más redondeado */
             font-weight: 700; 
@@ -264,12 +296,12 @@
         #result-box {
             margin-top: 15px;
             padding: 12px;
-            background-color: #0a0a0a;
+            background-color: rgba(10, 10, 10, 0.8);
             border-radius: 12px; /* Resultado más redondeado */
             display: none;
             word-wrap: break-word;
             font-size: 0.9em;
-            border: 1px dashed #333333;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
         }
         .clean-link { color: var(--accent); font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
         .clean-link:hover { text-decoration: underline; color: #fff;}
@@ -284,8 +316,8 @@
             text-align: center;
         }
         .tag {
-            background: #111111;
-            border: 1px solid #222222;
+            background: rgba(17, 17, 17, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: var(--text-muted);
             padding: 6px 12px;
             border-radius: 15px; /* Etiquetas más redondeadas */
@@ -295,13 +327,13 @@
             cursor: default;
         }
         .tag:hover {
-            border-color: #444444;
+            border-color: rgba(255, 255, 255, 0.2);
             color: var(--text-main);
         }
         .tag-premium {
             border-color: rgba(255, 204, 0, 0.5);
             color: var(--accent);
-            background: rgba(255, 204, 0, 0.05);
+            background: rgba(255, 204, 0, 0.1);
         }
 
         .executors-wrapper {
@@ -311,12 +343,17 @@
             gap: 15px;
             margin-bottom: 35px;
         }
+        
+        /* EXECUTORS CON TEXTURA CRISTALINA */
         .executor-btn {
             flex: 1;
             min-width: 130px; 
             padding: 15px 10px;
-            border-radius: 12px; /* Botones de executors más redondeados */
-            border: 1px dashed #333333;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 700;
@@ -330,10 +367,11 @@
             gap: 5px;
         }
         .executor-btn:hover {
-            background-color: #0a0a0a;
+            background: rgba(255, 204, 0, 0.1); 
             border-color: var(--accent);
             color: var(--accent);
-            transform: scale(1.02);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.2);
         }
         .click-hint { font-size: 0.75em; color: var(--text-muted); font-weight: 400; }
         
@@ -345,8 +383,8 @@
             margin-bottom: 25px;
         }
         .social-btn {
-            background: #111111;
-            border: 1px solid #333333;
+            background: rgba(17, 17, 17, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-main);
             padding: 10px 18px;
             border-radius: 20px; /* Botones sociales más redondeados */
@@ -357,6 +395,7 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
         .social-btn:hover {
             background: var(--accent);
@@ -366,9 +405,9 @@
         }
         .social-disabled { opacity: 0.5; cursor: not-allowed; }
         .social-disabled:hover {
-            background: #111111;
+            background: rgba(17, 17, 17, 0.6);
             color: var(--text-main);
-            transform: none; border-color: #333333;
+            transform: none; border-color: rgba(255, 255, 255, 0.1);
         }
 
         .dev-banner {
@@ -376,8 +415,10 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: #050505;
-            border-top: 1px solid #1a1a1a;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 12px 0;
             display: flex;
             justify-content: center;
@@ -448,21 +489,21 @@
 
         <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
         <div class="executors-wrapper">
-            <a href="https://www.mediafire.com/file/kdqgucdqwlabdjh/Delta-2.718.1110.apk/file" class="executor-btn glass-box">
+            <a href="https://www.mediafire.com/file/kdqgucdqwlabdjh/Delta-2.718.1110.apk/file" class="executor-btn">
                 🤖 Delta Android
                 <span class="click-hint">(Descarga por Mediafire)</span>
             </a>
             
-            <a href="https://www.mediafire.com/file/0wfc0meucwvccbz/Delta-2.717.982.ipa/file" target="_blank" class="executor-btn glass-box">
+            <a href="https://www.mediafire.com/file/0wfc0meucwvccbz/Delta-2.717.982.ipa/file" target="_blank" class="executor-btn">
                 🍏 Delta iOS
                 <span class="click-hint">(Descargar por MediaFire)</span>
             </a>
 
-            <a href="https://www.mediafire.com/file/5teqwhdsk3xazny/Madium1.1.0.rar/file" target="_blank" class="executor-btn glass-box">
+            <a href="https://www.mediafire.com/file/5teqwhdsk3xazny/Madium1.1.0.rar/file" target="_blank" class="executor-btn">
                 💻 Madium PC
                 <span class="click-hint">(Gratis)</span>
             </a>
-            <a href="https://gofile.io/d/Mnyt8we" target="_blank" class="executor-btn glass-box">
+            <a href="https://gofile.io/d/Mnyt8we" target="_blank" class="executor-btn">
                 💻 Madium PC Updater
                 <span class="click-hint">(Para actualizar Madium)</span>
             </a>
@@ -645,7 +686,7 @@
                     } else {
                         resultBox.innerHTML = `
                             <span style="color: var(--text-main); font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s</span>
-                            <div style="margin-top: 8px; padding: 12px; background: #050505; border: 1px solid #333; border-radius: 4px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
+                            <div style="margin-top: 8px; padding: 12px; background: rgba(5,5,5,0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
                                 ${resultado}
                             </div>
                             <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: #050505; border: none; padding: 8px 15px; border-radius: 4px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Key</button>
@@ -686,16 +727,14 @@
 
         // ✨ GENERADOR DE BRILLOS (PARTÍCULAS) ✨
         const particlesContainer = document.getElementById('particles-container');
-        // Cambiamos el 25 por 100 para multiplicar los brillos
         for (let i = 0; i < 100; i++) {
             let p = document.createElement('div');
             p.className = 'particle';
-            let size = Math.random() * 2 + 1; // Tamaño sutil entre 1px y 3px
+            let size = Math.random() * 2 + 1; 
             p.style.width = size + 'px';
             p.style.height = size + 'px';
             p.style.left = Math.random() * 100 + 'vw';
             p.style.top = Math.random() * 100 + 'vh';
-            // Duración y retraso aleatorios para movimiento orgánico
             p.style.animationDuration = (Math.random() * 8 + 8) + 's'; 
             p.style.animationDelay = (Math.random() * 5) + 's';
             particlesContainer.appendChild(p);

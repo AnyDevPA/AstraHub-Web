@@ -812,7 +812,7 @@
             let listaComentarios = script.comentarios || [];
             let htmlComentarios = '';
             if(listaComentarios.length === 0) {
-                htmlComentarios = '<p style="color:var(--text-muted); font-size: 0.9em; text-align: left;">Sin comentarios aun. Se el primero.</p>';
+                htmlComentarios = '<p style="color:var(--text-muted); font-size: 0.9em; text-align: center; padding: 20px 0;">Sin comentarios aun.<br>Se el primero en opinar.</p>';
             } else {
                 listaComentarios.forEach(c => {
                     htmlComentarios += `
@@ -824,7 +824,8 @@
             }
 
             container.innerHTML = `
-                <div class="glass-box" style="padding: 25px; margin-bottom: 30px;">
+                <!-- PRIMERA CAJA: DETALLES Y CÓDIGO -->
+                <div class="glass-box" style="padding: 25px; margin-bottom: 20px;">
                     <div class="script-card-header" style="flex-direction: column; align-items: flex-start; gap: 10px; border-bottom: none; margin-bottom: 20px;">
                         <span class="script-title" style="font-size: 1.6em; text-shadow: 0 0 15px var(--accent-glow);">${script.titulo}</span>
                         <div style="display: flex; gap: 8px; align-items: center; align-self: flex-start;">
@@ -847,25 +848,31 @@
 
                     ${featuresHtml}
 
-                    <div class="detail-box" style="border-color: rgba(168, 85, 247, 0.4); box-shadow: inset 0 0 20px rgba(168,85,247,0.05);">
+                    <div class="detail-box" style="border-color: rgba(168, 85, 247, 0.4); box-shadow: inset 0 0 20px rgba(168,85,247,0.05); margin-bottom: 0;">
                         <div class="detail-title" style="color: var(--accent);">Codigo del Script</div>
                         <div class="script-code-container" style="margin-bottom: 15px;">
                             <code id="detalle-codigo">${script.codigo}</code>
                         </div>
                         <button class="btn" onclick="copiarTexto('detalle-codigo', this, 'Copiar Script')">Copiar Script</button>
+                    </div>
+                </div>
 
-                    <!-- CAJA DE COMENTARIOS INYECTADA -->
-                    <div class="comments-wrapper">
-                        <div class="comments-title">Comentarios (${listaComentarios.length})</div>
-                        <div id="lista-comentarios-box">
-                            ${htmlComentarios}
-                        </div>
-                        <div class="comment-input-area">
-                            <input type="text" id="comentario-autor" class="admin-input" placeholder="Tu Nombre (Ej: DarkNinja)" maxlength="20">
-                            <div class="comment-row">
-                                <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu opinion del script..." maxlength="120" style="flex: 3;">
-                                <button class="btn" style="flex: 1; padding: 10px; border-radius: 12px; font-size: 0.85em;" onclick="enviarComentario('${script.id}')">Enviar</button>
-                            </div>
+                <!-- SEGUNDA CAJA INDEPENDIENTE: COMENTARIOS -->
+                <div class="glass-box comments-wrapper" style="padding: 25px; margin-top: 0; border-top: 1px solid rgba(168, 85, 247, 0.25);">
+                    <div class="comments-title" style="display: flex; align-items: center; gap: 10px;">
+                        Comentarios 
+                        <span style="background: var(--accent-cyan); color: #000; padding: 2px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800;">${listaComentarios.length}</span>
+                    </div>
+                    
+                    <div id="lista-comentarios-box">
+                        ${htmlComentarios}
+                    </div>
+                    
+                    <div class="comment-input-area" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; margin-top: 15px;">
+                        <input type="text" id="comentario-autor" class="admin-input" placeholder="Tu Nombre (Ej: VIP User)" maxlength="20">
+                        <div class="comment-row">
+                            <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu opinion del script..." maxlength="120" style="flex: 3;">
+                            <button class="btn" style="flex: 1; padding: 10px; border-radius: 12px; font-size: 0.85em;" onclick="enviarComentario('${script.id}')">Enviar</button>
                         </div>
                     </div>
                 </div>

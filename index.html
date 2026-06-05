@@ -117,6 +117,7 @@
         .script-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px; }
         .script-title { font-size: 1.15em; font-weight: 800; color: var(--text-main); }
         .script-game-tag { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(0, 245, 255, 0.3); text-transform: uppercase; letter-spacing: 1px; }
+        .tag-key { background: rgba(255, 215, 0, 0.1); color: #ffd700; padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(255, 215, 0, 0.4); letter-spacing: 1px; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); margin-right: 8px; }
         .script-desc { font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; }
         .script-date { font-size: 0.75em; color: var(--accent); margin-bottom: 15px; font-weight: 600; }
         .script-code-container { background: rgba(0, 0, 0, 0.4); padding: 15px; border-radius: 12px; border: 1px dashed rgba(168, 85, 247, 0.3); display: flex; flex-direction: column; gap: 15px; }
@@ -280,7 +281,15 @@
                         <input type="text" id="admin-tag" class="admin-input" placeholder="Categoria/Tag (Ej: Combat)" required style="flex: 1; min-width: 48%;">
                         <input type="text" id="admin-juegos" class="admin-input" placeholder="Juegos Compatibles (Ej: Blox Fruits, Todos)" required style="flex: 1; min-width: 48%;">
                     </div>
+                    
+                    <label style="color: #ffd700; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.9em; background: rgba(255, 215, 0, 0.05); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255, 215, 0, 0.3);">
+                        <input type="checkbox" id="admin-ocupa-key" style="width: 18px; height: 18px; accent-color: #ffd700;">
+                        Ocupa Key (Mostrara etiqueta amarilla)
+                    </label>
 
+                    <label style="color: var(--accent-magenta); font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.9em; background: rgba(255, 0, 127, 0.1); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255, 0, 127, 0.4);">
+                        <input type="checkbox" id="admin-es-principal" style="width: 18px; height: 18px; accent-color: #ff007f;">
+                        
                     <label style="color: var(--accent-magenta); font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.9em; background: rgba(255, 0, 127, 0.1); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255, 0, 127, 0.4);">
                         <input type="checkbox" id="admin-es-principal" style="width: 18px; height: 18px; accent-color: #ff007f;">
                         Marcar como Script Principal VIP (Actualizara la pagina de Inicio)
@@ -513,6 +522,7 @@
                 tag: document.getElementById('admin-tag').value,
                 juegos: document.getElementById('admin-juegos').value,
                 esPrincipal: document.getElementById('admin-es-principal').checked,
+                ocupaKey: document.getElementById('admin-ocupa-key').checked,
                 imagenes: imagenesBase64Cargadas, 
                 creador: document.getElementById('admin-creador').value,
                 discord: document.getElementById('admin-discord').value,
@@ -617,9 +627,10 @@
             // Buscamos el ultimo script subido que tenga "esPrincipal" en true
             const scriptPrincipal = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
             if (scriptPrincipal) {
+                let mainKeyBadge = scriptPrincipal.ocupaKey ? '<span class="tag-key">KEY</span>' : '';
                 document.getElementById('main-vip-title').innerText = scriptPrincipal.titulo;
-                // Mostramos los juegos compatibles
-                document.getElementById('main-vip-games').innerText = scriptPrincipal.juegos || scriptPrincipal.tag;
+                // Agregamos el badge de key si lo tiene al inicio
+                document.getElementById('main-vip-games').innerHTML = mainKeyBadge + (scriptPrincipal.juegos || scriptPrincipal.tag);
                 document.getElementById('main-vip-creator').innerText = scriptPrincipal.creador;
                 document.getElementById('main-vip-desc').innerText = scriptPrincipal.descripcion;
                 document.getElementById('scriptCodeMain').innerText = scriptPrincipal.codigo;
@@ -631,11 +642,16 @@
             scriptsMostrados.forEach((script) => {
                 let adminControls = isAdminLoggedIn ? `<button class="btn-delete" onclick="eliminarScript('${script.id}', event)">Eliminar (Admin)</button>` : '';
 
+                let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
+
                 let html = `
                 <div class="script-card glass-box clickable-card" onclick="abrirDetalles('${script.id}')">
                     <div class="script-card-header">
                         <span class="script-title">${script.titulo}</span>
-                        <span class="script-game-tag">${script.juegos || script.tag}</span>
+                        <div style="display: flex; align-items: center;">
+                            ${keyBadge}
+                            <span class="script-game-tag">${script.juegos || script.tag}</span>
+                        </div>
                     </div>
                     
                     <div style="display:flex; align-items:center; margin-bottom:10px;">
@@ -681,11 +697,16 @@
                 featuresHtml = `<div class="detail-box"><div class="detail-title">Funciones Principales</div><ul class="features-list">${funcList}</ul></div>`;
             }
 
+            let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
+
             container.innerHTML = `
                 <div class="glass-box" style="padding: 25px; margin-bottom: 30px;">
                     <div class="script-card-header" style="flex-direction: column; align-items: flex-start; gap: 10px; border-bottom: none; margin-bottom: 20px;">
                         <span class="script-title" style="font-size: 1.6em; text-shadow: 0 0 15px var(--accent-glow);">${script.titulo}</span>
-                        <span class="script-game-tag" style="align-self: flex-start;">${script.juegos || script.tag}</span>
+                        <div style="display: flex; gap: 8px; align-items: center; align-self: flex-start;">
+                            ${keyBadge}
+                            <span class="script-game-tag">${script.juegos || script.tag}</span>
+                        </div>
                     </div>
                     
                     ${sliderHtml}

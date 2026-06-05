@@ -42,31 +42,31 @@
             100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
         }
 
-        /* --- NUEVA BARRA SUPERIOR FIJA --- */
+        /* BARRA SUPERIOR (NAVBAR) */
         .top-navbar {
             position: fixed; top: 0; left: 0; width: 100%; height: 70px;
             background: rgba(10, 8, 16, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border-color); z-index: 1005;
-            display: flex; align-items: center; padding: 0 20px; box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2); z-index: 900;
+            display: flex; align-items: center; padding: 0 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
-        
-        .navbar-brand {
-            color: var(--text-main); font-weight: 800; font-size: 1.4em; letter-spacing: 2px;
-            margin-left: 15px; text-transform: uppercase; text-shadow: 0 0 10px var(--accent-glow); cursor: pointer;
+        .top-navbar-brand {
+            font-size: 1.5em; font-weight: 800; color: var(--text-main);
+            letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px var(--accent-glow);
+            margin-left: 60px; cursor: pointer; display: flex; align-items: center; gap: 10px;
         }
+        .top-navbar-brand img { height: 35px; width: 35px; border-radius: 50%; border: 1px solid var(--accent); }
 
-        /* Menú Sidebar Botón (Movido a la navbar) */
+        /* Menú Sidebar */
         .menu-btn {
-            position: relative; cursor: pointer; width: 45px; height: 45px;
+            position: fixed; top: 12px; left: 15px; z-index: 1000; cursor: pointer; width: 45px; height: 45px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; transition: all 0.3s ease;
         }
-        .menu-btn:hover { border-color: var(--accent-cyan); background: rgba(0, 245, 255, 0.1); transform: scale(1.05); }
+        .menu-btn:hover { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 245, 255, 0.2); transform: scale(1.05); background: rgba(0, 245, 255, 0.1); }
         .menu-btn span { display: block; width: 22px; height: 2px; background-color: var(--text-main); border-radius: 2px; transition: all 0.3s ease; }
         
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2, 2, 4, 0.8); backdrop-filter: blur(5px); z-index: 998; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
-        
         .sidebar {
             position: fixed; top: 0; left: calc(var(--sidebar-width) * -1); width: var(--sidebar-width); height: 100vh;
             background: rgba(10, 8, 16, 0.95); backdrop-filter: blur(20px); border-right: 1px solid var(--border-color);
@@ -86,12 +86,9 @@
         .page-section.active { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Inicio y Stats */
-        .avatar-container { display: flex; justify-content: center; align-items: center; margin-bottom: 15px; width: fit-content; margin: 0 auto 15px auto; }
-        .main-logo { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(168, 85, 247, 0.3); box-shadow: 0 0 30px var(--accent-glow); }
+        /* Stats y Titles */
         @keyframes titleGlow { 0% { text-shadow: 0 0 4px rgba(168, 85, 247, 0.2); } 50% { text-shadow: 0 0 15px rgba(0, 245, 255, 0.5); } 100% { text-shadow: 0 0 4px rgba(168, 85, 247, 0.2); } }
-        h1 { font-weight: 800; font-size: 2em; letter-spacing: 5px; margin-bottom: 5px; color: var(--text-main); text-transform: uppercase; animation: titleGlow 4s infinite ease-in-out; }
-        .live-stats { margin-bottom: 30px; font-size: 0.9em; color: var(--text-muted); font-weight: 700; display: flex; justify-content: center; align-items: center; }
+        .live-stats { margin-bottom: 30px; font-size: 0.9em; color: var(--text-muted); font-weight: 700; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 20px; width: fit-content; margin: 0 auto 30px auto; border: 1px solid rgba(255,255,255,0.05); }
         .live-dot { width: 8px; height: 8px; background-color: var(--accent-cyan); border-radius: 50%; margin-right: 8px; animation: pulseCyan 2s infinite; }
         @keyframes pulseCyan { 0% { box-shadow: 0 0 2px var(--accent-cyan); } 50% { box-shadow: 0 0 10px rgba(0, 245, 255, 0.6); } 100% { box-shadow: 0 0 2px var(--accent-cyan); } }
         .user-count { color: var(--accent-cyan); margin-left: 5px; font-weight: 800; }
@@ -102,11 +99,7 @@
         .glass-box { background: rgba(13, 10, 22, 0.45); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.03); border-top: 1px solid rgba(168, 85, 247, 0.25); border-left: 1px solid rgba(0, 245, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7); position: relative; overflow: hidden; z-index: 1; }
         .glass-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.12) 0%, transparent 70%); animation: liquidPulse 4s ease-in-out infinite alternate; z-index: -1; pointer-events: none; }
         
-        @keyframes scannerLight {
-            0% { left: -100%; }
-            25% { left: 200%; }
-            100% { left: 200%; }
-        }
+        @keyframes scannerLight { 0% { left: -100%; } 25% { left: 200%; } 100% { left: 200%; } }
         .btn { background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #ffffff; border: none; padding: 14px; border-radius: 25px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 0.95em; letter-spacing: 1px; cursor: pointer; transition: all 0.2s ease; width: 100%; text-transform: uppercase; position: relative; overflow: hidden; }
         .btn::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent); transform: skewX(-25deg); animation: scannerLight 3.5s infinite ease-in-out; }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4), 0 6px 20px rgba(255, 0, 127, 0.3); }
@@ -119,7 +112,6 @@
         .clickable-card { cursor: pointer; transition: 0.3s; }
         .clickable-card:hover { border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1); transform: translateY(-3px); }
         
-        /* IMAGEN Y LOAD MORE */
         .card-banner-container { width: 100%; height: 160px; margin-bottom: 15px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.2); }
         .card-banner { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .clickable-card:hover .card-banner { transform: scale(1.08); }
@@ -194,11 +186,11 @@
         /* Estilos de Comentarios */
         .comments-main-box { padding: 25px; margin-top: 0; border-top: 1px solid rgba(168, 85, 247, 0.25); border-top-left-radius: 0; border-top-right-radius: 0; }
         .comments-title { font-size: 1.2em; font-weight: 800; color: var(--text-main); margin-bottom: 15px; text-align: left; }
-        .comment-item { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 12px 15px; margin-bottom: 10px; border-left: 3px solid var(--accent); text-align: left; }
-        .comment-author { color: var(--accent-cyan); font-weight: 800; font-size: 0.9em; margin-bottom: 4px; display: flex; justify-content: space-between; }
+        .comment-item { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 3px solid var(--accent); text-align: left; }
+        .comment-author { color: var(--accent-cyan); font-weight: 800; font-size: 0.9em; margin-bottom: 8px; display: flex; justify-content: space-between; }
         .comment-date { color: var(--text-muted); font-size: 0.8em; font-weight: 400; }
-        .comment-text { color: var(--text-main); font-size: 0.9em; line-height: 1.4; word-break: break-word; }
-        .comment-input-area { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;}
+        .comment-text { color: var(--text-main); font-size: 0.95em; line-height: 1.5; word-break: break-word; }
+        .comment-input-area { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;}
         .comment-row { display: flex; gap: 10px; }
 
         /* Responsive Mobile Ajustes Finales */
@@ -210,19 +202,23 @@
             .script-title { font-size: 1.2em; }
             .script-card-header { align-items: flex-start; flex-direction: column; }
             .slider-img { height: 160px; }
+            .top-navbar-brand { font-size: 1.2em; }
         }
     </style>
 </head>
 <body>
     <div id="particles-container"></div>
     
-    <!-- BARRA SUPERIOR FIJA (NEW) -->
+    <!-- BARRA SUPERIOR FIJA -->
     <div class="top-navbar">
         <div class="menu-btn" onclick="toggleMenu()">
             <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span>
         </div>
-        <!-- TRUCO ADMIN: Haz clic 3 veces en "RAIKAHUB" aquí -->
-        <div class="navbar-brand" id="brand-title">RaikaHub</div>
+        <!-- El titulo de aqui arriba es el que tiene el truco de los 3 clics para el panel Admin -->
+        <div class="top-navbar-brand" id="brand-title">
+            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="Logo">
+            RaikaHub
+        </div>
     </div>
 
     <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -238,10 +234,6 @@
     <div class="main-panel">
         <!-- SUBPÁGINA 1: INICIO -->
         <section id="page-inicio" class="page-section active">
-            <div class="avatar-container">
-                <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="RaikaHub Logo" class="main-logo">
-            </div>
-            <h1>RaikaHub</h1>
             <div class="live-stats">
                 <div class="live-dot"></div>
                 Activos en el Hub: <span class="user-count" id="activeCounter">...</span>
@@ -253,7 +245,7 @@
                 <a href="https://www.mediafire.com/file/cg7mvngmsvi91ui/Delta-2.723.783.ipa/file" target="_blank" class="executor-btn">Delta iOS <span class="click-hint">(MediaFire)</span></a>
             </div>
 
-            <div class="section-label center" style="margin-top: 35px; color: var(--accent-magenta);">Script Principal RaikaHub</div>
+            <div class="section-label center" style="margin-top: 35px; color: var(--accent-magenta);">Script Principal VIP</div>
             
             <!-- TARJETA DEL SCRIPT PRINCIPAL -->
             <div class="script-card glass-box" id="main-vip-card" style="border-color: rgba(255, 0, 127, 0.4); box-shadow: 0 0 20px rgba(255, 0, 127, 0.15);">
@@ -282,7 +274,7 @@
 
         <!-- SUBPÁGINA 2: CATÁLOGO DE SCRIPTS -->
         <section id="page-scripts" class="page-section">
-            <div class="section-label" style="text-align: center; font-size: 1.1em; color: var(--accent-cyan);">Mas scripts</div>
+            <div class="section-label" style="text-align: center; font-size: 1.1em; color: var(--accent-cyan);">Mas scripts VIP</div>
             <div id="dynamic-scripts">
                 <p style="text-align: center; color: var(--text-muted);">Cargando base de datos...</p>
             </div>
@@ -373,11 +365,9 @@
         let imagenesBase64Cargadas = [];
         let scriptEnEdicionId = null; 
         
-        // VARIABLES DE PAGINACION
         let paginaActual = 1;
         const SCRIPTS_POR_PAGINA = 5; 
 
-        // Inicializar
         window.onload = function() {
             cargarScriptsDesdeVPS();
             checkCooldown();
@@ -691,9 +681,6 @@
             }
         }
 
-        // ==========================================
-        // RENDERIZADO DEL CATÁLOGO E INTERFAZ
-        // ==========================================
         function generarBadgesRedes(script) {
             let badges = '';
             if(script.discord) badges += `<a href="${script.discord}" target="_blank" class="social-badge bg-discord">Discord</a>`;
@@ -823,20 +810,31 @@
             let listaComentarios = script.comentarios || [];
             let htmlComentarios = '';
             
-            // Obtener los IDs de los comentarios que el usuario hizo en este navegador
             let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
 
             if(listaComentarios.length === 0) {
                 htmlComentarios = '<p style="color:var(--text-muted); font-size: 0.9em; text-align: center; padding: 20px 0;">Sin comentarios aun.<br>Se el primero en opinar.</p>';
             } else {
                 listaComentarios.forEach(c => {
+                    // Si es un comentario viejisimo sin ID, lo dibujamos pero no le damos botones
+                    if(!c.id) {
+                        htmlComentarios += `
+                        <div class="comment-item">
+                            <div class="comment-author"><span>${c.autor}</span> <span class="comment-date">${c.fecha}</span></div>
+                            <div class="comment-text">${c.texto}</div>
+                        </div>`;
+                        return;
+                    }
+
                     let esMiComentario = misComentariosLocales.includes(c.id);
                     
-                    // Solo muestro editar si es mio. Muestro eliminar si es mio O si soy admin.
-                    let btnEditar = esMiComentario ? `<button onclick="editarComentario('${script.id}', '${c.id}', '${c.texto.replace(/'/g, "\\'")}')" style="background:none; border:none; color:var(--accent-cyan); font-size:0.8em; cursor:pointer; font-weight:bold;">✏️ Editar</button>` : '';
-                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentario('${script.id}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.8em; cursor:pointer; font-weight:bold;">🗑️ Eliminar</button>` : '';
+                    let btnEditar = esMiComentario ? `<button onclick="habilitarEdicion('${script.id}', '${c.id}')" style="background:none; border:none; color:var(--accent-cyan); font-size:0.85em; cursor:pointer; font-weight:bold; font-family:inherit;">✏️ Editar</button>` : '';
+                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentario('${script.id}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.85em; cursor:pointer; font-weight:bold; font-family:inherit;">🗑️ Eliminar</button>` : '';
                     
                     let etiquetaEditado = c.editado ? `<span style="font-size: 0.75em; color: var(--text-muted); font-style: italic; font-weight: normal; margin-left: 5px;">(editado)</span>` : '';
+
+                    // Escapar las comillas por si el usuario uso comillas en el texto
+                    let safeText = c.texto.replace(/"/g, '&quot;');
 
                     htmlComentarios += `
                     <div class="comment-item">
@@ -844,10 +842,21 @@
                             <span>${c.autor} ${etiquetaEditado}</span> 
                             <span class="comment-date">${c.fecha}</span>
                         </div>
-                        <div class="comment-text">${c.texto}</div>
                         
+                        <!-- Texto Normal -->
+                        <div id="comment-text-${c.id}" class="comment-text">${c.texto}</div>
+                        
+                        <!-- Area de Edición Oculta (Inline Edit) -->
+                        <div id="comment-edit-area-${c.id}" style="display:none; margin-top: 10px;">
+                            <input type="text" id="input-edit-${c.id}" class="admin-input" style="width: 100%; padding: 10px 12px; border-radius: 8px; font-size: 0.9em; margin-bottom: 8px;" value="${safeText}">
+                            <div style="display:flex; gap: 10px; justify-content: flex-end;">
+                                <button onclick="cancelarEdicionComentario('${c.id}')" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8em; font-family: inherit;">Cancelar</button>
+                                <button onclick="guardarEdicion('${script.id}', '${c.id}')" style="background: var(--accent-cyan); color: #000; border: none; padding: 6px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8em; font-family: inherit;">💾 Guardar</button>
+                            </div>
+                        </div>
+
                         <!-- Botones de Acción -->
-                        <div style="display:flex; gap:10px; margin-top:8px; justify-content:flex-end;">
+                        <div id="comment-actions-${c.id}" style="display:flex; gap:10px; margin-top:8px; justify-content:flex-end;">
                             ${btnEditar}
                             ${btnEliminar}
                         </div>
@@ -856,8 +865,8 @@
             }
 
             container.innerHTML = `
-                <!-- PRIMERA CAJA: DETALLES Y CÓDIGO -->
-                <div class="glass-box" style="padding: 25px; margin-bottom: 20px;">
+                <!-- CAJA PRINCIPAL DETALLES -->
+                <div class="glass-box details-main-box">
                     <div class="script-card-header" style="flex-direction: column; align-items: flex-start; gap: 10px; border-bottom: none; margin-bottom: 20px;">
                         <span class="script-title" style="font-size: 1.6em; text-shadow: 0 0 15px var(--accent-glow);">${script.titulo}</span>
                         <div style="display: flex; gap: 8px; align-items: center; align-self: flex-start;">
@@ -903,9 +912,9 @@
                     </div>
                     
                     <div class="comment-input-area">
-                        <input type="text" id="comentario-autor" class="admin-input" placeholder="Tu Nombre (Ej: VIP User)" maxlength="20">
+                        <input type="text" id="comentario-autor" class="admin-input" placeholder="Tu Nombre de usuario" maxlength="20">
                         <div class="comment-row">
-                            <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu opinion del script..." maxlength="120" style="flex: 3;">
+                            <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu comentario..." maxlength="120" style="flex: 3;">
                             <button class="btn" style="flex: 1; padding: 10px; border-radius: 12px; font-size: 0.85em;" onclick="enviarComentario('${script.id}')">Enviar</button>
                         </div>
                     </div>
@@ -915,7 +924,6 @@
             setTimeout(() => {
                 const contentDiv = document.getElementById('desc-content');
                 const btnMore = document.getElementById('btn-show-more');
-                // Magia para desaparecer el boton de mostrar mas si hay muy poco texto
                 if (contentDiv && contentDiv.scrollHeight <= 180) {
                     btnMore.style.display = 'none';
                     contentDiv.classList.remove('content-collapse'); 
@@ -958,7 +966,7 @@
                 document.getElementById('bar1').style.transform = 'none';
                 document.getElementById('bar2').style.opacity = '1';
                 document.getElementById('bar3').style.transform = 'none';
-                brandClickCount = 0; // Resetear clicks secretos al cerrar
+                brandClickCount = 0; 
             }
         }
 
@@ -977,19 +985,19 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Truco Secreto Admin: Clic 3 veces en "RaikaHub" del menú
+        // Truco Secreto Admin: Clic 3 veces en "RaikaHub" de la barra superior
         document.getElementById('brand-title').addEventListener('click', () => {
             brandClickCount++;
             clearTimeout(brandClickTimer);
             if(brandClickCount === 3) {
                 brandClickCount = 0;
                 if(!isAdminLoggedIn) {
-                    let pass = prompt("Acceso Restringido. Contrasena:");
+                    let pass = prompt("Acceso Restringido. Contraseña:");
                     if(pass === "raika2026") {
                         isAdminLoggedIn = true;
                         document.getElementById('link-admin').classList.add('visible');
                         alert("Panel de Control Activado.");
-                        renderizarScripts(); // Re-renderizar para mostrar botones de eliminar/editar
+                        renderizarScripts(); 
                     }
                 } else {
                     document.getElementById('link-admin').classList.toggle('visible');
@@ -999,7 +1007,7 @@
         });
 
         // ==========================================
-        // UTILIDADES VARIAS (Copiar, Anti-Skids)
+        // UTILIDADES VARIAS
         // ==========================================
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;
@@ -1017,7 +1025,9 @@
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
         }
 
-        // FUNCION PARA ENVIAR COMENTARIOS AL VPS
+        // ==========================================
+        // FUNCIONES DE COMENTARIOS
+        // ==========================================
         async function enviarComentario(scriptId) {
             const autorInput = document.getElementById('comentario-autor').value.trim();
             const textoInput = document.getElementById('comentario-texto').value.trim();
@@ -1043,14 +1053,12 @@
                 if(response.ok) {
                     const data = await response.json();
                     
-                    // Guardar "el boleto de dueño" en el navegador del usuario
                     let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
                     if (data.comentario && data.comentario.id) {
                         misComentariosLocales.push(data.comentario.id);
                         localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentariosLocales));
                     }
 
-                    // Recargar la base de datos y volver a abrir los detalles para ver el comentario
                     await cargarScriptsDesdeVPS();
                     abrirDetalles(scriptId);
                 } else {
@@ -1061,44 +1069,67 @@
             }
         }
 
-        // FUNCIONES NUEVAS PARA EDITAR Y BORRAR
-        async function editarComentario(scriptId, commentId, textoActual) {
-            let nuevoTexto = prompt("Edita tu comentario:", textoActual);
-            // Si el usuario escribe algo nuevo y no le dio cancelar
-            if (nuevoTexto !== null && nuevoTexto.trim() !== "" && nuevoTexto !== textoActual) {
-                try {
-                    const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ texto: nuevoTexto.trim() })
-                    });
-                    if (response.ok) {
-                        await cargarScriptsDesdeVPS();
-                        abrirDetalles(scriptId); // Recargar la tarjeta para ver los cambios
-                    } else {
-                        alert("Error al editar el comentario.");
-                    }
-                } catch(e) {
-                    alert("No se pudo conectar al servidor.");
+        // Habilitar edicion inline (mostrar input)
+        function habilitarEdicion(scriptId, commentId) {
+            document.getElementById(`comment-text-${commentId}`).style.display = 'none';
+            document.getElementById(`comment-actions-${commentId}`).style.display = 'none';
+            document.getElementById(`comment-edit-area-${commentId}`).style.display = 'block';
+        }
+
+        // Cancelar edicion inline
+        function cancelarEdicionComentario(commentId) {
+            document.getElementById(`comment-text-${commentId}`).style.display = 'block';
+            document.getElementById(`comment-actions-${commentId}`).style.display = 'flex';
+            document.getElementById(`comment-edit-area-${commentId}`).style.display = 'none';
+        }
+
+        // Guardar la edición
+        async function guardarEdicion(scriptId, commentId) {
+            const nuevoTexto = document.getElementById(`input-edit-${commentId}`).value.trim();
+            if(!nuevoTexto) {
+                alert("El comentario no puede estar vacio.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ texto: nuevoTexto })
+                });
+
+                if(response.ok) {
+                    await cargarScriptsDesdeVPS();
+                    abrirDetalles(scriptId); 
+                } else {
+                    alert("Error al editar el comentario.");
                 }
+            } catch(e) {
+                alert("Error de conexion al editar.");
             }
         }
 
+        // Eliminar comentario
         async function eliminarComentario(scriptId, commentId) {
-            if(confirm("¿Seguro que deseas eliminar este comentario permanentemente? (Acción de Admin)")) {
-                try {
-                    const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
-                        method: 'DELETE'
-                    });
-                    if (response.ok) {
-                        await cargarScriptsDesdeVPS();
-                        abrirDetalles(scriptId); // Recargar la tarjeta
-                    } else {
-                        alert("Error al eliminar el comentario.");
-                    }
-                } catch(e) {
-                    alert("No se pudo conectar al servidor.");
+            if(!confirm("¿Seguro que deseas eliminar este comentario permanentemente?")) return;
+
+            try {
+                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
+                    method: 'DELETE'
+                });
+
+                if(response.ok) {
+                    let misComentarios = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
+                    misComentarios = misComentarios.filter(id => id !== commentId);
+                    localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentarios));
+
+                    await cargarScriptsDesdeVPS();
+                    abrirDetalles(scriptId);
+                } else {
+                    alert("Error al eliminar el comentario.");
                 }
+            } catch(e) {
+                alert("Error de conexion al eliminar.");
             }
         }
 

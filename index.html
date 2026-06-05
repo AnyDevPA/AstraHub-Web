@@ -819,23 +819,45 @@
 
             let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
 
+            // GENERAR SECCIÓN DE COMENTARIOS
             let listaComentarios = script.comentarios || [];
             let htmlComentarios = '';
+            
+            // Obtener los IDs de los comentarios que el usuario hizo en este navegador
+            let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
+
             if(listaComentarios.length === 0) {
                 htmlComentarios = '<p style="color:var(--text-muted); font-size: 0.9em; text-align: center; padding: 20px 0;">Sin comentarios aun.<br>Se el primero en opinar.</p>';
             } else {
                 listaComentarios.forEach(c => {
+                    let esMiComentario = misComentariosLocales.includes(c.id);
+                    
+                    // Solo muestro editar si es mio. Muestro eliminar si es mio O si soy admin.
+                    let btnEditar = esMiComentario ? `<button onclick="editarComentario('${script.id}', '${c.id}', '${c.texto.replace(/'/g, "\\'")}')" style="background:none; border:none; color:var(--accent-cyan); font-size:0.8em; cursor:pointer; font-weight:bold;">✏️ Editar</button>` : '';
+                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentario('${script.id}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.8em; cursor:pointer; font-weight:bold;">🗑️ Eliminar</button>` : '';
+                    
+                    let etiquetaEditado = c.editado ? `<span style="font-size: 0.75em; color: var(--text-muted); font-style: italic; font-weight: normal; margin-left: 5px;">(editado)</span>` : '';
+
                     htmlComentarios += `
                     <div class="comment-item">
-                        <div class="comment-author"><span>${c.autor}</span> <span class="comment-date">${c.fecha}</span></div>
+                        <div class="comment-author">
+                            <span>${c.autor} ${etiquetaEditado}</span> 
+                            <span class="comment-date">${c.fecha}</span>
+                        </div>
                         <div class="comment-text">${c.texto}</div>
+                        
+                        <!-- Botones de Acción -->
+                        <div style="display:flex; gap:10px; margin-top:8px; justify-content:flex-end;">
+                            ${btnEditar}
+                            ${btnEliminar}
+                        </div>
                     </div>`;
                 });
             }
 
             container.innerHTML = `
-                <!-- CAJA PRINCIPAL DETALLES -->
-                <div class="glass-box details-main-box">
+                <!-- PRIMERA CAJA: DETALLES Y CÓDIGO -->
+                <div class="glass-box" style="padding: 25px; margin-bottom: 20px;">
                     <div class="script-card-header" style="flex-direction: column; align-items: flex-start; gap: 10px; border-bottom: none; margin-bottom: 20px;">
                         <span class="script-title" style="font-size: 1.6em; text-shadow: 0 0 15px var(--accent-glow);">${script.titulo}</span>
                         <div style="display: flex; gap: 8px; align-items: center; align-self: flex-start;">
@@ -881,7 +903,7 @@
                     </div>
                     
                     <div class="comment-input-area">
-                        <input type="text" id="comentario-autor" class="admin-input" placeholder="Tu Nombre de usuario" maxlength="20">
+                        <input type="text" id="comentario-autor" class="admin-input" placeholder="Tu Nombre (Ej: VIP User)" maxlength="20">
                         <div class="comment-row">
                             <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu opinion del script..." maxlength="120" style="flex: 3;">
                             <button class="btn" style="flex: 1; padding: 10px; border-radius: 12px; font-size: 0.85em;" onclick="enviarComentario('${script.id}')">Enviar</button>
@@ -1019,6 +1041,16 @@
                 });
 
                 if(response.ok) {
+                    const data = await response.json();
+                    
+                    // Guardar "el boleto de dueño" en el navegador del usuario
+                    let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
+                    if (data.comentario && data.comentario.id) {
+                        misComentariosLocales.push(data.comentario.id);
+                        localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentariosLocales));
+                    }
+
+                    // Recargar la base de datos y volver a abrir los detalles para ver el comentario
                     await cargarScriptsDesdeVPS();
                     abrirDetalles(scriptId);
                 } else {
@@ -1026,6 +1058,47 @@
                 }
             } catch(e) {
                 alert("No se pudo conectar al servidor.");
+            }
+        }
+
+        // FUNCIONES NUEVAS PARA EDITAR Y BORRAR
+        async function editarComentario(scriptId, commentId, textoActual) {
+            let nuevoTexto = prompt("Edita tu comentario:", textoActual);
+            // Si el usuario escribe algo nuevo y no le dio cancelar
+            if (nuevoTexto !== null && nuevoTexto.trim() !== "" && nuevoTexto !== textoActual) {
+                try {
+                    const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ texto: nuevoTexto.trim() })
+                    });
+                    if (response.ok) {
+                        await cargarScriptsDesdeVPS();
+                        abrirDetalles(scriptId); // Recargar la tarjeta para ver los cambios
+                    } else {
+                        alert("Error al editar el comentario.");
+                    }
+                } catch(e) {
+                    alert("No se pudo conectar al servidor.");
+                }
+            }
+        }
+
+        async function eliminarComentario(scriptId, commentId) {
+            if(confirm("¿Seguro que deseas eliminar este comentario permanentemente? (Acción de Admin)")) {
+                try {
+                    const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
+                        method: 'DELETE'
+                    });
+                    if (response.ok) {
+                        await cargarScriptsDesdeVPS();
+                        abrirDetalles(scriptId); // Recargar la tarjeta
+                    } else {
+                        alert("Error al eliminar el comentario.");
+                    }
+                } catch(e) {
+                    alert("No se pudo conectar al servidor.");
+                }
             }
         }
 

@@ -114,6 +114,13 @@
         .script-card { padding: 20px; margin-bottom: 20px; text-align: left; position: relative; }
         .clickable-card { cursor: pointer; transition: 0.3s; }
         .clickable-card:hover { border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1); transform: translateY(-3px); }
+        /* IMAGEN EN EL CATALOGO Y BOTON CARGAR MAS */
+        .card-banner-container { width: 100%; height: 160px; margin-bottom: 15px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.2); }
+        .card-banner { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .clickable-card:hover .card-banner { transform: scale(1.08); }
+        .load-more-btn { background: rgba(168, 85, 247, 0.1); border: 1px solid var(--accent); color: var(--text-main); padding: 12px 30px; border-radius: 20px; font-family: inherit; font-weight: 800; cursor: pointer; transition: 0.3s; margin: 10px auto 30px auto; display: block; width: fit-content; text-transform: uppercase; letter-spacing: 1px; }
+        .load-more-btn:hover { background: var(--accent); color: #fff; box-shadow: 0 0 15px var(--accent-glow); }
+
         .script-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px; }
         .script-title { font-size: 1.15em; font-weight: 800; color: var(--text-main); }
         .script-game-tag { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(0, 245, 255, 0.3); text-transform: uppercase; letter-spacing: 1px; }
@@ -344,8 +351,13 @@
         let scriptsDesdeVPS = [];
         let imagenesBase64Cargadas = [];
         let scriptEnEdicionId = null; // Variable para saber si estamos creando o editando
+        
+        // VARIABLES DE PAGINACION
+        let paginaActual = 1;
+        const SCRIPTS_POR_PAGINA = 5; // Cambia este numero para decidir cuantos mostrar antes de pedir "Cargar mas"
 
-        window.onload = function() { 
+        // Inicializar
+        window.onload = function() {
             cargarScriptsDesdeVPS();
             checkCooldown();
         };
@@ -676,6 +688,15 @@
             return badges !== '' ? `<div class="badges-container">${badges}</div>` : '';
         }
 
+        function generarBadgesRedes(script) {
+            let badges = '';
+            if(script.discord) badges += `<a href="${script.discord}" target="_blank" class="social-badge bg-discord">Discord</a>`;
+            if(script.youtube) badges += `<a href="${script.youtube}" target="_blank" class="social-badge bg-youtube">YouTube</a>`;
+            if(script.tiktok) badges += `<a href="${script.tiktok}" target="_blank" class="social-badge bg-tiktok">TikTok</a>`;
+            if(script.instagram) badges += `<a href="${script.instagram}" target="_blank" class="social-badge bg-ig">IG</a>`;
+            return badges !== '' ? `<div class="badges-container">${badges}</div>` : '';
+        }
+
         function renderizarScripts() {
             const container = document.getElementById('dynamic-scripts');
             container.innerHTML = '';
@@ -685,6 +706,7 @@
                 return;
             }
 
+            // --- ACTUALIZAR EL SCRIPT PRINCIPAL DEL INICIO ---
             const scriptPrincipal = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
             if (scriptPrincipal) {
                 let mainKeyBadge = scriptPrincipal.ocupaKey ? '<span class="tag-key">KEY</span>' : '';
@@ -695,9 +717,14 @@
                 document.getElementById('scriptCodeMain').innerText = scriptPrincipal.codigo;
             }
 
+            // Invertir para mostrar los mas nuevos en el catalogo
             const scriptsMostrados = [...scriptsDesdeVPS].reverse();
+            
+            // LOGICA DE PAGINACION
+            const limite = paginaActual * SCRIPTS_POR_PAGINA;
+            const scriptsPagina = scriptsMostrados.slice(0, limite);
 
-            scriptsMostrados.forEach((script) => {
+            scriptsPagina.forEach((script) => {
                 let adminControls = isAdminLoggedIn ? `
                 <div class="admin-controls-wrapper">
                     <button class="btn-edit" onclick="editarScript('${script.id}', event)">✏️ Editar</button>
@@ -705,9 +732,19 @@
                 </div>` : '';
 
                 let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
+                
+                // Extraer la primera imagen para la portada
+                let bannerHtml = '';
+                if (script.imagenes && script.imagenes.length > 0) {
+                    bannerHtml = `
+                    <div class="card-banner-container">
+                        <img src="${script.imagenes[0]}" class="card-banner" alt="Banner del Script">
+                    </div>`;
+                }
 
                 let html = `
                 <div class="script-card glass-box clickable-card" onclick="abrirDetalles('${script.id}')">
+                    ${bannerHtml}
                     <div class="script-card-header">
                         <span class="script-title">${script.titulo}</span>
                         <div style="display: flex; align-items: center;">
@@ -732,6 +769,16 @@
                 `;
                 container.innerHTML += html;
             });
+            
+            // Boton de "Cargar mas" si aun quedan scripts ocultos
+            if (scriptsMostrados.length > limite) {
+                container.innerHTML += `<button class="load-more-btn" onclick="cargarMasScripts()">⬇️ Cargar más scripts</button>`;
+            }
+        }
+        
+        function cargarMasScripts() {
+            paginaActual++;
+            renderizarScripts();
         }
 
         let sliderInterval;

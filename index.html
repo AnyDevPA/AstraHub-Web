@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RaikaHub | Premium Scripts</title>
+    <title>RaikaHub | Scripts</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -67,7 +67,7 @@
         .nav-link-admin.visible { display: flex; }
 
         /* Estructura Principal */
-        .main-panel { position: relative; z-index: 10; padding: 80px 20px 40px 20px; width: 90%; max-width: 600px; text-align: center; }
+        .main-panel { position: relative; z-index: 10; padding: 80px 20px 80px 20px; width: 90%; max-width: 600px; text-align: center; } /* Añadido padding abajo por el banner */
         .page-section { display: none; animation: fadeInPage 0.4s ease forwards; }
         .page-section.active { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -87,7 +87,24 @@
         /* Componentes Globales */
         .glass-box { background: rgba(13, 10, 22, 0.45); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.03); border-top: 1px solid rgba(168, 85, 247, 0.25); border-left: 1px solid rgba(0, 245, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7); position: relative; overflow: hidden; z-index: 1; }
         .glass-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.12) 0%, transparent 70%); animation: liquidPulse 4s ease-in-out infinite alternate; z-index: -1; pointer-events: none; }
+        
+        @keyframes scannerLight {
+            0% { left: -100%; }
+            25% { left: 200%; }
+            100% { left: 200%; }
+        }
         .btn { background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #ffffff; border: none; padding: 14px; border-radius: 25px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 0.95em; letter-spacing: 1px; cursor: pointer; transition: all 0.2s ease; width: 100%; text-transform: uppercase; position: relative; overflow: hidden; }
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg);
+            animation: scannerLight 3.5s infinite ease-in-out;
+        }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4), 0 6px 20px rgba(255, 0, 127, 0.3); }
         .btn:active { transform: translateY(0); box-shadow: 0 2px 5px var(--accent-glow); }
         .btn-back { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 20px; cursor: pointer; font-family: inherit; font-weight: 700; transition: 0.3s; display: block; margin-bottom: 20px; }
@@ -127,6 +144,8 @@
         .btn-pegar { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(30, 25, 45, 0.8); color: var(--text-main); border: 1px solid rgba(168, 85, 247, 0.3); padding: 6px 16px; border-radius: 20px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
         .btn-pegar:hover { background: var(--accent-cyan); color: #020204; border-color: var(--accent-cyan); }
         #result-box { margin-top: 15px; padding: 12px; background-color: rgba(10, 8, 16, 0.8); border-radius: 12px; display: none; word-wrap: break-word; font-size: 0.9em; border: 1px dashed rgba(168, 85, 247, 0.3); }
+        .clean-link { color: var(--accent-cyan); font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
+        .clean-link:hover { text-decoration: underline; color: #fff;}
 
         /* Social Badges */
         .badges-container { display: flex; gap: 8px; flex-wrap: wrap; margin-left: 10px; align-items: center; }
@@ -149,6 +168,12 @@
         input[type="file"] { display: none; }
         .preview-images { display: flex; gap: 10px; overflow-x: auto; margin-top: 10px; }
         .preview-images img { height: 60px; border-radius: 8px; border: 1px solid var(--accent); }
+
+        /* Developer Banner */
+        .dev-banner { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 2, 4, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid rgba(168, 85, 247, 0.15); padding: 12px 0; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 100; }
+        .dev-profile { display: flex; align-items: center; gap: 10px; }
+        .dev-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(168, 85, 247, 0.3); box-shadow: none; }
+        .dev-names { color: #ffffff; font-size: 0.85em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-shadow: none; }
     </style>
 </head>
 <body>
@@ -287,6 +312,14 @@
 
     </div>
 
+    <div class="dev-banner">
+        <span style="color: var(--text-muted); font-size: 0.75em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-right: 10px;">Developer:</span>
+        <div class="dev-profile">
+            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/Nath.jpg" class="dev-avatar" alt="Nath">
+            <span class="dev-names">Nath</span>
+        </div>
+    </div>
+
     <script>
         // ==========================================
         // CONFIGURACIÓN DE TU VPS (¡MUY IMPORTANTE!)
@@ -301,7 +334,156 @@
         // Inicializar
         window.onload = function() { 
             cargarScriptsDesdeVPS();
+            checkCooldown();
         };
+
+        // ==========================================
+        // LÓGICA DEL CONTADOR DE USUARIOS ASTRA
+        // ==========================================
+        async function fetchActiveUsers() {
+            try {
+                let response = await fetch('https://hub.astrahub.space/activos', {
+                    method: 'GET',
+                    headers: { 'Astra-Auth': 'AstraVIP2026!' }
+                });
+                
+                if (response.ok) {
+                    let data = await response.json();
+                    let count = Object.keys(data).length;
+                    document.getElementById('activeCounter').innerText = count;
+                } else {
+                    document.getElementById('activeCounter').innerText = "0";
+                }
+            } catch (error) {
+                console.log("Error cargando usuarios", error);
+            }
+        }
+        fetchActiveUsers();
+        setInterval(fetchActiveUsers, 15000);
+
+        // ==========================================
+        // LÓGICA DEL BYPASS PREMIUM
+        // ==========================================
+        function checkCooldown() {
+            let lastTime = localStorage.getItem("astra_cooldown");
+            if (lastTime) {
+                let tiempoPasado = Math.floor((Date.now() - parseInt(lastTime)) / 1000);
+                let tiempoRestante = 15 - tiempoPasado; 
+
+                if (tiempoRestante > 0) {
+                    iniciarReloj(tiempoRestante);
+                } else {
+                    localStorage.removeItem("astra_cooldown");
+                }
+            }
+        }
+
+        function iniciarReloj(segundos) {
+            const btn = document.getElementById("bypassBtn");
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            btn.innerText = "Espera " + segundos + "s...";
+
+            let contador = setInterval(function() {
+                segundos--;
+                if (segundos > 0) {
+                    btn.innerText = "Espera " + segundos + "s...";
+                } else {
+                    clearInterval(contador); 
+                    btn.innerText = "Desbloquear Link"; 
+                    btn.disabled = false; 
+                    btn.style.opacity = "1";
+                    localStorage.removeItem("astra_cooldown");
+                }
+            }, 1000);
+        }
+
+        async function pegarPortapapeles() {
+            try {
+                const texto = await navigator.clipboard.readText();
+                document.getElementById("linkInput").value = texto;
+            } catch (err) {
+                alert("Tu navegador bloqueo el portapapeles. Dale permisos a la pagina para pegar.");
+            }
+        }
+
+        function copiarAlPortapapeles(texto, boton) {
+            navigator.clipboard.writeText(texto).then(function() {
+                let textoOriginal = boton.innerText;
+                boton.innerText = "¡Copiado!";
+                boton.style.background = "#ffffff";
+                boton.style.color = "#000000";
+                
+                setTimeout(function() {
+                    boton.innerText = textoOriginal;
+                    boton.style.background = "";
+                    boton.style.color = "";
+                }, 2000);
+            }).catch(function(err) {
+                alert("Error al copiar, intenta de nuevo.");
+            });
+        }
+
+        async function procesarBypass() {
+            const link = document.getElementById("linkInput").value;
+            const resultBox = document.getElementById("result-box");
+            const btn = document.getElementById("bypassBtn");
+
+            if(!link) {
+                alert("Pega un link primero.");
+                return;
+            }
+
+            localStorage.setItem("astra_cooldown", Date.now());
+            iniciarReloj(15); 
+
+            resultBox.style.display = "block";
+
+            const tiempoInicio = performance.now();
+            let cronometroActivo = setInterval(() => {
+                let tiempoActual = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
+                resultBox.innerHTML = `<span style='color: var(--text-muted); font-weight: bold;'>Bypasseando... ${tiempoActual}s ⚡</span>`;
+            }, 100); 
+
+            try {
+                const response = await fetch("https://api.astrahub.space/api/bypass", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ url: link })
+                });
+
+                const data = await response.json();
+                
+                clearInterval(cronometroActivo);
+                const tiempoFin = performance.now();
+                const segundosTardados = ((tiempoFin - tiempoInicio) / 1000).toFixed(1);
+
+                if(data.success) {
+                    let resultado = data.url_limpia;
+                    
+                    if (resultado.startsWith("http")) {
+                        resultBox.innerHTML = `
+                            <span style="color: var(--text-main); font-weight: bold;">¡Exito! Desbloqueado en ${segundosTardados}s</span>
+                            <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Link</button>
+                        `;
+                    } else {
+                        resultBox.innerHTML = `
+                            <span style="color: var(--text-main); font-weight: bold;">¡Exito! Key generada en ${segundosTardados}s</span>
+                            <div style="margin-top: 8px; padding: 12px; background: rgba(5,5,5,0.7); border: 1px solid rgba(168,85,247,0.2); border-radius: 12px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
+                                ${resultado}
+                            </div>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Key</button>
+                        `;
+                    }
+                } else {
+                    resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">Error (${segundosTardados}s): ${data.error}</span>`;
+                }
+            } catch (error) {
+                clearInterval(cronometroActivo);
+                resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">Error de conexion con el servidor.</span>`;
+            }
+        }
 
         // ==========================================
         // CONEXIÓN CON EL BACKEND (VPS)
@@ -609,7 +791,7 @@
         });
 
         // ==========================================
-        // UTILIDADES VARIAS (Copiar, Bypass)
+        // UTILIDADES VARIAS (Copiar, Anti-Skids)
         // ==========================================
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;
@@ -626,6 +808,13 @@
             if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) { return false; } 
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
         }
+
+        setInterval(function() {
+            let before = new Date().getTime();
+            debugger;
+            let after = new Date().getTime();
+            if (after - before > 100) { document.body.innerHTML = "<h1 style='color:#ff007f; text-align:center; margin-top: 50px;'>No intentes robar el codigo 🐀</h1>"; }
+        }, 100);
 
         // Partículas de fondo
         const particlesContainer = document.getElementById('particles-container');

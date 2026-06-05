@@ -7,16 +7,16 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #020204; /* Negro ultra profundo con matiz premium */
-            --accent: #a855f7; /* Púrpura Neón Principal */
+            --bg-dark: #020204;
+            --accent: #a855f7; 
             --accent-glow: rgba(168, 85, 247, 0.35);
-            --accent-cyan: #00f5ff; /* Cian Neón para detalles clave y contador */
-            --accent-magenta: #ff007f; /* Magenta Neón para degradados pro */
-            --text-main: #ffffff; /* Blanco puro */
-            --text-muted: #8e8a9f; /* Gris estilizado con tono frío */
-            --box-bg: rgba(13, 10, 22, 0.45); /* Fondo translúcido con tinte oscuro purpúreo */
+            --accent-cyan: #00f5ff; 
+            --accent-magenta: #ff007f; 
+            --text-main: #ffffff; 
+            --text-muted: #8e8a9f; 
+            --box-bg: rgba(13, 10, 22, 0.45); 
             --text-script: #ffffff; 
-            --border-color: rgba(168, 85, 247, 0.2); /* Borde sutil acentuado */
+            --border-color: rgba(168, 85, 247, 0.2); 
         }
         * { 
             box-sizing: border-box; 
@@ -69,7 +69,7 @@
         .main-panel {
             position: relative;
             z-index: 10;
-            padding: 40px 20px 80px 20px;
+            padding: 40px 20px 40px 20px;
             width: 90%;
             max-width: 600px;
             text-align: center;
@@ -88,7 +88,6 @@
             box-shadow: none;
         }
         
-        /* LOGO CON ENFOQUE MORADO NEÓN */
         .main-logo {
             width: 130px;
             height: 130px;
@@ -101,7 +100,6 @@
             box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        /* Transición elegante entre tonos cian y morados */
         @keyframes titleGlow {
             0% { text-shadow: 0 0 4px rgba(168, 85, 247, 0.2); }
             50% { text-shadow: 0 0 15px rgba(0, 245, 255, 0.5); }
@@ -153,12 +151,13 @@
             font-size: 0.85em;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             text-align: left;
             margin-left: 5px;
+            margin-top: 30px;
         }
 
-        /* LIQUID GLASSMORPHISM REFINADO */
+        /* CLASE COMPARTIDA DE GLASSMORPHISM */
         .glass-box {
             background: rgba(13, 10, 22, 0.45); 
             backdrop-filter: blur(16px); 
@@ -172,28 +171,66 @@
             overflow: hidden;
             z-index: 1;
         }
-
         .glass-box::before {
             content: '';
             position: absolute;
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.12) 0%, transparent 70%);
             animation: liquidPulse 4s ease-in-out infinite alternate;
-            z-index: -1;
-            pointer-events: none;
+            z-index: -1; pointer-events: none;
         }
-
         @keyframes liquidPulse {
             0% { opacity: 0.5; transform: scale(0.95); }
             100% { opacity: 1; transform: scale(1.05); }
         }
 
-        .script-box {
-            padding: 18px;
-            margin-bottom: 25px;
+        /* 🚀 NUEVO: TARJETAS DE SCRIPTS (CATÁLOGO) 🚀 */
+        .script-card {
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .script-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 12px;
+        }
+        .script-title {
+            font-size: 1.15em;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        .script-game-tag {
+            background: rgba(0, 245, 255, 0.1);
+            color: var(--accent-cyan);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 800;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .script-desc {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .script-date {
+            font-size: 0.75em;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .script-code-container {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed rgba(168, 85, 247, 0.3);
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -201,18 +238,17 @@
         code {
             color: var(--text-script); 
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1em;
+            font-size: 0.95em;
             word-break: break-all;
-            text-align: left;
         }
-        
+        /* 🚀 FIN TARJETAS SCRIPTS 🚀 */
+
         @keyframes scannerLight {
             0% { left: -100%; }
             25% { left: 200%; }
             100% { left: 200%; }
         }
 
-        /* Botones con degradado premium e iluminación fluida */
         .btn {
             background: linear-gradient(135deg, var(--accent), var(--accent-magenta));
             color: #ffffff;
@@ -234,10 +270,7 @@
         .btn::after {
             content: "";
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
+            top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
             transform: skewX(-25deg);
             animation: scannerLight 3.5s infinite ease-in-out;
@@ -306,7 +339,6 @@
 
         .supported-box {
             padding: 15px;
-            margin-bottom: 35px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -340,7 +372,6 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
-            margin-bottom: 35px;
         }
         
         .executor-btn {
@@ -378,7 +409,6 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 25px;
         }
         .social-btn {
             background: rgba(20, 15, 32, 0.6);
@@ -409,47 +439,6 @@
             transform: none; border-color: rgba(168, 85, 247, 0.15);
             box-shadow: none;
         }
-
-        .dev-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(2, 2, 4, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(168, 85, 247, 0.15);
-            padding: 12px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            z-index: 100;
-        }
-
-        .dev-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dev-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            box-shadow: none;
-        }
-
-        .dev-names {
-            color: #ffffff;
-            font-size: 0.85em;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-shadow: none;
-        }
     </style>
 </head>
 <body>
@@ -466,18 +455,41 @@
         
         <div class="live-stats">
             <div class="live-dot"></div>
-            Usuarios usando el script: <span class="user-count" id="activeCounter">cargando...</span>
+            Usuarios activos en el Hub: <span class="user-count" id="activeCounter">cargando...</span>
         </div>
 
-        <div class="section-label">Script Duels & MM2:</div>
-        <div class="script-box glass-box">
-            <code id="scriptCode">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
-            <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">Copiar Script</button>
+        <div class="section-label">Catálogo de Scripts</div>
+
+        <div class="script-card glass-box">
+            <div class="script-card-header">
+                <span class="script-title">AstraHub Central</span>
+                <span class="script-game-tag">Multi-Juego</span>
+            </div>
+            <p class="script-desc">Hub maestro con auto-detección. Incluye bypass de red, aimbot inteligente, hitbox expander, ESP completo y macro automático anti-cuchillo.</p>
+            <div class="script-date">Actualizado: Mayo 2026</div>
+            
+            <div class="script-code-container">
+                <code id="scriptCode1">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
+                <button class="btn" onclick="copiarTexto('scriptCode1', this, 'Copiar Script')">Copiar Script</button>
+            </div>
         </div>
 
-        <div class="section-label">Bypass Premium:</div>
-        <div class="script-box glass-box" style="margin-bottom: 20px;">
-            <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px; text-align: left;">Bypassea enlaces de Linkvertise, Lootlinks, Platoboost.</p>
+        <div class="script-card glass-box">
+            <div class="script-card-header">
+                <span class="script-title">AstraHub Emotes</span>
+                <span class="script-game-tag">Duelos / MM2</span>
+            </div>
+            <p class="script-desc">Inyector de animaciones en la nube. Permite usar más de 5,000 emotes personalizados (Rthro, Ninja, Zombie) sin tenerlos comprados.</p>
+            <div class="script-date">Actualizado: Mayo 2026</div>
+            
+            <div class="script-code-container">
+                <code id="scriptCode2">loadstring(game:HttpGet("https://raw.githubusercontent.com/7yd7/sniper-Emote/refs/heads/test/AnimationLoader.lua"))()</code>
+                <button class="btn" onclick="copiarTexto('scriptCode2', this, 'Copiar Script')">Copiar Script</button>
+            </div>
+        </div>
+        <div class="section-label">Bypass Premium</div>
+        <div class="script-card glass-box" style="padding-bottom: 25px;">
+            <p class="script-desc" style="margin-bottom: 12px;">Bypassea enlaces de Linkvertise, Lootlinks, Platoboost en segundos.</p>
             <div style="position: relative; width: 100%; margin-bottom: 15px;">
                 <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aquí..." autocomplete="off" style="padding-right: 80px; margin-bottom: 0;">
                 <button class="btn-pegar" onclick="pegarPortapapeles()">Pegar</button>
@@ -486,16 +498,16 @@
             <div id="result-box"></div>
         </div>
 
-        <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
+        <div class="section-label">Executors recomendados</div>
         <div class="executors-wrapper">
             <a href="https://www.mediafire.com/file/kdqgucdqwlabdjh/Delta-2.718.1110.apk/file" class="executor-btn">
                 🤖 Delta Android
-                <span class="click-hint">(Descarga por Mediafire)</span>
+                <span class="click-hint">(Mediafire)</span>
             </a>
             
             <a href="https://www.mediafire.com/file/0wfc0meucwvccbz/Delta-2.717.982.ipa/file" target="_blank" class="executor-btn">
                 🍏 Delta iOS
-                <span class="click-hint">(Descargar por MediaFire)</span>
+                <span class="click-hint">(MediaFire)</span>
             </a>
 
             <a href="https://www.mediafire.com/file/5teqwhdsk3xazny/Madium1.1.0.rar/file" target="_blank" class="executor-btn">
@@ -503,14 +515,14 @@
                 <span class="click-hint">(Gratis)</span>
             </a>
             <a href="https://gofile.io/d/Mnyt8we" target="_blank" class="executor-btn">
-                💻 Madium PC Updater
-                <span class="click-hint">(Para actualizar Madium)</span>
+                💻 Madium Updater
+                <span class="click-hint">(Parche actual)</span>
             </a>
         </div>
 
-        <div class="section-label" style="text-align: center; margin-bottom: 12px;">Sitios Soportados:</div>
-        <div class="glass-box supported-box">
-            <span class="tag tag-premium">🚀 Platoboost (Para Keys de Delta)</span>
+        <div class="section-label">Sitios Soportados</div>
+        <div class="glass-box supported-box" style="margin-bottom: 30px;">
+            <span class="tag tag-premium">🚀 Platoboost (Delta)</span>
             <span class="tag">Linkvertise</span>
             <span class="tag">Lootlinks / Lootlabs</span>
             <span class="tag">Work.ink</span>
@@ -519,23 +531,13 @@
             <span class="tag">Sub2Unlock</span>
             <span class="tag">Paster.so</span>
             <span class="tag">Pastebin</span>
-            <span class="tag">Acortadores (Bit.ly, etc)</span>
         </div>
 
-        <div class="section-label" style="text-align: center; margin-bottom: 15px;">Comunidad Oficial:</div>
+        <div class="section-label">Comunidad Oficial</div>
         <div class="social-container">
             <a href="https://t.me/astraacommunity" target="_blank" class="social-btn">✈️ Telegram</a>
             <a href="https://www.tiktok.com/@dxzydev" target="_blank" class="social-btn">🎵 TikTok</a>
             <a href="#" class="social-btn social-disabled" onclick="return false;">👾 Discord</a>
-        </div>
-    </div>
-
-    <div class="dev-banner">
-        <span style="color: var(--text-muted); font-size: 0.75em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-right: 10px;">Developer:</span>
-        
-        <div class="dev-profile">
-            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/Nath.jpg" class="dev-avatar" alt="Nath">
-            <span class="dev-names">Nath</span>
         </div>
     </div>
 
@@ -559,9 +561,8 @@
                 document.body.innerHTML = "<h1 style='color:#ff007f; text-align:center; margin-top: 50px;'>No intentes robar el código 🐀</h1>";
             }
         }, 100);
-        // ✨ FIN DEL BLOQUE ANTI-SKIDS ✨
 
-
+        // FUNCIONES DE COPIADO ADAPTADAS PARA MÚLTIPLES SCRIPTS
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;
             navigator.clipboard.writeText(codigo).then(function() {

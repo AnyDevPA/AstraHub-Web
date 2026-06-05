@@ -67,7 +67,7 @@
         .nav-link-admin.visible { display: flex; }
 
         /* Estructura Principal */
-        .main-panel { position: relative; z-index: 10; padding: 80px 20px 80px 20px; width: 90%; max-width: 600px; text-align: center; }
+        .main-panel { position: relative; z-index: 10; padding: 80px 20px 40px 20px; width: 90%; max-width: 600px; text-align: center; }
         .page-section { display: none; animation: fadeInPage 0.4s ease forwards; }
         .page-section.active { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -183,11 +183,7 @@
         .preview-images { display: flex; gap: 10px; overflow-x: auto; margin-top: 10px; }
         .preview-images img { height: 60px; border-radius: 8px; border: 1px solid var(--accent); }
 
-        /* Developer Banner */
-        .dev-banner { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 2, 4, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid rgba(168, 85, 247, 0.15); padding: 12px 0; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 100; }
-        .dev-profile { display: flex; align-items: center; gap: 10px; }
-        .dev-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(168, 85, 247, 0.3); box-shadow: none; }
-        .dev-names { color: #ffffff; font-size: 0.85em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-shadow: none; }
+    
     </style>
 </head>
 <body>
@@ -334,13 +330,6 @@
 
     </div>
 
-    <div class="dev-banner">
-        <span style="color: var(--text-muted); font-size: 0.75em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-right: 10px;">Developer:</span>
-        <div class="dev-profile">
-            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/Nath.jpg" class="dev-avatar" alt="Nath">
-            <span class="dev-names">Ren</span>
-        </div>
-    </div>
 
     <script>
         // ==========================================

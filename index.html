@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raika | Scripts</title>
-    <!-- Fuentes premium: Plus Jakarta Sans para la web, JetBrains Mono para código -->
+    <title>RaikaHub | Scripts</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #000000; /* Negro puro absoluto */
-            --accent: #ffcc00; /* Amarillo vibrante / Cyber */
-            --accent-glow: rgba(255, 204, 0, 0.4);
+            --bg-dark: #020204; /* Negro ultra profundo con matiz premium */
+            --accent: #a855f7; /* Púrpura Neón Principal */
+            --accent-glow: rgba(168, 85, 247, 0.35);
+            --accent-cyan: #00f5ff; /* Cian Neón para detalles clave y contador */
+            --accent-magenta: #ff007f; /* Magenta Neón para degradados pro */
             --text-main: #ffffff; /* Blanco puro */
-            --text-muted: #888888; /* Gris minimalista */
-            --box-bg: #111111; /* Negro para las cajas (Fallback) */
+            --text-muted: #8e8a9f; /* Gris estilizado con tono frío */
+            --box-bg: rgba(13, 10, 22, 0.45); /* Fondo translúcido con tinte oscuro purpúreo */
             --text-script: #ffffff; 
-            --border-color: #222222; /* Borde gris oscuro limpio */
+            --border-color: rgba(168, 85, 247, 0.2); /* Borde sutil acentuado */
         }
         * { 
             box-sizing: border-box; 
@@ -87,24 +88,24 @@
             box-shadow: none;
         }
         
-        /* LOGO CON EFECTO TRANSLÚCIDO Y BRILLO SUTIL */
+        /* LOGO CON ENFOQUE MORADO NEÓN */
         .main-logo {
             width: 130px;
             height: 130px;
             border-radius: 50%;
             object-fit: cover; 
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(168, 85, 247, 0.3);
             background-color: transparent;
             position: relative;
             z-index: 2;
-            box-shadow: 0 0 30px rgba(255, 204, 0, 0.15);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        /* Efecto Resplandor SUAVE continuo para el Título */
+        /* Transición elegante entre tonos cian y morados */
         @keyframes titleGlow {
-            0% { text-shadow: 0 0 2px rgba(255, 204, 0, 0.05); }
-            50% { text-shadow: 0 0 8px rgba(255, 204, 0, 0.25); }
-            100% { text-shadow: 0 0 2px rgba(255, 204, 0, 0.05); }
+            0% { text-shadow: 0 0 4px rgba(168, 85, 247, 0.2); }
+            50% { text-shadow: 0 0 15px rgba(0, 245, 255, 0.5); }
+            100% { text-shadow: 0 0 4px rgba(168, 85, 247, 0.2); }
         }
 
         h1 {
@@ -115,7 +116,7 @@
             margin-bottom: 10px; 
             color: var(--text-main);
             text-transform: uppercase;
-            animation: titleGlow 3s infinite ease-in-out; /* Resplandor activo siempre */
+            animation: titleGlow 4s infinite ease-in-out;
         }
         
         .live-stats {
@@ -129,18 +130,18 @@
         }
         .live-dot {
             width: 10px; height: 10px;
-            background-color: var(--accent);
+            background-color: var(--accent-cyan);
             border-radius: 50%;
             margin-right: 8px;
-            animation: pulseYellow 2s infinite; 
+            animation: pulseCyan 2s infinite; 
         }
-        @keyframes pulseYellow {
-            0% { box-shadow: 0 0 2px var(--accent); }
-            50% { box-shadow: 0 0 8px var(--accent-glow); }
-            100% { box-shadow: 0 0 2px var(--accent); }
+        @keyframes pulseCyan {
+            0% { box-shadow: 0 0 2px var(--accent-cyan); }
+            50% { box-shadow: 0 0 10px rgba(0, 245, 255, 0.6); }
+            100% { box-shadow: 0 0 2px var(--accent-cyan); }
         }
         .user-count {
-            color: var(--accent);
+            color: var(--accent-cyan);
             margin-left: 5px;
             font-size: 1.1em;
             font-weight: 800;
@@ -157,22 +158,21 @@
             margin-left: 5px;
         }
 
-        /* EFECTO LIQUID GLASSMORPHISM */
+        /* LIQUID GLASSMORPHISM REFINADO */
         .glass-box {
-            background: rgba(17, 17, 17, 0.45); 
+            background: rgba(13, 10, 22, 0.45); 
             backdrop-filter: blur(16px); 
             -webkit-backdrop-filter: blur(16px); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.15); 
-            border-left: 1px solid rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(168, 85, 247, 0.25); 
+            border-left: 1px solid rgba(0, 245, 255, 0.15); 
             border-radius: 20px; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7); 
             position: relative;
             overflow: hidden;
             z-index: 1;
         }
 
-        /* Brillo suave de fondo */
         .glass-box::before {
             content: '';
             position: absolute;
@@ -180,7 +180,7 @@
             left: 0; 
             width: 100%; 
             height: 100%;
-            background: radial-gradient(ellipse at center, rgba(255, 204, 0, 0.1) 0%, transparent 70%);
+            background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.12) 0%, transparent 70%);
             animation: liquidPulse 4s ease-in-out infinite alternate;
             z-index: -1;
             pointer-events: none;
@@ -206,30 +206,29 @@
             text-align: left;
         }
         
-        /* Animación del escáner continuo */
         @keyframes scannerLight {
             0% { left: -100%; }
             25% { left: 200%; }
             100% { left: 200%; }
         }
 
-        /* Botón con efecto escáner continuo */
+        /* Botones con degradado premium e iluminación fluida */
         .btn {
-            background-color: var(--accent);
-            color: #050505; /* Letra negra para contraste con amarillo */
+            background: linear-gradient(135deg, var(--accent), var(--accent-magenta));
+            color: #ffffff;
             border: none;
             padding: 14px;
-            border-radius: 25px; /* Botones más redondeados */
+            border-radius: 25px;
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
             font-size: 1em;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             width: 100%;
             text-transform: uppercase;
             position: relative;
-            overflow: hidden; 
+            overflow: hidden;
         }
         
         .btn::after {
@@ -239,15 +238,14 @@
             left: -100%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
             transform: skewX(-25deg);
-            animation: scannerLight 3.5s infinite ease-in-out; 
+            animation: scannerLight 3.5s infinite ease-in-out;
         }
 
         .btn:hover {
-            background-color: #ffd633; 
             transform: translateY(-3px); 
-            box-shadow: 0 6px 15px var(--accent-glow);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4), 0 6px 20px rgba(255, 0, 127, 0.3);
         }
 
         .btn:active {
@@ -258,28 +256,28 @@
         .bypass-input {
             width: 100%;
             padding: 14px;
-            background-color: rgba(10, 10, 10, 0.7); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 25px; 
+            background-color: rgba(10, 8, 16, 0.7); 
+            border: 1px solid rgba(168, 85, 247, 0.2); 
+            border-radius: 25px;
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
             outline: none;
             transition: all 0.3s;
         }
         .bypass-input:focus {
-            border-color: var(--accent); 
-            background-color: rgba(10, 10, 10, 0.9);
+            border-color: var(--accent-cyan); 
+            background-color: rgba(15, 12, 25, 0.9);
+            box-shadow: 0 0 12px rgba(0, 245, 255, 0.2);
         }
         
-        /* Botón pequeño de pegar */
         .btn-pegar {
             position: absolute; 
             right: 8px; 
             top: 50%; 
             transform: translateY(-50%); 
-            background: rgba(34, 34, 34, 0.8); 
+            background: rgba(30, 25, 45, 0.8); 
             color: var(--text-main); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(168, 85, 247, 0.3); 
             padding: 6px 16px; 
             border-radius: 20px; 
             font-weight: 700; 
@@ -288,22 +286,22 @@
             transition: all 0.2s;
         }
         .btn-pegar:hover {
-            background: var(--accent);
-            color: #050505;
-            border-color: var(--accent);
+            background: var(--accent-cyan);
+            color: #020204;
+            border-color: var(--accent-cyan);
         }
 
         #result-box {
             margin-top: 15px;
             padding: 12px;
-            background-color: rgba(10, 10, 10, 0.8);
-            border-radius: 12px;
+            background-color: rgba(10, 8, 16, 0.8);
+            border-radius: 12px; 
             display: none;
             word-wrap: break-word;
             font-size: 0.9em;
-            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border: 1px dashed rgba(168, 85, 247, 0.3);
         }
-        .clean-link { color: var(--accent); font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
+        .clean-link { color: var(--accent-cyan); font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
         .clean-link:hover { text-decoration: underline; color: #fff;}
 
         .supported-box {
@@ -316,24 +314,25 @@
             text-align: center;
         }
         .tag {
-            background: rgba(17, 17, 17, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(20, 15, 32, 0.6);
+            border: 1px solid rgba(168, 85, 247, 0.15);
             color: var(--text-muted);
             padding: 6px 12px;
-            border-radius: 15px;
+            border-radius: 15px; 
             font-size: 0.75em;
             font-weight: 700;
             transition: all 0.3s;
             cursor: default;
         }
         .tag:hover {
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--accent-cyan);
             color: var(--text-main);
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.15);
         }
         .tag-premium {
-            border-color: rgba(255, 204, 0, 0.5);
-            color: var(--accent);
-            background: rgba(255, 204, 0, 0.1);
+            border-color: rgba(0, 245, 255, 0.4);
+            color: var(--accent-cyan);
+            background: rgba(0, 245, 255, 0.08);
         }
 
         .executors-wrapper {
@@ -344,14 +343,13 @@
             margin-bottom: 35px;
         }
         
-        /* EXECUTORS CON TEXTURA CRISTALINA */
         .executor-btn {
             flex: 1;
             min-width: 130px; 
             padding: 15px 10px;
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             color: var(--text-main);
@@ -367,11 +365,11 @@
             gap: 5px;
         }
         .executor-btn:hover {
-            background: rgba(255, 204, 0, 0.1); 
+            background: rgba(168, 85, 247, 0.08); 
             border-color: var(--accent);
-            color: var(--accent);
+            color: var(--text-main);
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(168, 85, 247, 0.2);
         }
         .click-hint { font-size: 0.75em; color: var(--text-muted); font-weight: 400; }
         
@@ -383,8 +381,8 @@
             margin-bottom: 25px;
         }
         .social-btn {
-            background: rgba(17, 17, 17, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(20, 15, 32, 0.6);
+            border: 1px solid rgba(168, 85, 247, 0.15);
             color: var(--text-main);
             padding: 10px 18px;
             border-radius: 20px; 
@@ -398,16 +396,18 @@
             backdrop-filter: blur(5px);
         }
         .social-btn:hover {
-            background: var(--accent);
-            color: #050505;
-            border-color: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
+            color: #ffffff;
+            border-color: transparent;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
         }
         .social-disabled { opacity: 0.5; cursor: not-allowed; }
         .social-disabled:hover {
-            background: rgba(17, 17, 17, 0.6);
+            background: rgba(20, 15, 32, 0.6);
             color: var(--text-main);
-            transform: none; border-color: rgba(255, 255, 255, 0.1);
+            transform: none; border-color: rgba(168, 85, 247, 0.15);
+            box-shadow: none;
         }
 
         .dev-banner {
@@ -415,10 +415,10 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(5, 5, 5, 0.85);
+            background: rgba(2, 2, 4, 0.85);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(168, 85, 247, 0.15);
             padding: 12px 0;
             display: flex;
             justify-content: center;
@@ -438,7 +438,7 @@
             height: 32px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid #333333;
+            border: 1px solid rgba(168, 85, 247, 0.3);
             box-shadow: none;
         }
 
@@ -454,26 +454,23 @@
 </head>
 <body>
     
-    <!-- Contenedor de Brillos -->
     <div id="particles-container"></div>
 
     <div class="main-panel">
         
         <div class="avatar-container">
-            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="Raika Scripts Logo" class="main-logo">
+            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="RaikaHub Logo" class="main-logo">
         </div>
         
-        <!-- Nombre Actualizado a Raika Scripts -->
-        <h1>Raika Scripts</h1>
+        <h1>RaikaHub</h1>
         
         <div class="live-stats">
             <div class="live-dot"></div>
             Usuarios usando el script: <span class="user-count" id="activeCounter">cargando...</span>
         </div>
 
-        <div class="section-label">Script Principal:</div>
+        <div class="section-label">Script Duels & MM2:</div>
         <div class="script-box glass-box">
-            <!-- Coloca aquí el enlace a tu script actualizado si es necesario -->
             <code id="scriptCode">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
             <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">Copiar Script</button>
         </div>
@@ -491,14 +488,23 @@
 
         <div class="section-label" style="text-align: center; margin-bottom: 15px;">Executors recomendados:</div>
         <div class="executors-wrapper">
-            <a href="https://www.mediafire.com/file/qrmxp1v30v353qf/Delta-2.721.1108.apk/file" class="executor-btn">
+            <a href="https://www.mediafire.com/file/kdqgucdqwlabdjh/Delta-2.718.1110.apk/file" class="executor-btn">
                 🤖 Delta Android
                 <span class="click-hint">(Descarga por Mediafire)</span>
             </a>
             
-            <a href="https://www.mediafire.com/file/yapyp4l8trkxcj0/Delta-2.720.1164.ipa/file" target="_blank" class="executor-btn">
+            <a href="https://www.mediafire.com/file/0wfc0meucwvccbz/Delta-2.717.982.ipa/file" target="_blank" class="executor-btn">
                 🍏 Delta iOS
                 <span class="click-hint">(Descargar por MediaFire)</span>
+            </a>
+
+            <a href="https://www.mediafire.com/file/5teqwhdsk3xazny/Madium1.1.0.rar/file" target="_blank" class="executor-btn">
+                💻 Madium PC
+                <span class="click-hint">(Gratis)</span>
+            </a>
+            <a href="https://gofile.io/d/Mnyt8we" target="_blank" class="executor-btn">
+                💻 Madium PC Updater
+                <span class="click-hint">(Para actualizar Madium)</span>
             </a>
         </div>
 
@@ -550,22 +556,23 @@
             debugger;
             let after = new Date().getTime();
             if (after - before > 100) {
-                document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top: 50px;'>No intentes robar el código 🐀</h1>";
+                document.body.innerHTML = "<h1 style='color:#ff007f; text-align:center; margin-top: 50px;'>No intentes robar el código 🐀</h1>";
             }
         }, 100);
         // ✨ FIN DEL BLOQUE ANTI-SKIDS ✨
+
 
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;
             navigator.clipboard.writeText(codigo).then(function() {
                 boton.innerText = "¡Copiado!";
-                boton.style.backgroundColor = "#ffffff";
-                boton.style.color = "#000";
+                boton.style.background = "#ffffff";
+                boton.style.color = "#000000";
                 
                 setTimeout(function() {
                     boton.innerText = textoOriginal;
-                    boton.style.backgroundColor = "var(--accent)";
-                    boton.style.color = "#050505";
+                    boton.style.background = "";
+                    boton.style.color = "";
                 }, 2000);
             });
         }
@@ -574,13 +581,13 @@
             navigator.clipboard.writeText(texto).then(function() {
                 let textoOriginal = boton.innerText;
                 boton.innerText = "¡Copiado!";
-                boton.style.backgroundColor = "#ffffff";
-                boton.style.color = "#000";
+                boton.style.background = "#ffffff";
+                boton.style.color = "#000000";
                 
                 setTimeout(function() {
                     boton.innerText = textoOriginal;
-                    boton.style.backgroundColor = "var(--accent)";
-                    boton.style.color = "#050505";
+                    boton.style.background = "";
+                    boton.style.color = "";
                 }, 2000);
             }).catch(function(err) {
                 alert("Error al copiar, intenta de nuevo.");
@@ -673,15 +680,15 @@
                         resultBox.innerHTML = `
                             <span style="color: var(--text-main); font-weight: bold;">¡Éxito! Desbloqueado en ${segundosTardados}s</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: #050505; border: none; padding: 8px 15px; border-radius: 4px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Link</button>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Link</button>
                         `;
                     } else {
                         resultBox.innerHTML = `
                             <span style="color: var(--text-main); font-weight: bold;">¡Éxito! Key generada en ${segundosTardados}s</span>
-                            <div style="margin-top: 8px; padding: 12px; background: rgba(5,5,5,0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
+                            <div style="margin-top: 8px; padding: 12px; background: rgba(5,5,5,0.7); border: 1px solid rgba(168,85,247,0.2); border-radius: 12px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
                                 ${resultado}
                             </div>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: var(--accent); color: #050505; border: none; padding: 8px 15px; border-radius: 4px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Key</button>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Key</button>
                         `;
                     }
                 } else {

@@ -42,23 +42,37 @@
             100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
         }
 
-        /* Menú Sidebar */
+        /* --- NUEVA BARRA SUPERIOR FIJA --- */
+        .top-navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+            background: rgba(10, 8, 16, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-color); z-index: 1005;
+            display: flex; align-items: center; padding: 0 20px; box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        
+        .navbar-brand {
+            color: var(--text-main); font-weight: 800; font-size: 1.4em; letter-spacing: 2px;
+            margin-left: 15px; text-transform: uppercase; text-shadow: 0 0 10px var(--accent-glow); cursor: pointer;
+        }
+
+        /* Menú Sidebar Botón (Movido a la navbar) */
         .menu-btn {
-            position: fixed; top: 20px; left: 20px; z-index: 1000; cursor: pointer; width: 45px; height: 45px;
-            background: rgba(13, 10, 22, 0.7); backdrop-filter: blur(10px); border: 1px solid var(--border-color);
+            position: relative; cursor: pointer; width: 45px; height: 45px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; transition: all 0.3s ease;
         }
-        .menu-btn:hover { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 245, 255, 0.2); transform: scale(1.05); }
+        .menu-btn:hover { border-color: var(--accent-cyan); background: rgba(0, 245, 255, 0.1); transform: scale(1.05); }
         .menu-btn span { display: block; width: 22px; height: 2px; background-color: var(--text-main); border-radius: 2px; transition: all 0.3s ease; }
+        
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2, 2, 4, 0.8); backdrop-filter: blur(5px); z-index: 998; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        
         .sidebar {
             position: fixed; top: 0; left: calc(var(--sidebar-width) * -1); width: var(--sidebar-width); height: 100vh;
             background: rgba(10, 8, 16, 0.95); backdrop-filter: blur(20px); border-right: 1px solid var(--border-color);
-            z-index: 999; padding: 80px 0 20px 0; display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.5); overflow-y: auto;
+            z-index: 999; padding: 90px 0 20px 0; display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.5); overflow-y: auto;
         }
         .sidebar.active { left: 0; }
-        .sidebar-brand { padding: 0 25px; margin-bottom: 30px; font-size: 1.5em; font-weight: 800; color: var(--text-main); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px var(--accent-glow); cursor: pointer; }
         .nav-link { padding: 15px 25px; color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 1.1em; display: flex; align-items: center; gap: 15px; transition: all 0.3s ease; position: relative; }
         .nav-link::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background: linear-gradient(90deg, rgba(168, 85, 247, 0.2), transparent); transition: width 0.3s ease; z-index: -1; }
         .nav-link:hover, .nav-link.active { color: var(--text-main); padding-left: 35px; }
@@ -67,7 +81,7 @@
         .nav-link-admin.visible { display: flex; }
 
         /* Estructura Principal */
-        .main-panel { position: relative; z-index: 10; padding: 80px 20px 40px 20px; width: 90%; max-width: 600px; text-align: center; }
+        .main-panel { position: relative; z-index: 10; padding: 100px 20px 40px 20px; width: 95%; max-width: 750px; text-align: center; }
         .page-section { display: none; animation: fadeInPage 0.4s ease forwards; }
         .page-section.active { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -94,52 +108,53 @@
             100% { left: 200%; }
         }
         .btn { background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #ffffff; border: none; padding: 14px; border-radius: 25px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 0.95em; letter-spacing: 1px; cursor: pointer; transition: all 0.2s ease; width: 100%; text-transform: uppercase; position: relative; overflow: hidden; }
-        .btn::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-25deg);
-            animation: scannerLight 3.5s infinite ease-in-out;
-        }
+        .btn::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent); transform: skewX(-25deg); animation: scannerLight 3.5s infinite ease-in-out; }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4), 0 6px 20px rgba(255, 0, 127, 0.3); }
         .btn:active { transform: translateY(0); box-shadow: 0 2px 5px var(--accent-glow); }
-        .btn-back { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 20px; cursor: pointer; font-family: inherit; font-weight: 700; transition: 0.3s; display: block; margin-bottom: 20px; }
+        .btn-back { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 20px; cursor: pointer; font-family: inherit; font-weight: 700; transition: 0.3s; display: block; margin-bottom: 20px; width: fit-content; }
         .btn-back:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); }
         
-        /* Script Cards y Detalles */
+        /* Script Cards */
         .script-card { padding: 20px; margin-bottom: 20px; text-align: left; position: relative; }
         .clickable-card { cursor: pointer; transition: 0.3s; }
         .clickable-card:hover { border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1); transform: translateY(-3px); }
-        /* IMAGEN EN EL CATALOGO Y BOTON CARGAR MAS */
+        
+        /* IMAGEN Y LOAD MORE */
         .card-banner-container { width: 100%; height: 160px; margin-bottom: 15px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.2); }
         .card-banner { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .clickable-card:hover .card-banner { transform: scale(1.08); }
         .load-more-btn { background: rgba(168, 85, 247, 0.1); border: 1px solid var(--accent); color: var(--text-main); padding: 12px 30px; border-radius: 20px; font-family: inherit; font-weight: 800; cursor: pointer; transition: 0.3s; margin: 10px auto 30px auto; display: block; width: fit-content; text-transform: uppercase; letter-spacing: 1px; }
         .load-more-btn:hover { background: var(--accent); color: #fff; box-shadow: 0 0 15px var(--accent-glow); }
 
-        .script-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px; }
-        .script-title { font-size: 1.15em; font-weight: 800; color: var(--text-main); }
+        .script-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .script-title { font-size: 1.25em; font-weight: 800; color: var(--text-main); }
         .script-game-tag { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(0, 245, 255, 0.3); text-transform: uppercase; letter-spacing: 1px; }
-        .tag-key { background: rgba(255, 215, 0, 0.1); color: #ffd700; padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(255, 215, 0, 0.4); letter-spacing: 1px; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); margin-right: 8px; }
+        .tag-key { background: rgba(255, 215, 0, 0.1); color: #ffd700; padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(255, 215, 0, 0.4); letter-spacing: 1px; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); margin-right: 5px; }
         .script-desc { font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; }
-        .script-date { font-size: 0.75em; color: var(--accent); margin-bottom: 15px; font-weight: 600; }
         .script-code-container { background: rgba(0, 0, 0, 0.4); padding: 15px; border-radius: 12px; border: 1px dashed rgba(168, 85, 247, 0.3); display: flex; flex-direction: column; gap: 15px; }
         code { color: var(--text-script); font-family: 'JetBrains Mono', monospace; font-size: 0.90em; word-break: break-all; }
         
+        /* Detalles, Slider y Mostrar Más */
+        .details-main-box { padding: 30px; margin-bottom: 20px; }
         .slider-wrapper { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(168, 85, 247, 0.2); }
         .slider-wrapper::-webkit-scrollbar { display: none; }
-        .slider-img { flex: 0 0 100%; width: 100%; height: 180px; object-fit: cover; scroll-snap-align: start; }
-        .detail-box { background: rgba(0,0,0,0.3); padding: 18px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; text-align: left; }
-        .detail-title { color: var(--accent-cyan); font-weight: 800; margin-bottom: 12px; font-size: 1.05em; display: flex; align-items: center; gap: 8px; }
-        .features-list { list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.9em; line-height: 1.8; }
+        .slider-img { flex: 0 0 100%; width: 100%; height: 200px; object-fit: cover; scroll-snap-align: start; }
+        
+        .detail-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; text-align: left; }
+        .detail-title { color: var(--accent-cyan); font-weight: 800; margin-bottom: 12px; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
+        .features-list { list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95em; line-height: 1.8; }
         .features-list li { margin-bottom: 8px; padding-left: 25px; position: relative; }
         .features-list li::before { content: '•'; position: absolute; left: 0; top: 0; color: var(--accent-cyan); font-weight: bold; font-size: 1.2em; line-height: 1.2; }
 
-        /* Botones e Inputs de Inicio y Bypass */
+        .content-collapse { max-height: 180px; overflow: hidden; position: relative; transition: max-height 0.4s ease; }
+        .content-collapse::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background: linear-gradient(to bottom, transparent, #090710); pointer-events: none; transition: opacity 0.3s; }
+        .content-collapse.expanded { max-height: 3000px; }
+        .content-collapse.expanded::after { opacity: 0; }
+        
+        .btn-show-more { background: rgba(0, 245, 255, 0.08); border: 1px solid rgba(0, 245, 255, 0.3); color: var(--accent-cyan); padding: 8px 18px; border-radius: 12px; font-weight: 700; font-size: 0.85em; cursor: pointer; transition: 0.3s; margin-top: 15px; display: inline-block; }
+        .btn-show-more:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 10px rgba(0, 245, 255, 0.4); }
+
+        /* Botones e Inputs */
         .executors-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
         .executor-btn { flex: 1; min-width: 130px; padding: 15px 10px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.15); background: rgba(255, 255, 255, 0.01); color: var(--text-main); font-weight: 700; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: all 0.3s ease; }
         .executor-btn:hover { background: rgba(168, 85, 247, 0.08); border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(168, 85, 247, 0.2); }
@@ -155,58 +170,64 @@
         .clean-link { color: var(--accent-cyan); font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
         .clean-link:hover { text-decoration: underline; color: #fff;}
 
-        /* Social Badges */
+        /* Badges Redes y Admin */
         .badges-container { display: flex; gap: 8px; flex-wrap: wrap; margin-left: 10px; align-items: center; }
         .social-badge { padding: 4px 8px; border-radius: 8px; font-size: 0.7em; font-weight: 800; color: #fff; text-decoration: none; transition: 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
         .social-badge:hover { transform: scale(1.05); filter: brightness(1.2); }
-        .bg-discord { background: #5865F2; }
-        .bg-youtube { background: #FF0000; }
-        .bg-tiktok { background: #00f5ff; color: #000; }
-        .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .bg-discord { background: #5865F2; } .bg-youtube { background: #FF0000; } .bg-tiktok { background: #00f5ff; color: #000; } .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
 
-        /* ADMIN PANEL CSS */
         .admin-form { display: flex; flex-direction: column; gap: 15px; text-align: left; }
         .admin-input, .admin-textarea { width: 100%; padding: 14px; background: rgba(10, 8, 16, 0.7); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 15px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: 0.3s; }
         .admin-input:focus, .admin-textarea:focus { border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(0,245,255,0.2); }
         .admin-textarea { resize: vertical; min-height: 120px; }
-        
         .admin-controls-wrapper { display: flex; gap: 10px; margin-top: 10px; }
         .btn-delete { background: rgba(255, 50, 50, 0.1); color: #ff5555; border: 1px solid rgba(255, 50, 50, 0.5); padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; }
         .btn-delete:hover { background: #ff5555; color: white; }
-        
         .btn-edit { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; }
         .btn-edit:hover { background: var(--accent-cyan); color: #020204; }
-
         .upload-area { background: rgba(0,0,0,0.3); border: 1px dashed rgba(0, 245, 255, 0.4); padding: 15px; border-radius: 12px; }
         .upload-btn-custom { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.85em; display: inline-block; margin-bottom: 10px;}
         input[type="file"] { display: none; }
         .preview-images { display: flex; gap: 10px; overflow-x: auto; margin-top: 10px; }
         .preview-images img { height: 60px; border-radius: 8px; border: 1px solid var(--accent); }
 
-
         /* Estilos de Comentarios */
-        .comments-wrapper { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
+        .comments-main-box { padding: 25px; margin-top: 0; border-top: 1px solid rgba(168, 85, 247, 0.25); border-top-left-radius: 0; border-top-right-radius: 0; }
         .comments-title { font-size: 1.2em; font-weight: 800; color: var(--text-main); margin-bottom: 15px; text-align: left; }
         .comment-item { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 12px 15px; margin-bottom: 10px; border-left: 3px solid var(--accent); text-align: left; }
         .comment-author { color: var(--accent-cyan); font-weight: 800; font-size: 0.9em; margin-bottom: 4px; display: flex; justify-content: space-between; }
         .comment-date { color: var(--text-muted); font-size: 0.8em; font-weight: 400; }
         .comment-text { color: var(--text-main); font-size: 0.9em; line-height: 1.4; word-break: break-word; }
-        .comment-input-area { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .comment-input-area { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;}
         .comment-row { display: flex; gap: 10px; }
 
-    
+        /* Responsive Mobile Ajustes Finales */
+        @media (max-width: 650px) {
+            .main-panel { width: 100%; padding: 100px 12px 40px 12px; }
+            .details-main-box, .comments-main-box { padding: 18px; }
+            .script-card { padding: 15px; }
+            .glass-box { border-radius: 16px; }
+            .script-title { font-size: 1.2em; }
+            .script-card-header { align-items: flex-start; flex-direction: column; }
+            .slider-img { height: 160px; }
+        }
     </style>
 </head>
 <body>
     <div id="particles-container"></div>
-    <div class="menu-btn" onclick="toggleMenu()">
-        <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span>
+    
+    <!-- BARRA SUPERIOR FIJA (NEW) -->
+    <div class="top-navbar">
+        <div class="menu-btn" onclick="toggleMenu()">
+            <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span>
+        </div>
+        <!-- TRUCO ADMIN: Haz clic 3 veces en "RAIKAHUB" aquí -->
+        <div class="navbar-brand" id="brand-title">RaikaHub</div>
     </div>
+
     <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <nav class="sidebar" id="sidebar">
-        <!-- Truco: Clic 3 veces en "RaikaHub" para ser Admin -->
-        <div class="sidebar-brand" id="brand-title">RaikaHub</div>
         <a href="#" class="nav-link active" onclick="cambiarPagina('inicio', this)">Menu Principal</a>
         <a href="#" class="nav-link" onclick="cambiarPagina('scripts', this)">Mas Scripts</a>
         <a href="#" class="nav-link" onclick="cambiarPagina('bypass', this)">Bypass Delta</a>
@@ -234,9 +255,9 @@
 
             <div class="section-label center" style="margin-top: 35px; color: var(--accent-magenta);">Script Principal RaikaHub</div>
             
-            <!-- TARJETA DEL SCRIPT PRINCIPAL (Actualizable) -->
+            <!-- TARJETA DEL SCRIPT PRINCIPAL -->
             <div class="script-card glass-box" id="main-vip-card" style="border-color: rgba(255, 0, 127, 0.4); box-shadow: 0 0 20px rgba(255, 0, 127, 0.15);">
-                <div class="script-card-header">
+                <div class="script-card-header" style="flex-direction: row;">
                     <span class="script-title" id="main-vip-title">RaikaHub Principal</span>
                     <span class="script-game-tag" id="main-vip-games" style="background: rgba(255, 0, 127, 0.2); color: #ff3377; border-color: rgba(255,0,127,0.5);">Multi-Juego</span>
                 </div>
@@ -269,7 +290,7 @@
 
         <!-- SUBPÁGINA INDIVIDUAL DEL SCRIPT -->
         <section id="page-script-details" class="page-section">
-            <button class="btn-back" onclick="cambiarPagina('scripts')">Volver</button>
+            <button class="btn-back" onclick="cambiarPagina('scripts')">Volver al Catalogo</button>
             <div id="script-details-content"></div>
         </section>
 
@@ -350,11 +371,11 @@
         
         let scriptsDesdeVPS = [];
         let imagenesBase64Cargadas = [];
-        let scriptEnEdicionId = null; // Variable para saber si estamos creando o editando
+        let scriptEnEdicionId = null; 
         
         // VARIABLES DE PAGINACION
         let paginaActual = 1;
-        const SCRIPTS_POR_PAGINA = 5; // Cambia este numero para decidir cuantos mostrar antes de pedir "Cargar mas"
+        const SCRIPTS_POR_PAGINA = 5; 
 
         // Inicializar
         window.onload = function() {
@@ -528,14 +549,12 @@
             }
         }
 
-        // FUNCIÓN PARA EDITAR: Llena el formulario con los datos a editar
         function editarScript(id, event) {
-            event.stopPropagation(); // Evitar que se abra la tarjeta individual
+            event.stopPropagation(); 
             
             const script = scriptsDesdeVPS.find(s => s.id === id);
             if(!script) return;
 
-            // Rellenar formulario
             document.getElementById('admin-titulo').value = script.titulo || '';
             document.getElementById('admin-tag').value = script.tag || '';
             document.getElementById('admin-juegos').value = script.juegos || '';
@@ -550,7 +569,6 @@
             document.getElementById('admin-funciones').value = script.funciones || '';
             document.getElementById('admin-codigo').value = script.codigo || '';
 
-            // Rellenar previsualizacion de imagenes si las tiene
             imagenesBase64Cargadas = script.imagenes || [];
             const container = document.getElementById('preview-container');
             container.innerHTML = '';
@@ -560,13 +578,11 @@
                 container.appendChild(img);
             });
 
-            scriptEnEdicionId = id; // Guardamos el ID que estamos editando
+            scriptEnEdicionId = id; 
             
-            // Cambiar botones visualmente
             document.getElementById('btn-publicar').innerText = "Actualizar Script";
             document.getElementById('btn-cancelar-edicion').style.display = "block";
 
-            // Mandar al admin al formulario
             cambiarPagina('admin', document.getElementById('link-admin'));
         }
 
@@ -605,9 +621,8 @@
             
             try {
                 let url = VPS_API_URL;
-                let metodo = 'POST'; // Por defecto crear uno nuevo
+                let metodo = 'POST'; 
                 
-                // Si estamos editando, usamos PUT y añadimos el ID a la URL
                 if (scriptEnEdicionId) {
                     url = `${VPS_API_URL}/${scriptEnEdicionId}`;
                     metodo = 'PUT';
@@ -621,7 +636,7 @@
 
                 if(response.ok) {
                     alert(scriptEnEdicionId ? 'Script actualizado correctamente.' : 'Script publicado en el servidor mundial.');
-                    cancelarEdicion(); // Limpia formulario y variables
+                    cancelarEdicion();
                     await cargarScriptsDesdeVPS();
                     
                     if(datosScript.esPrincipal) {
@@ -688,15 +703,6 @@
             return badges !== '' ? `<div class="badges-container">${badges}</div>` : '';
         }
 
-        function generarBadgesRedes(script) {
-            let badges = '';
-            if(script.discord) badges += `<a href="${script.discord}" target="_blank" class="social-badge bg-discord">Discord</a>`;
-            if(script.youtube) badges += `<a href="${script.youtube}" target="_blank" class="social-badge bg-youtube">YouTube</a>`;
-            if(script.tiktok) badges += `<a href="${script.tiktok}" target="_blank" class="social-badge bg-tiktok">TikTok</a>`;
-            if(script.instagram) badges += `<a href="${script.instagram}" target="_blank" class="social-badge bg-ig">IG</a>`;
-            return badges !== '' ? `<div class="badges-container">${badges}</div>` : '';
-        }
-
         function renderizarScripts() {
             const container = document.getElementById('dynamic-scripts');
             container.innerHTML = '';
@@ -706,7 +712,6 @@
                 return;
             }
 
-            // --- ACTUALIZAR EL SCRIPT PRINCIPAL DEL INICIO ---
             const scriptPrincipal = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
             if (scriptPrincipal) {
                 let mainKeyBadge = scriptPrincipal.ocupaKey ? '<span class="tag-key">KEY</span>' : '';
@@ -717,10 +722,8 @@
                 document.getElementById('scriptCodeMain').innerText = scriptPrincipal.codigo;
             }
 
-            // Invertir para mostrar los mas nuevos en el catalogo
             const scriptsMostrados = [...scriptsDesdeVPS].reverse();
             
-            // LOGICA DE PAGINACION
             const limite = paginaActual * SCRIPTS_POR_PAGINA;
             const scriptsPagina = scriptsMostrados.slice(0, limite);
 
@@ -733,7 +736,6 @@
 
                 let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
                 
-                // Extraer la primera imagen para la portada
                 let bannerHtml = '';
                 if (script.imagenes && script.imagenes.length > 0) {
                     bannerHtml = `
@@ -747,7 +749,7 @@
                     ${bannerHtml}
                     <div class="script-card-header">
                         <span class="script-title">${script.titulo}</span>
-                        <div style="display: flex; align-items: center;">
+                        <div style="display: flex; align-items: center; flex-wrap:wrap; justify-content:flex-end;">
                             ${keyBadge}
                             <span class="script-game-tag">${script.juegos || script.tag}</span>
                         </div>
@@ -770,7 +772,6 @@
                 container.innerHTML += html;
             });
             
-            // Boton de "Cargar mas" si aun quedan scripts ocultos
             if (scriptsMostrados.length > limite) {
                 container.innerHTML += `<button class="load-more-btn" onclick="cargarMasScripts()">⬇️ Cargar más scripts</button>`;
             }
@@ -781,6 +782,18 @@
             renderizarScripts();
         }
 
+        function toggleShowMore(contentId, btnId) {
+            const content = document.getElementById(contentId);
+            const btn = document.getElementById(btnId);
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                btn.innerText = 'Mostrar más';
+            } else {
+                content.classList.add('expanded');
+                btn.innerText = 'Mostrar menos';
+            }
+        }
+
         let sliderInterval;
         function abrirDetalles(id) {
             const script = scriptsDesdeVPS.find(s => s.id === id);
@@ -789,7 +802,6 @@
             const container = document.getElementById('script-details-content');
             if(sliderInterval) clearInterval(sliderInterval);
 
-            // Slider
             let sliderHtml = '';
             if (script.imagenes && script.imagenes.length > 0) {
                 sliderHtml = `<div class="slider-wrapper" id="current-slider">`;
@@ -799,16 +811,14 @@
                 sliderHtml += `</div>`;
             }
 
-            // Funciones
             let featuresHtml = '';
             if (script.funciones && script.funciones.trim() !== '') {
                 let funcList = script.funciones.split('\n').filter(f => f.trim() !== '').map(f => `<li>${f.trim()}</li>`).join('');
-                featuresHtml = `<div class="detail-box"><div class="detail-title">Funciones Principales</div><ul class="features-list">${funcList}</ul></div>`;
+                featuresHtml = `<div class="detail-title" style="margin-top: 20px;">Funciones Principales</div><ul class="features-list">${funcList}</ul>`;
             }
 
             let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
 
-            // GENERAR SECCIÓN DE COMENTARIOS
             let listaComentarios = script.comentarios || [];
             let htmlComentarios = '';
             if(listaComentarios.length === 0) {
@@ -824,8 +834,8 @@
             }
 
             container.innerHTML = `
-                <!-- PRIMERA CAJA: DETALLES Y CÓDIGO -->
-                <div class="glass-box" style="padding: 25px; margin-bottom: 20px;">
+                <!-- CAJA PRINCIPAL DETALLES -->
+                <div class="glass-box details-main-box">
                     <div class="script-card-header" style="flex-direction: column; align-items: flex-start; gap: 10px; border-bottom: none; margin-bottom: 20px;">
                         <span class="script-title" style="font-size: 1.6em; text-shadow: 0 0 15px var(--accent-glow);">${script.titulo}</span>
                         <div style="display: flex; gap: 8px; align-items: center; align-self: flex-start;">
@@ -842,11 +852,13 @@
                     </div>
 
                     <div class="detail-box">
-                        <div class="detail-title">Descripcion General</div>
-                        <p style="color: var(--text-muted); font-size: 0.95em; line-height: 1.6;">${script.descripcion}</p>
+                        <div id="desc-content" class="content-collapse">
+                            <div class="detail-title">Descripcion General</div>
+                            <p style="color: var(--text-muted); font-size: 0.95em; line-height: 1.6;">${script.descripcion}</p>
+                            ${featuresHtml}
+                        </div>
+                        <button id="btn-show-more" class="btn-show-more" onclick="toggleShowMore('desc-content', 'btn-show-more')">Mostrar más</button>
                     </div>
-
-                    ${featuresHtml}
 
                     <div class="detail-box" style="border-color: rgba(168, 85, 247, 0.4); box-shadow: inset 0 0 20px rgba(168,85,247,0.05); margin-bottom: 0;">
                         <div class="detail-title" style="color: var(--accent);">Codigo del Script</div>
@@ -857,8 +869,8 @@
                     </div>
                 </div>
 
-                <!-- SEGUNDA CAJA INDEPENDIENTE: COMENTARIOS -->
-                <div class="glass-box comments-wrapper" style="padding: 25px; margin-top: 0; border-top: 1px solid rgba(168, 85, 247, 0.25);">
+                <!-- CAJA INDEPENDIENTE COMENTARIOS -->
+                <div class="glass-box comments-main-box">
                     <div class="comments-title" style="display: flex; align-items: center; gap: 10px;">
                         Comentarios 
                         <span style="background: var(--accent-cyan); color: #000; padding: 2px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800;">${listaComentarios.length}</span>
@@ -868,7 +880,7 @@
                         ${htmlComentarios}
                     </div>
                     
-                    <div class="comment-input-area" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; margin-top: 15px;">
+                    <div class="comment-input-area">
                         <input type="text" id="comentario-autor" class="admin-input" placeholder="Tu Nombre de usuario" maxlength="20">
                         <div class="comment-row">
                             <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu opinion del script..." maxlength="120" style="flex: 3;">
@@ -879,6 +891,14 @@
             `;
 
             setTimeout(() => {
+                const contentDiv = document.getElementById('desc-content');
+                const btnMore = document.getElementById('btn-show-more');
+                // Magia para desaparecer el boton de mostrar mas si hay muy poco texto
+                if (contentDiv && contentDiv.scrollHeight <= 180) {
+                    btnMore.style.display = 'none';
+                    contentDiv.classList.remove('content-collapse'); 
+                }
+
                 const slider = document.getElementById('current-slider');
                 if(slider && slider.children.length > 1) {
                     sliderInterval = setInterval(() => {
@@ -999,7 +1019,6 @@
                 });
 
                 if(response.ok) {
-                    // Recargar la base de datos y volver a abrir los detalles para ver el comentario
                     await cargarScriptsDesdeVPS();
                     abrirDetalles(scriptId);
                 } else {

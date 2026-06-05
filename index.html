@@ -172,7 +172,7 @@
             z-index: 1;
         }
 
-        /* Brillo suave de fondo (Corregido para que no se vea rectangular) */
+        /* Brillo suave de fondo */
         .glass-box::before {
             content: '';
             position: absolute;
@@ -210,7 +210,7 @@
         @keyframes scannerLight {
             0% { left: -100%; }
             25% { left: 200%; }
-            100% { left: 200%; } /* Pausa para que no sea estresante a la vista */
+            100% { left: 200%; }
         }
 
         /* Botón con efecto escáner continuo */
@@ -229,7 +229,7 @@
             width: 100%;
             text-transform: uppercase;
             position: relative;
-            overflow: hidden; /* Importante para el efecto de luz */
+            overflow: hidden; 
         }
         
         .btn::after {
@@ -241,7 +241,7 @@
             height: 100%;
             background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
             transform: skewX(-25deg);
-            animation: scannerLight 3.5s infinite ease-in-out; /* Pasa de forma automática */
+            animation: scannerLight 3.5s infinite ease-in-out; 
         }
 
         .btn:hover {
@@ -260,7 +260,7 @@
             padding: 14px;
             background-color: rgba(10, 10, 10, 0.7); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 25px; /* Input más redondeado */
+            border-radius: 25px; 
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
             outline: none;
@@ -280,8 +280,8 @@
             background: rgba(34, 34, 34, 0.8); 
             color: var(--text-main); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
-            padding: 6px 16px; /* Ajuste de padding para compensar el borde redondeado */
-            border-radius: 20px; /* Botón pequeño más redondeado */
+            padding: 6px 16px; 
+            border-radius: 20px; 
             font-weight: 700; 
             cursor: pointer; 
             font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -297,7 +297,7 @@
             margin-top: 15px;
             padding: 12px;
             background-color: rgba(10, 10, 10, 0.8);
-            border-radius: 12px; /* Resultado más redondeado */
+            border-radius: 12px;
             display: none;
             word-wrap: break-word;
             font-size: 0.9em;
@@ -320,7 +320,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             color: var(--text-muted);
             padding: 6px 12px;
-            border-radius: 15px; /* Etiquetas más redondeadas */
+            border-radius: 15px;
             font-size: 0.75em;
             font-weight: 700;
             transition: all 0.3s;
@@ -387,7 +387,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-main);
             padding: 10px 18px;
-            border-radius: 20px; /* Botones sociales más redondeados */
+            border-radius: 20px; 
             text-decoration: none;
             font-weight: 700;
             font-size: 0.9em;
@@ -460,18 +460,20 @@
     <div class="main-panel">
         
         <div class="avatar-container">
-            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="RaikaHub Logo" class="main-logo">
+            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="Raika Scripts Logo" class="main-logo">
         </div>
         
-        <h1>RaikaHub</h1>
+        <!-- Nombre Actualizado a Raika Scripts -->
+        <h1>Raika Scripts</h1>
         
         <div class="live-stats">
             <div class="live-dot"></div>
             Usuarios usando el script: <span class="user-count" id="activeCounter">cargando...</span>
         </div>
 
-        <div class="section-label">Script Duels & MM2:</div>
+        <div class="section-label">Script Principal:</div>
         <div class="script-box glass-box">
+            <!-- Coloca aquí el enlace a tu script actualizado si es necesario -->
             <code id="scriptCode">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
             <button class="btn" id="copyScriptBtn" onclick="copiarTexto('scriptCode', this, 'Copiar Script')">Copiar Script</button>
         </div>
@@ -498,8 +500,6 @@
                 🍏 Delta iOS
                 <span class="click-hint">(Descargar por MediaFire)</span>
             </a>
-
-            
         </div>
 
         <div class="section-label" style="text-align: center; margin-bottom: 12px;">Sitios Soportados:</div>
@@ -554,7 +554,6 @@
             }
         }, 100);
         // ✨ FIN DEL BLOQUE ANTI-SKIDS ✨
-
 
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;

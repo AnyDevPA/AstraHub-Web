@@ -56,7 +56,7 @@
         }
         .top-navbar-brand img { height: 35px; width: 35px; border-radius: 50%; border: 1px solid var(--accent); }
 
-        /* Menú Sidebar */
+        /* Menú Sidebar Botón GLOBAL (Z-index 1000 para que SIEMPRE este arriba) */
         .menu-btn {
             position: fixed; top: 12px; left: 15px; z-index: 1000; cursor: pointer; width: 45px; height: 45px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
@@ -209,11 +209,13 @@
 <body>
     <div id="particles-container"></div>
     
+    <!-- EL BOTÓN ESTÁ AHORA AFUERA DE LA BARRA PARA NO QUEDAR ATRAPADO -->
+    <div class="menu-btn" onclick="toggleMenu()">
+        <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span>
+    </div>
+
     <!-- BARRA SUPERIOR FIJA -->
     <div class="top-navbar">
-        <div class="menu-btn" onclick="toggleMenu()">
-            <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span>
-        </div>
         <!-- El titulo de aqui arriba es el que tiene el truco de los 3 clics para el panel Admin -->
         <div class="top-navbar-brand" id="brand-title">
             <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="Logo">
@@ -224,6 +226,7 @@
     <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <nav class="sidebar" id="sidebar">
+        <!-- Logo en el menú lateral para que no se vea vacío -->
         <div style="text-align: center; margin-bottom: 25px;">
             <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="Logo" style="width: 80px; border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 0 20px var(--accent-glow); margin-bottom: 10px;">
             <div style="font-weight: 800; color: var(--text-main); letter-spacing: 2px; text-transform: uppercase; font-size: 1.2em; text-shadow: 0 0 10px var(--accent-glow);">RaikaHub</div>
@@ -287,7 +290,7 @@
 
         <!-- SUBPÁGINA INDIVIDUAL DEL SCRIPT -->
         <section id="page-script-details" class="page-section">
-            <button class="btn-back" onclick="cambiarPagina('scripts')">Volver al Catalogo</button>
+            <button class="btn-back" onclick="cambiarPagina('scripts')">Volver</button>
             <div id="script-details-content"></div>
         </section>
 
@@ -451,7 +454,7 @@
         function copiarAlPortapapeles(texto, boton) {
             navigator.clipboard.writeText(texto).then(function() {
                 let textoOriginal = boton.innerText;
-                boton.innerText = "¡Copiado!";
+                boton.innerText = "Copiado!";
                 boton.style.background = "#ffffff";
                 boton.style.color = "#000000";
                 
@@ -483,7 +486,7 @@
             const tiempoInicio = performance.now();
             let cronometroActivo = setInterval(() => {
                 let tiempoActual = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
-                resultBox.innerHTML = `<span style='color: var(--text-muted); font-weight: bold;'>Bypasseando... ${tiempoActual}s ⚡</span>`;
+                resultBox.innerHTML = `<span style='color: var(--text-muted); font-weight: bold;'>Bypasseando... ${tiempoActual}s</span>`;
             }, 100); 
 
             try {
@@ -504,13 +507,13 @@
                     
                     if (resultado.startsWith("http")) {
                         resultBox.innerHTML = `
-                            <span style="color: var(--text-main); font-weight: bold;">¡Exito! Desbloqueado en ${segundosTardados}s</span>
+                            <span style="color: var(--text-main); font-weight: bold;">Exito! Desbloqueado en ${segundosTardados}s</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
                             <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Link</button>
                         `;
                     } else {
                         resultBox.innerHTML = `
-                            <span style="color: var(--text-main); font-weight: bold;">¡Exito! Key generada en ${segundosTardados}s</span>
+                            <span style="color: var(--text-main); font-weight: bold;">Exito! Key generada en ${segundosTardados}s</span>
                             <div style="margin-top: 8px; padding: 12px; background: rgba(5,5,5,0.7); border: 1px solid rgba(168,85,247,0.2); border-radius: 12px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
                                 ${resultado}
                             </div>
@@ -722,8 +725,8 @@
             scriptsPagina.forEach((script) => {
                 let adminControls = isAdminLoggedIn ? `
                 <div class="admin-controls-wrapper">
-                    <button class="btn-edit" onclick="editarScript('${script.id}', event)">✏️ Editar</button>
-                    <button class="btn-delete" onclick="eliminarScript('${script.id}', event)">🗑️ Eliminar</button>
+                    <button class="btn-edit" onclick="editarScript('${script.id}', event)">Editar</button>
+                    <button class="btn-delete" onclick="eliminarScript('${script.id}', event)">Eliminar</button>
                 </div>` : '';
 
                 let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
@@ -765,7 +768,7 @@
             });
             
             if (scriptsMostrados.length > limite) {
-                container.innerHTML += `<button class="load-more-btn" onclick="cargarMasScripts()">⬇️ Cargar más scripts</button>`;
+                container.innerHTML += `<button class="load-more-btn" onclick="cargarMasScripts()">Cargar más scripts</button>`;
             }
         }
         
@@ -833,8 +836,8 @@
 
                     let esMiComentario = misComentariosLocales.includes(c.id);
                     
-                    let btnEditar = esMiComentario ? `<button onclick="habilitarEdicion('${script.id}', '${c.id}')" style="background:none; border:none; color:var(--accent-cyan); font-size:0.85em; cursor:pointer; font-weight:bold; font-family:inherit;">✏️ Editar</button>` : '';
-                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentario('${script.id}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.85em; cursor:pointer; font-weight:bold; font-family:inherit;">🗑️ Eliminar</button>` : '';
+                    let btnEditar = esMiComentario ? `<button onclick="habilitarEdicion('${script.id}', '${c.id}')" style="background:none; border:none; color:var(--accent-cyan); font-size:0.85em; cursor:pointer; font-weight:bold; font-family:inherit;">Editar</button>` : '';
+                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentario('${script.id}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.85em; cursor:pointer; font-weight:bold; font-family:inherit;">Eliminar</button>` : '';
                     
                     let etiquetaEditado = c.editado ? `<span style="font-size: 0.75em; color: var(--text-muted); font-style: italic; font-weight: normal; margin-left: 5px;">(editado)</span>` : '';
 
@@ -856,7 +859,7 @@
                             <input type="text" id="input-edit-${c.id}" class="admin-input" style="width: 100%; padding: 10px 12px; border-radius: 8px; font-size: 0.9em; margin-bottom: 8px;" value="${safeText}">
                             <div style="display:flex; gap: 10px; justify-content: flex-end;">
                                 <button onclick="cancelarEdicionComentario('${c.id}')" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8em; font-family: inherit;">Cancelar</button>
-                                <button onclick="guardarEdicion('${script.id}', '${c.id}')" style="background: var(--accent-cyan); color: #000; border: none; padding: 6px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8em; font-family: inherit;">💾 Guardar</button>
+                                <button onclick="guardarEdicion('${script.id}', '${c.id}')" style="background: var(--accent-cyan); color: #000; border: none; padding: 6px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8em; font-family: inherit;">Guardar</button>
                             </div>
                         </div>
 
@@ -1022,7 +1025,7 @@
             });
         }
         
-        // Anti-Skids (Click derecho, etc)
+        // Anti-Skids
         document.addEventListener('contextmenu', event => event.preventDefault()); 
         document.onkeydown = function(e) {
             if(e.keyCode == 123) { return false; } 
@@ -1142,7 +1145,7 @@
             let before = new Date().getTime();
             debugger;
             let after = new Date().getTime();
-            if (after - before > 100) { document.body.innerHTML = "<h1 style='color:#ff007f; text-align:center; margin-top: 50px;'>No intentes robar el codigo 🐀</h1>"; }
+            if (after - before > 100) { document.body.innerHTML = "<h1 style='color:#ff007f; text-align:center; margin-top: 50px;'>No intentes robar el codigo</h1>"; }
         }, 100);
 
         // Partículas de fondo

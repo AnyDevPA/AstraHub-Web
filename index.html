@@ -67,7 +67,7 @@
         .nav-link-admin.visible { display: flex; }
 
         /* Estructura Principal */
-        .main-panel { position: relative; z-index: 10; padding: 80px 20px 80px 20px; width: 90%; max-width: 600px; text-align: center; } /* Añadido padding abajo por el banner */
+        .main-panel { position: relative; z-index: 10; padding: 80px 20px 80px 20px; width: 90%; max-width: 600px; text-align: center; }
         .page-section { display: none; animation: fadeInPage 0.4s ease forwards; }
         .page-section.active { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -162,8 +162,14 @@
         .admin-input, .admin-textarea { width: 100%; padding: 14px; background: rgba(10, 8, 16, 0.7); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 15px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: 0.3s; }
         .admin-input:focus, .admin-textarea:focus { border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(0,245,255,0.2); }
         .admin-textarea { resize: vertical; min-height: 120px; }
-        .btn-delete { background: rgba(255, 50, 50, 0.1); color: #ff5555; border: 1px solid rgba(255, 50, 50, 0.5); padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
+        
+        .admin-controls-wrapper { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-delete { background: rgba(255, 50, 50, 0.1); color: #ff5555; border: 1px solid rgba(255, 50, 50, 0.5); padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; }
         .btn-delete:hover { background: #ff5555; color: white; }
+        
+        .btn-edit { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; }
+        .btn-edit:hover { background: var(--accent-cyan); color: #020204; }
+
         .upload-area { background: rgba(0,0,0,0.3); border: 1px dashed rgba(0, 245, 255, 0.4); padding: 15px; border-radius: 12px; }
         .upload-btn-custom { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.85em; display: inline-block; margin-bottom: 10px;}
         input[type="file"] { display: none; }
@@ -272,7 +278,7 @@
             <div class="section-label" style="text-align: center; font-size: 1.1em; color: #ff3377;">Panel de Control (Admin VPS)</div>
             
             <div class="glass-box" style="padding: 25px;">
-                <p class="script-desc" style="text-align: center; margin-bottom: 20px;">Sube scripts directamente a la base de datos del servidor.</p>
+                <p class="script-desc" style="text-align: center; margin-bottom: 20px;">Sube o actualiza scripts en la base de datos mundial.</p>
                 
                 <form id="form-admin" class="admin-form" onsubmit="publicarScript(event)">
                     <input type="text" id="admin-titulo" class="admin-input" placeholder="Titulo del Script (Ej: Aimbot Pro)" required>
@@ -311,7 +317,10 @@
                     <textarea id="admin-funciones" class="admin-textarea" style="min-height: 80px;" placeholder="Funciones (Separadas por Enter)"></textarea>
                     <textarea id="admin-codigo" class="admin-textarea" placeholder="Pega el codigo Lua aqui..." required style="font-family: monospace;"></textarea>
                     
-                    <button type="submit" id="btn-publicar" class="btn" style="background: linear-gradient(135deg, #00f5ff, #a855f7); color: #020204;">Publicar en VPS</button>
+                    <div style="display:flex; gap: 10px;">
+                        <button type="submit" id="btn-publicar" class="btn" style="background: linear-gradient(135deg, #00f5ff, #a855f7); color: #020204; flex: 2;">Publicar / Guardar</button>
+                        <button type="button" id="btn-cancelar-edicion" class="btn" style="background: rgba(255,255,255,0.1); color: #fff; flex: 1; display: none;" onclick="cancelarEdicion()">Cancelar</button>
+                    </div>
                 </form>
             </div>
         </section>
@@ -328,16 +337,14 @@
 
     <script>
         // ==========================================
-        // CONFIGURACIÓN DE TU VPS (¡MUY IMPORTANTE!)
+        // CONFIGURACIÓN DE TU VPS
         // ==========================================
-        // Cambia 'localhost' por la IP de tu VPS si vas a probarlo en vivo.
-        // Ejemplo: const VPS_API_URL = 'http://142.250.190.46:3000/api/scripts';
         const VPS_API_URL = 'https://scripts.astrahub.space/api/scripts'; 
         
         let scriptsDesdeVPS = [];
         let imagenesBase64Cargadas = [];
+        let scriptEnEdicionId = null; // Variable para saber si estamos creando o editando
 
-        // Inicializar
         window.onload = function() { 
             cargarScriptsDesdeVPS();
             checkCooldown();
@@ -492,7 +499,7 @@
         }
 
         // ==========================================
-        // CONEXIÓN CON EL BACKEND (VPS)
+        // CONEXIÓN CON EL BACKEND (VPS) Y EDICIÓN
         // ==========================================
         async function cargarScriptsDesdeVPS() {
             try {
@@ -504,17 +511,69 @@
                     document.getElementById('dynamic-scripts').innerHTML = '<p style="color:red; text-align:center;">Error al conectar con el servidor VPS.</p>';
                 }
             } catch(error) {
-                console.log("No se pudo conectar al VPS. Revisa que el backend este encendido.", error);
+                console.log("No se pudo conectar al VPS.", error);
                 document.getElementById('dynamic-scripts').innerHTML = '<p style="color:var(--text-muted); text-align:center;">El servidor de base de datos esta apagado actualmente.</p>';
             }
+        }
+
+        // FUNCIÓN PARA EDITAR: Llena el formulario con los datos a editar
+        function editarScript(id, event) {
+            event.stopPropagation(); // Evitar que se abra la tarjeta individual
+            
+            const script = scriptsDesdeVPS.find(s => s.id === id);
+            if(!script) return;
+
+            // Rellenar formulario
+            document.getElementById('admin-titulo').value = script.titulo || '';
+            document.getElementById('admin-tag').value = script.tag || '';
+            document.getElementById('admin-juegos').value = script.juegos || '';
+            document.getElementById('admin-es-principal').checked = script.esPrincipal || false;
+            document.getElementById('admin-ocupa-key').checked = script.ocupaKey || false;
+            document.getElementById('admin-creador').value = script.creador || '';
+            document.getElementById('admin-discord').value = script.discord || '';
+            document.getElementById('admin-youtube').value = script.youtube || '';
+            document.getElementById('admin-tiktok').value = script.tiktok || '';
+            document.getElementById('admin-instagram').value = script.instagram || '';
+            document.getElementById('admin-desc').value = script.descripcion || '';
+            document.getElementById('admin-funciones').value = script.funciones || '';
+            document.getElementById('admin-codigo').value = script.codigo || '';
+
+            // Rellenar previsualizacion de imagenes si las tiene
+            imagenesBase64Cargadas = script.imagenes || [];
+            const container = document.getElementById('preview-container');
+            container.innerHTML = '';
+            imagenesBase64Cargadas.forEach(base64 => {
+                const img = document.createElement('img');
+                img.src = base64;
+                container.appendChild(img);
+            });
+
+            scriptEnEdicionId = id; // Guardamos el ID que estamos editando
+            
+            // Cambiar botones visualmente
+            document.getElementById('btn-publicar').innerText = "Actualizar Script";
+            document.getElementById('btn-cancelar-edicion').style.display = "block";
+
+            // Mandar al admin al formulario
+            cambiarPagina('admin', document.getElementById('link-admin'));
+        }
+
+        function cancelarEdicion() {
+            scriptEnEdicionId = null;
+            document.getElementById('form-admin').reset();
+            document.getElementById('preview-container').innerHTML = '';
+            imagenesBase64Cargadas = [];
+            
+            document.getElementById('btn-publicar').innerText = "Publicar en VPS";
+            document.getElementById('btn-cancelar-edicion').style.display = "none";
         }
 
         async function publicarScript(event) {
             event.preventDefault();
             const btn = document.getElementById('btn-publicar');
-            btn.innerText = "Subiendo..."; btn.disabled = true;
+            btn.innerText = "Guardando..."; btn.disabled = true;
 
-            const nuevoScript = {
+            const datosScript = {
                 titulo: document.getElementById('admin-titulo').value,
                 tag: document.getElementById('admin-tag').value,
                 juegos: document.getElementById('admin-juegos').value,
@@ -533,21 +592,27 @@
             };
             
             try {
-                const response = await fetch(VPS_API_URL, {
-                    method: 'POST',
+                let url = VPS_API_URL;
+                let metodo = 'POST'; // Por defecto crear uno nuevo
+                
+                // Si estamos editando, usamos PUT y añadimos el ID a la URL
+                if (scriptEnEdicionId) {
+                    url = `${VPS_API_URL}/${scriptEnEdicionId}`;
+                    metodo = 'PUT';
+                }
+
+                const response = await fetch(url, {
+                    method: metodo,
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(nuevoScript)
+                    body: JSON.stringify(datosScript)
                 });
 
                 if(response.ok) {
-                    alert('Script publicado en el servidor mundial.');
-                    document.getElementById('form-admin').reset();
-                    document.getElementById('preview-container').innerHTML = '';
-                    imagenesBase64Cargadas = [];
+                    alert(scriptEnEdicionId ? 'Script actualizado correctamente.' : 'Script publicado en el servidor mundial.');
+                    cancelarEdicion(); // Limpia formulario y variables
                     await cargarScriptsDesdeVPS();
                     
-                    // Si lo marcó como principal, llevarlo al inicio para que vea el cambio
-                    if(nuevoScript.esPrincipal) {
+                    if(datosScript.esPrincipal) {
                         cambiarPagina('inicio', document.querySelectorAll('.nav-link')[0]);
                     } else {
                         cambiarPagina('scripts', document.querySelectorAll('.nav-link')[1]);
@@ -563,7 +628,7 @@
         }
 
         async function eliminarScript(id, event) {
-            event.stopPropagation(); // Evita que se abra la pagina de detalles al hacer click
+            event.stopPropagation();
             if(confirm("Deseas eliminar este script de la base de datos mundial permanentemente?")) {
                 try {
                     const response = await fetch(`${VPS_API_URL}/${id}`, { method: 'DELETE' });
@@ -620,24 +685,24 @@
                 return;
             }
 
-            // --- ACTUALIZAR EL SCRIPT PRINCIPAL DEL INICIO ---
-            // Buscamos el ultimo script subido que tenga "esPrincipal" en true
             const scriptPrincipal = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
             if (scriptPrincipal) {
                 let mainKeyBadge = scriptPrincipal.ocupaKey ? '<span class="tag-key">KEY</span>' : '';
                 document.getElementById('main-vip-title').innerText = scriptPrincipal.titulo;
-                // Agregamos el badge de key si lo tiene al inicio
                 document.getElementById('main-vip-games').innerHTML = mainKeyBadge + (scriptPrincipal.juegos || scriptPrincipal.tag);
                 document.getElementById('main-vip-creator').innerText = scriptPrincipal.creador;
                 document.getElementById('main-vip-desc').innerText = scriptPrincipal.descripcion;
                 document.getElementById('scriptCodeMain').innerText = scriptPrincipal.codigo;
             }
 
-            // Invertir para mostrar los mas nuevos en el catalogo
             const scriptsMostrados = [...scriptsDesdeVPS].reverse();
 
             scriptsMostrados.forEach((script) => {
-                let adminControls = isAdminLoggedIn ? `<button class="btn-delete" onclick="eliminarScript('${script.id}', event)">Eliminar (Admin)</button>` : '';
+                let adminControls = isAdminLoggedIn ? `
+                <div class="admin-controls-wrapper">
+                    <button class="btn-edit" onclick="editarScript('${script.id}', event)">✏️ Editar</button>
+                    <button class="btn-delete" onclick="eliminarScript('${script.id}', event)">🗑️ Eliminar</button>
+                </div>` : '';
 
                 let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
 
@@ -799,7 +864,7 @@
                         isAdminLoggedIn = true;
                         document.getElementById('link-admin').classList.add('visible');
                         alert("Panel de Control Activado.");
-                        renderizarScripts(); // Re-renderizar para mostrar botones de eliminar
+                        renderizarScripts(); // Re-renderizar para mostrar botones de eliminar/editar
                     }
                 } else {
                     document.getElementById('link-admin').classList.toggle('visible');

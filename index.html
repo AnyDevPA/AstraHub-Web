@@ -3,30 +3,1160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No Disponible</title>
+    <title>RaikaHub | Scripts</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            background-color: #020204;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: monospace;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
+        :root {
+            --bg-dark: #020204;
+            --accent: #a855f7; 
+            --accent-glow: rgba(168, 85, 247, 0.35);
+            --accent-cyan: #00f5ff; 
+            --accent-magenta: #ff007f; 
+            --text-main: #ffffff; 
+            --text-muted: #8e8a9f; 
+            --box-bg: rgba(13, 10, 22, 0.45); 
+            --text-script: #ffffff; 
+            --border-color: rgba(168, 85, 247, 0.2); 
+            --sidebar-width: 260px;
         }
-        h1 {
-            /* El tamaño se ajusta automáticamente dependiendo de la pantalla */
-            font-size: clamp(1.5rem, 6vw, 3rem); 
-            margin: 0;
-            word-wrap: break-word;
+        * { 
+            box-sizing: border-box; margin: 0; padding: 0; 
+            user-select: none; -webkit-user-select: none;
+        }
+        input, textarea, code, .bypass-input, #result-box, #result-box * {
+            user-select: text; -webkit-user-select: text;
+        }
+        html, body {
+            background-color: var(--bg-dark); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative;
+        }
+
+        #particles-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; overflow: hidden; }
+        .particle { position: absolute; border-radius: 50%; background-color: var(--accent); box-shadow: 0 0 8px var(--accent); opacity: 0; animation: floatParticle linear infinite; }
+        @keyframes floatParticle {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            30% { opacity: 0.25; transform: translateY(-30px) scale(1); }
+            70% { opacity: 0.25; transform: translateY(-70px) scale(1); }
+            100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+        }
+
+        /* BARRA SUPERIOR (NAVBAR) */
+        .top-navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+            background: rgba(10, 8, 16, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2); z-index: 900;
+            display: flex; align-items: center; padding: 0 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        .top-navbar-brand {
+            font-size: 1.5em; font-weight: 800; color: var(--text-main);
+            letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px var(--accent-glow);
+            margin-left: 60px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+        }
+        .top-navbar-brand img { height: 35px; width: 35px; border-radius: 50%; border: 1px solid var(--accent); }
+
+        /* Menú Sidebar Botón GLOBAL (Z-index 1000 para que SIEMPRE este arriba) */
+        .menu-btn {
+            position: fixed; top: 12px; left: 15px; z-index: 1000; cursor: pointer; width: 45px; height: 45px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; transition: all 0.3s ease;
+        }
+        .menu-btn:hover { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 245, 255, 0.2); transform: scale(1.05); background: rgba(0, 245, 255, 0.1); }
+        .menu-btn span { display: block; width: 22px; height: 2px; background-color: var(--text-main); border-radius: 2px; transition: all 0.3s ease; }
+        
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2, 2, 4, 0.8); backdrop-filter: blur(5px); z-index: 998; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        .sidebar {
+            position: fixed; top: 0; left: calc(var(--sidebar-width) * -1); width: var(--sidebar-width); height: 100vh;
+            background: rgba(10, 8, 16, 0.95); backdrop-filter: blur(20px); border-right: 1px solid var(--border-color);
+            z-index: 999; padding: 90px 0 20px 0; display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.5); overflow-y: auto;
+        }
+        .sidebar.active { left: 0; }
+        .nav-link { padding: 15px 25px; color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 1.1em; display: flex; align-items: center; gap: 15px; transition: all 0.3s ease; position: relative; }
+        .nav-link::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background: linear-gradient(90deg, rgba(168, 85, 247, 0.2), transparent); transition: width 0.3s ease; z-index: -1; }
+        .nav-link:hover, .nav-link.active { color: var(--text-main); padding-left: 35px; }
+        .nav-link:hover::before, .nav-link.active::before { width: 100%; border-left: 4px solid var(--accent-cyan); }
+        .nav-link-admin { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); color: #ff3377; display: none; }
+        .nav-link-admin.visible { display: flex; }
+
+        /* Estructura Principal */
+        .main-panel { position: relative; z-index: 10; padding: 100px 20px 40px 20px; width: 95%; max-width: 750px; text-align: center; }
+        .page-section { display: none; animation: fadeInPage 0.4s ease forwards; }
+        .page-section.active { display: block; }
+        @keyframes fadeInPage { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Stats y Titles */
+        @keyframes titleGlow { 0% { text-shadow: 0 0 4px rgba(168, 85, 247, 0.2); } 50% { text-shadow: 0 0 15px rgba(0, 245, 255, 0.5); } 100% { text-shadow: 0 0 4px rgba(168, 85, 247, 0.2); } }
+        .live-stats { margin-bottom: 30px; font-size: 0.9em; color: var(--text-muted); font-weight: 700; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 20px; width: fit-content; margin: 0 auto 30px auto; border: 1px solid rgba(255,255,255,0.05); }
+        .live-dot { width: 8px; height: 8px; background-color: var(--accent-cyan); border-radius: 50%; margin-right: 8px; animation: pulseCyan 2s infinite; }
+        @keyframes pulseCyan { 0% { box-shadow: 0 0 2px var(--accent-cyan); } 50% { box-shadow: 0 0 10px rgba(0, 245, 255, 0.6); } 100% { box-shadow: 0 0 2px var(--accent-cyan); } }
+        .user-count { color: var(--accent-cyan); margin-left: 5px; font-weight: 800; }
+        .section-label { color: var(--text-muted); font-weight: 600; font-size: 0.85em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; text-align: left; margin-left: 5px; margin-top: 20px; }
+        .section-label.center { text-align: center; margin-left: 0; }
+
+        /* Componentes Globales */
+        .glass-box { background: rgba(13, 10, 22, 0.45); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.03); border-top: 1px solid rgba(168, 85, 247, 0.25); border-left: 1px solid rgba(0, 245, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7); position: relative; overflow: hidden; z-index: 1; }
+        .glass-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.12) 0%, transparent 70%); animation: liquidPulse 4s ease-in-out infinite alternate; z-index: -1; pointer-events: none; }
+        
+        @keyframes scannerLight { 0% { left: -100%; } 25% { left: 200%; } 100% { left: 200%; } }
+        .btn { background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #ffffff; border: none; padding: 14px; border-radius: 25px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 0.95em; letter-spacing: 1px; cursor: pointer; transition: all 0.2s ease; width: 100%; text-transform: uppercase; position: relative; overflow: hidden; }
+        .btn::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent); transform: skewX(-25deg); animation: scannerLight 3.5s infinite ease-in-out; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4), 0 6px 20px rgba(255, 0, 127, 0.3); }
+        .btn:active { transform: translateY(0); box-shadow: 0 2px 5px var(--accent-glow); }
+        .btn-back { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 20px; cursor: pointer; font-family: inherit; font-weight: 700; transition: 0.3s; display: block; margin-bottom: 20px; width: fit-content; }
+        .btn-back:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        
+        /* Script Cards */
+        .script-card { padding: 20px; margin-bottom: 20px; text-align: left; position: relative; }
+        .clickable-card { cursor: pointer; transition: 0.3s; }
+        .clickable-card:hover { border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1); transform: translateY(-3px); }
+        
+        .card-banner-container { width: 100%; height: 160px; margin-bottom: 15px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.2); }
+        .card-banner { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .clickable-card:hover .card-banner { transform: scale(1.08); }
+        .load-more-btn { background: rgba(168, 85, 247, 0.1); border: 1px solid var(--accent); color: var(--text-main); padding: 12px 30px; border-radius: 20px; font-family: inherit; font-weight: 800; cursor: pointer; transition: 0.3s; margin: 10px auto 30px auto; display: block; width: fit-content; text-transform: uppercase; letter-spacing: 1px; }
+        .load-more-btn:hover { background: var(--accent); color: #fff; box-shadow: 0 0 15px var(--accent-glow); }
+
+        .script-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .script-title { font-size: 1.25em; font-weight: 800; color: var(--text-main); }
+        .script-game-tag { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(0, 245, 255, 0.3); text-transform: uppercase; letter-spacing: 1px; }
+        .tag-key { background: rgba(255, 215, 0, 0.1); color: #ffd700; padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(255, 215, 0, 0.4); letter-spacing: 1px; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); margin-right: 5px; }
+        .script-desc { font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; }
+        .script-code-container { background: rgba(0, 0, 0, 0.4); padding: 15px; border-radius: 12px; border: 1px dashed rgba(168, 85, 247, 0.3); display: flex; flex-direction: column; gap: 15px; }
+        code { color: var(--text-script); font-family: 'JetBrains Mono', monospace; font-size: 0.90em; word-break: break-all; }
+        
+        /* Detalles, Slider y Mostrar Más */
+        .details-main-box { padding: 30px; margin-bottom: 20px; }
+        .slider-wrapper { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(168, 85, 247, 0.2); }
+        .slider-wrapper::-webkit-scrollbar { display: none; }
+        .slider-img { flex: 0 0 100%; width: 100%; height: 200px; object-fit: cover; scroll-snap-align: start; }
+        
+        .detail-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; text-align: left; }
+        .detail-title { color: var(--accent-cyan); font-weight: 800; margin-bottom: 12px; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
+        .features-list { list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95em; line-height: 1.8; }
+        .features-list li { margin-bottom: 8px; padding-left: 25px; position: relative; }
+        .features-list li::before { content: '•'; position: absolute; left: 0; top: 0; color: var(--accent-cyan); font-weight: bold; font-size: 1.2em; line-height: 1.2; }
+
+        .content-collapse { max-height: 180px; overflow: hidden; position: relative; transition: max-height 0.4s ease; }
+        .content-collapse::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background: linear-gradient(to bottom, transparent, #090710); pointer-events: none; transition: opacity 0.3s; }
+        .content-collapse.expanded { max-height: 3000px; }
+        .content-collapse.expanded::after { opacity: 0; }
+        
+        .btn-show-more { background: rgba(0, 245, 255, 0.08); border: 1px solid rgba(0, 245, 255, 0.3); color: var(--accent-cyan); padding: 8px 18px; border-radius: 12px; font-weight: 700; font-size: 0.85em; cursor: pointer; transition: 0.3s; margin-top: 15px; display: inline-block; }
+        .btn-show-more:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 10px rgba(0, 245, 255, 0.4); }
+
+        /* Botones e Inputs */
+        .executors-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
+        .executor-btn { flex: 1; min-width: 130px; padding: 15px 10px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.15); background: rgba(255, 255, 255, 0.01); color: var(--text-main); font-weight: 700; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: all 0.3s ease; }
+        .executor-btn:hover { background: rgba(168, 85, 247, 0.08); border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(168, 85, 247, 0.2); }
+        .click-hint { font-size: 0.75em; color: var(--text-muted); font-weight: 400; }
+        .supported-box { padding: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+        .tag { background: rgba(20, 15, 32, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); color: var(--text-muted); padding: 6px 12px; border-radius: 15px; font-size: 0.75em; font-weight: 700; }
+        .tag-premium { border-color: rgba(0, 245, 255, 0.4); color: var(--accent-cyan); background: rgba(0, 245, 255, 0.08); }
+        .bypass-input { width: 100%; padding: 14px; background-color: rgba(10, 8, 16, 0.7); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 25px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: all 0.3s; }
+        .bypass-input:focus { border-color: var(--accent-cyan); background-color: rgba(15, 12, 25, 0.9); box-shadow: 0 0 12px rgba(0, 245, 255, 0.2); }
+        .btn-pegar { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(30, 25, 45, 0.8); color: var(--text-main); border: 1px solid rgba(168, 85, 247, 0.3); padding: 6px 16px; border-radius: 20px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-pegar:hover { background: var(--accent-cyan); color: #020204; border-color: var(--accent-cyan); }
+        #result-box { margin-top: 15px; padding: 12px; background-color: rgba(10, 8, 16, 0.8); border-radius: 12px; display: none; word-wrap: break-word; font-size: 0.9em; border: 1px dashed rgba(168, 85, 247, 0.3); }
+        .clean-link { color: var(--accent-cyan); font-weight: bold; text-decoration: none; display: block; margin-top: 8px;}
+        .clean-link:hover { text-decoration: underline; color: #fff;}
+
+        /* Badges Redes y Admin */
+        .badges-container { display: flex; gap: 8px; flex-wrap: wrap; margin-left: 10px; align-items: center; }
+        .social-badge { padding: 4px 8px; border-radius: 8px; font-size: 0.7em; font-weight: 800; color: #fff; text-decoration: none; transition: 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .social-badge:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .bg-discord { background: #5865F2; } .bg-youtube { background: #FF0000; } .bg-tiktok { background: #00f5ff; color: #000; } .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+
+        .admin-form { display: flex; flex-direction: column; gap: 15px; text-align: left; }
+        .admin-input, .admin-textarea { width: 100%; padding: 14px; background: rgba(10, 8, 16, 0.7); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 15px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: 0.3s; }
+        .admin-input:focus, .admin-textarea:focus { border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(0,245,255,0.2); }
+        .admin-textarea { resize: vertical; min-height: 120px; }
+        .admin-controls-wrapper { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-delete { background: rgba(255, 50, 50, 0.1); color: #ff5555; border: 1px solid rgba(255, 50, 50, 0.5); padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; }
+        .btn-delete:hover { background: #ff5555; color: white; }
+        .btn-edit { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; }
+        .btn-edit:hover { background: var(--accent-cyan); color: #020204; }
+        .upload-area { background: rgba(0,0,0,0.3); border: 1px dashed rgba(0, 245, 255, 0.4); padding: 15px; border-radius: 12px; }
+        .upload-btn-custom { background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.85em; display: inline-block; margin-bottom: 10px;}
+        input[type="file"] { display: none; }
+        .preview-images { display: flex; gap: 10px; overflow-x: auto; margin-top: 10px; }
+        .preview-images img { height: 60px; border-radius: 8px; border: 1px solid var(--accent); }
+
+        /* Estilos de Comentarios */
+        .comments-main-box { padding: 25px; margin-top: 0; border-top: 1px solid rgba(168, 85, 247, 0.25); border-top-left-radius: 0; border-top-right-radius: 0; }
+        .comments-title { font-size: 1.2em; font-weight: 800; color: var(--text-main); margin-bottom: 15px; text-align: left; }
+        .comment-item { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 3px solid var(--accent); text-align: left; }
+        .comment-author { color: var(--accent-cyan); font-weight: 800; font-size: 0.9em; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .comment-date { color: var(--text-muted); font-size: 0.8em; font-weight: 400; }
+        .comment-text { color: var(--text-main); font-size: 0.95em; line-height: 1.5; word-break: break-word; }
+        .comment-input-area { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;}
+        .comment-row { display: flex; gap: 10px; }
+
+        /* Responsive Mobile Ajustes Finales */
+        @media (max-width: 650px) {
+            .main-panel { width: 100%; padding: 100px 12px 40px 12px; }
+            .details-main-box, .comments-main-box { padding: 18px; }
+            .script-card { padding: 15px; }
+            .glass-box { border-radius: 16px; }
+            .script-title { font-size: 1.2em; }
+            .script-card-header { align-items: flex-start; flex-direction: column; }
+            .slider-img { height: 160px; }
+            .top-navbar-brand { font-size: 1.2em; }
         }
     </style>
 </head>
 <body>
-    <h1>PAGINA NO DISPONIBLE</h1>
+    <div id="particles-container"></div>
+    
+    <!-- EL BOTÓN ESTÁ AHORA AFUERA DE LA BARRA PARA NO QUEDAR ATRAPADO -->
+    <div class="menu-btn" onclick="toggleMenu()">
+        <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span>
+    </div>
+
+    <!-- BARRA SUPERIOR FIJA -->
+    <div class="top-navbar">
+        <!-- El titulo de aqui arriba es el que tiene el truco de los 3 clics para el panel Admin -->
+        <div class="top-navbar-brand" id="brand-title">
+            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="Logo">
+            RaikaHub
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <nav class="sidebar" id="sidebar">
+        <!-- Logo en el menú lateral para que no se vea vacío -->
+        <div style="text-align: center; margin-bottom: 25px;">
+            <img src="https://raw.githubusercontent.com/AnyDevPA/AstraHub-Web/refs/heads/main/RAIKA%20(1).png" alt="Logo" style="width: 80px; border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 0 20px var(--accent-glow); margin-bottom: 10px;">
+            <div style="font-weight: 800; color: var(--text-main); letter-spacing: 2px; text-transform: uppercase; font-size: 1.2em; text-shadow: 0 0 10px var(--accent-glow);">RaikaHub</div>
+        </div>
+
+        <a href="#" class="nav-link active" onclick="cambiarPagina('inicio', this)">Menu Principal</a>
+        <a href="#" class="nav-link" onclick="cambiarPagina('scripts', this)">Mas Scripts</a>
+        <a href="#" class="nav-link" onclick="cambiarPagina('bypass', this)">Bypass Delta</a>
+        
+        <a href="#" class="nav-link nav-link-admin" id="link-admin" onclick="cambiarPagina('admin', this)">Panel Admin</a>
+    </nav>
+
+    <div class="main-panel">
+        <!-- SUBPÁGINA 1: INICIO -->
+        <section id="page-inicio" class="page-section active">
+            <div class="live-stats">
+                <div class="live-dot"></div>
+                Activos en el Hub: <span class="user-count" id="activeCounter">...</span>
+            </div>
+
+            <div class="section-label center">Executors Recomendados</div>
+            <div class="executors-wrapper">
+                <a href="https://www.mediafire.com/file/qrmxp1v30v353qf/Delta-2.721.1108.apk/file" class="executor-btn">Delta Android <span class="click-hint">(Mediafire)</span></a>
+                <a href="https://www.mediafire.com/file/cg7mvngmsvi91ui/Delta-2.723.783.ipa/file" target="_blank" class="executor-btn">Delta iOS <span class="click-hint">(MediaFire)</span></a>
+            </div>
+
+            <div class="section-label center" style="margin-top: 35px; color: var(--accent-magenta);">Script Principal VIP</div>
+            
+            <!-- TARJETA DEL SCRIPT PRINCIPAL -->
+            <div class="script-card glass-box" id="main-vip-card" style="border-color: rgba(255, 0, 127, 0.4); box-shadow: 0 0 20px rgba(255, 0, 127, 0.15);">
+                <div class="script-card-header" style="flex-direction: row;">
+                    <span class="script-title" id="main-vip-title">RaikaHub Principal</span>
+                    <span class="script-game-tag" id="main-vip-games" style="background: rgba(255, 0, 127, 0.2); color: #ff3377; border-color: rgba(255,0,127,0.5);">Multi-Juego</span>
+                </div>
+                <div style="font-size: 0.8em; color: var(--text-muted); margin-bottom: 8px;">Creador: <span id="main-vip-creator" style="color:#fff;">Ren</span></div>
+                <p class="script-desc" id="main-vip-desc">Juegos soportados: DUELS BIMO, MM2, MMV, DUELS.</p>
+                
+                <div class="script-code-container" style="margin-top: 15px;">
+                    <code id="scriptCodeMain">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
+                    <button class="btn" style="background: linear-gradient(135deg, #ff007f, #a855f7);" onclick="copiarTexto('scriptCodeMain', this, 'Copiar Script VIP')">Copiar Script</button>
+                </div>
+            </div>
+
+            <div class="section-label center" style="margin-top: 35px;">Sitios que Bypasseamos</div>
+            <div class="glass-box supported-box" style="margin-bottom: 30px;">
+                <span class="tag tag-premium">Platoboost (Delta)</span>
+                <span class="tag">Linkvertise</span>
+                <span class="tag">Lootlinks</span>
+                <span class="tag">Work.ink</span>
+                <span class="tag">Pastebin</span>
+            </div>
+        </section>
+
+        <!-- SUBPÁGINA 2: CATÁLOGO DE SCRIPTS -->
+        <section id="page-scripts" class="page-section">
+            <div class="section-label" style="text-align: center; font-size: 1.1em; color: var(--accent-cyan);">Mas scripts</div>
+            <div id="dynamic-scripts">
+                <p style="text-align: center; color: var(--text-muted);">Cargando base de datos...</p>
+            </div>
+        </section>
+
+        <!-- SUBPÁGINA INDIVIDUAL DEL SCRIPT -->
+        <section id="page-script-details" class="page-section">
+            <button class="btn-back" onclick="cambiarPagina('scripts')">Volver</button>
+            <div id="script-details-content"></div>
+        </section>
+
+        <!-- SUBPÁGINA 3: BYPASS -->
+        <section id="page-bypass" class="page-section">
+            <div class="section-label" style="text-align: center; font-size: 1.1em; color: var(--accent-cyan);">Herramienta Bypass</div>
+            <div class="script-card glass-box" style="padding-bottom: 25px;">
+                <p class="script-desc" style="margin-bottom: 15px; text-align: center;">Desbloquea enlaces en segundos.</p>
+                <div style="position: relative; width: 100%; margin-bottom: 15px;">
+                    <input type="url" id="linkInput" class="bypass-input" placeholder="Pega tu link aqui..." autocomplete="off" style="padding-right: 80px;">
+                    <button class="btn-pegar" onclick="pegarPortapapeles()">Pegar</button>
+                </div>
+                <button class="btn" id="bypassBtn" onclick="procesarBypass()">Desbloquear Link</button>
+                <div id="result-box"></div>
+            </div>
+        </section>
+
+        <!-- SUBPÁGINA 4: PANEL DE ADMIN -->
+        <section id="page-admin" class="page-section">
+            <div class="section-label" style="text-align: center; font-size: 1.1em; color: #ff3377;">Panel de Control (Admin VPS)</div>
+            
+            <div class="glass-box" style="padding: 25px;">
+                <p class="script-desc" style="text-align: center; margin-bottom: 20px;">Sube o actualiza scripts en la base de datos mundial.</p>
+                
+                <form id="form-admin" class="admin-form" onsubmit="publicarScript(event)">
+                    <input type="text" id="admin-titulo" class="admin-input" placeholder="Titulo del Script (Ej: Aimbot Pro)" required>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="admin-tag" class="admin-input" placeholder="Categoria/Tag (Ej: Combat)" required style="flex: 1; min-width: 48%;">
+                        <input type="text" id="admin-juegos" class="admin-input" placeholder="Juegos Compatibles (Ej: Blox Fruits, Todos)" required style="flex: 1; min-width: 48%;">
+                    </div>
+                    
+                    <label style="color: #ffd700; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.9em; background: rgba(255, 215, 0, 0.05); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255, 215, 0, 0.3);">
+                        <input type="checkbox" id="admin-ocupa-key" style="width: 18px; height: 18px; accent-color: #ffd700;">
+                        Ocupa Key (Mostrara etiqueta amarilla)
+                    </label>
+
+                    <label style="color: var(--accent-magenta); font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.9em; background: rgba(255, 0, 127, 0.1); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255, 0, 127, 0.4);">
+                        <input type="checkbox" id="admin-es-principal" style="width: 18px; height: 18px; accent-color: #ff007f;">
+                        Marcar como Script Principal VIP (Actualizara la pagina de Inicio)
+                    </label>
+                    
+                    <div class="upload-area">
+                        <label style="color: var(--accent-cyan); font-size: 0.85em; font-weight: bold; display: block; margin-bottom: 10px;">Imagenes del Slider</label>
+                        <label for="admin-imagen-local" class="upload-btn-custom">Subir Archivos desde Dispositivo</label>
+                        <input type="file" id="admin-imagen-local" accept="image/*" multiple onchange="mostrarPreviewImagenes(event)">
+                        <div class="preview-images" id="preview-container"></div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="admin-creador" class="admin-input" placeholder="Creador (Tu Nombre)" required style="flex: 1; min-width: 100%;">
+                        <input type="url" id="admin-discord" class="admin-input" placeholder="Link Discord (Opcional)" style="flex: 1; min-width: 48%;">
+                        <input type="url" id="admin-youtube" class="admin-input" placeholder="Link YouTube (Opcional)" style="flex: 1; min-width: 48%;">
+                        <input type="url" id="admin-tiktok" class="admin-input" placeholder="Link TikTok (Opcional)" style="flex: 1; min-width: 48%;">
+                        <input type="url" id="admin-instagram" class="admin-input" placeholder="Link Instagram (Opcional)" style="flex: 1; min-width: 48%;">
+                    </div>
+                    
+                    <textarea id="admin-desc" class="admin-textarea" placeholder="Descripcion detallada..." required></textarea>
+                    <textarea id="admin-funciones" class="admin-textarea" style="min-height: 80px;" placeholder="Funciones (Separadas por Enter)"></textarea>
+                    <textarea id="admin-codigo" class="admin-textarea" placeholder="Pega el codigo Lua aqui..." required style="font-family: monospace;"></textarea>
+                    
+                    <div style="display:flex; gap: 10px;">
+                        <button type="submit" id="btn-publicar" class="btn" style="background: linear-gradient(135deg, #00f5ff, #a855f7); color: #020204; flex: 2;">Publicar / Guardar</button>
+                        <button type="button" id="btn-cancelar-edicion" class="btn" style="background: rgba(255,255,255,0.1); color: #fff; flex: 1; display: none;" onclick="cancelarEdicion()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+
+    <script>
+        // ==========================================
+        // CONFIGURACIÓN DE TU VPS
+        // ==========================================
+        const VPS_API_URL = 'https://scripts.astrahub.space/api/scripts'; 
+        
+        let scriptsDesdeVPS = [];
+        let imagenesBase64Cargadas = [];
+        let scriptEnEdicionId = null; 
+        
+        let paginaActual = 1;
+        const SCRIPTS_POR_PAGINA = 5; 
+
+        window.onload = function() {
+            cargarScriptsDesdeVPS();
+            checkCooldown();
+        };
+
+        // ==========================================
+        // LÓGICA DEL CONTADOR DE USUARIOS ASTRA
+        // ==========================================
+        async function fetchActiveUsers() {
+            try {
+                let response = await fetch('https://hub.astrahub.space/activos', {
+                    method: 'GET',
+                    headers: { 'Astra-Auth': 'AstraVIP2026!' }
+                });
+                
+                if (response.ok) {
+                    let data = await response.json();
+                    let count = Object.keys(data).length;
+                    document.getElementById('activeCounter').innerText = count;
+                } else {
+                    document.getElementById('activeCounter').innerText = "0";
+                }
+            } catch (error) {
+                console.log("Error cargando usuarios", error);
+            }
+        }
+        fetchActiveUsers();
+        setInterval(fetchActiveUsers, 15000);
+
+        // ==========================================
+        // LÓGICA DEL BYPASS PREMIUM
+        // ==========================================
+        function checkCooldown() {
+            let lastTime = localStorage.getItem("astra_cooldown");
+            if (lastTime) {
+                let tiempoPasado = Math.floor((Date.now() - parseInt(lastTime)) / 1000);
+                let tiempoRestante = 15 - tiempoPasado; 
+
+                if (tiempoRestante > 0) {
+                    iniciarReloj(tiempoRestante);
+                } else {
+                    localStorage.removeItem("astra_cooldown");
+                }
+            }
+        }
+
+        function iniciarReloj(segundos) {
+            const btn = document.getElementById("bypassBtn");
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            btn.innerText = "Espera " + segundos + "s...";
+
+            let contador = setInterval(function() {
+                segundos--;
+                if (segundos > 0) {
+                    btn.innerText = "Espera " + segundos + "s...";
+                } else {
+                    clearInterval(contador); 
+                    btn.innerText = "Desbloquear Link"; 
+                    btn.disabled = false; 
+                    btn.style.opacity = "1";
+                    localStorage.removeItem("astra_cooldown");
+                }
+            }, 1000);
+        }
+
+        async function pegarPortapapeles() {
+            try {
+                const texto = await navigator.clipboard.readText();
+                document.getElementById("linkInput").value = texto;
+            } catch (err) {
+                alert("Tu navegador bloqueo el portapapeles. Dale permisos a la pagina para pegar.");
+            }
+        }
+
+        function copiarAlPortapapeles(texto, boton) {
+            navigator.clipboard.writeText(texto).then(function() {
+                let textoOriginal = boton.innerText;
+                boton.innerText = "Copiado!";
+                boton.style.background = "#ffffff";
+                boton.style.color = "#000000";
+                
+                setTimeout(function() {
+                    boton.innerText = textoOriginal;
+                    boton.style.background = "";
+                    boton.style.color = "";
+                }, 2000);
+            }).catch(function(err) {
+                alert("Error al copiar, intenta de nuevo.");
+            });
+        }
+
+        async function procesarBypass() {
+            const link = document.getElementById("linkInput").value;
+            const resultBox = document.getElementById("result-box");
+            const btn = document.getElementById("bypassBtn");
+
+            if(!link) {
+                alert("Pega un link primero.");
+                return;
+            }
+
+            localStorage.setItem("astra_cooldown", Date.now());
+            iniciarReloj(15); 
+
+            resultBox.style.display = "block";
+
+            const tiempoInicio = performance.now();
+            let cronometroActivo = setInterval(() => {
+                let tiempoActual = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
+                resultBox.innerHTML = `<span style='color: var(--text-muted); font-weight: bold;'>Bypasseando... ${tiempoActual}s</span>`;
+            }, 100); 
+
+            try {
+                const response = await fetch("https://api.astrahub.space/api/bypass", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ url: link })
+                });
+
+                const data = await response.json();
+                
+                clearInterval(cronometroActivo);
+                const tiempoFin = performance.now();
+                const segundosTardados = ((tiempoFin - tiempoInicio) / 1000).toFixed(1);
+
+                if(data.success) {
+                    let resultado = data.url_limpia;
+                    
+                    if (resultado.startsWith("http")) {
+                        resultBox.innerHTML = `
+                            <span style="color: var(--text-main); font-weight: bold;">Exito! Desbloqueado en ${segundosTardados}s</span>
+                            <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Link</button>
+                        `;
+                    } else {
+                        resultBox.innerHTML = `
+                            <span style="color: var(--text-main); font-weight: bold;">Exito! Key generada en ${segundosTardados}s</span>
+                            <div style="margin-top: 8px; padding: 12px; background: rgba(5,5,5,0.7); border: 1px solid rgba(168,85,247,0.2); border-radius: 12px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
+                                ${resultado}
+                            </div>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-magenta)); color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s;">Copiar Key</button>
+                        `;
+                    }
+                } else {
+                    resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">Error (${segundosTardados}s): ${data.error}</span>`;
+                }
+            } catch (error) {
+                clearInterval(cronometroActivo);
+                resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">Error de conexion con el servidor.</span>`;
+            }
+        }
+
+        // ==========================================
+        // CONEXIÓN CON EL BACKEND (VPS) Y EDICIÓN
+        // ==========================================
+        async function cargarScriptsDesdeVPS() {
+            try {
+                const respuesta = await fetch(VPS_API_URL);
+                if(respuesta.ok) {
+                    scriptsDesdeVPS = await respuesta.json();
+                    renderizarScripts();
+                } else {
+                    document.getElementById('dynamic-scripts').innerHTML = '<p style="color:red; text-align:center;">Error al conectar con el servidor VPS.</p>';
+                }
+            } catch(error) {
+                console.log("No se pudo conectar al VPS.", error);
+                document.getElementById('dynamic-scripts').innerHTML = '<p style="color:var(--text-muted); text-align:center;">El servidor de base de datos esta apagado actualmente.</p>';
+            }
+        }
+
+        function editarScript(id, event) {
+            event.stopPropagation(); 
+            
+            const script = scriptsDesdeVPS.find(s => s.id === id);
+            if(!script) return;
+
+            document.getElementById('admin-titulo').value = script.titulo || '';
+            document.getElementById('admin-tag').value = script.tag || '';
+            document.getElementById('admin-juegos').value = script.juegos || '';
+            document.getElementById('admin-es-principal').checked = script.esPrincipal || false;
+            document.getElementById('admin-ocupa-key').checked = script.ocupaKey || false;
+            document.getElementById('admin-creador').value = script.creador || '';
+            document.getElementById('admin-discord').value = script.discord || '';
+            document.getElementById('admin-youtube').value = script.youtube || '';
+            document.getElementById('admin-tiktok').value = script.tiktok || '';
+            document.getElementById('admin-instagram').value = script.instagram || '';
+            document.getElementById('admin-desc').value = script.descripcion || '';
+            document.getElementById('admin-funciones').value = script.funciones || '';
+            document.getElementById('admin-codigo').value = script.codigo || '';
+
+            imagenesBase64Cargadas = script.imagenes || [];
+            const container = document.getElementById('preview-container');
+            container.innerHTML = '';
+            imagenesBase64Cargadas.forEach(base64 => {
+                const img = document.createElement('img');
+                img.src = base64;
+                container.appendChild(img);
+            });
+
+            scriptEnEdicionId = id; 
+            
+            document.getElementById('btn-publicar').innerText = "Actualizar Script";
+            document.getElementById('btn-cancelar-edicion').style.display = "block";
+
+            cambiarPagina('admin', document.getElementById('link-admin'));
+        }
+
+        function cancelarEdicion() {
+            scriptEnEdicionId = null;
+            document.getElementById('form-admin').reset();
+            document.getElementById('preview-container').innerHTML = '';
+            imagenesBase64Cargadas = [];
+            
+            document.getElementById('btn-publicar').innerText = "Publicar en VPS";
+            document.getElementById('btn-cancelar-edicion').style.display = "none";
+        }
+
+        async function publicarScript(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btn-publicar');
+            btn.innerText = "Guardando..."; btn.disabled = true;
+
+            const datosScript = {
+                titulo: document.getElementById('admin-titulo').value,
+                tag: document.getElementById('admin-tag').value,
+                juegos: document.getElementById('admin-juegos').value,
+                esPrincipal: document.getElementById('admin-es-principal').checked,
+                ocupaKey: document.getElementById('admin-ocupa-key').checked,
+                imagenes: imagenesBase64Cargadas, 
+                creador: document.getElementById('admin-creador').value,
+                discord: document.getElementById('admin-discord').value,
+                youtube: document.getElementById('admin-youtube').value,
+                tiktok: document.getElementById('admin-tiktok').value,
+                instagram: document.getElementById('admin-instagram').value,
+                descripcion: document.getElementById('admin-desc').value,
+                funciones: document.getElementById('admin-funciones').value,
+                codigo: document.getElementById('admin-codigo').value,
+                fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+            };
+            
+            try {
+                let url = VPS_API_URL;
+                let metodo = 'POST'; 
+                
+                if (scriptEnEdicionId) {
+                    url = `${VPS_API_URL}/${scriptEnEdicionId}`;
+                    metodo = 'PUT';
+                }
+
+                const response = await fetch(url, {
+                    method: metodo,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosScript)
+                });
+
+                if(response.ok) {
+                    alert(scriptEnEdicionId ? 'Script actualizado correctamente.' : 'Script publicado en el servidor mundial.');
+                    cancelarEdicion();
+                    await cargarScriptsDesdeVPS();
+                    
+                    if(datosScript.esPrincipal) {
+                        cambiarPagina('inicio', document.querySelectorAll('.nav-link')[0]);
+                    } else {
+                        cambiarPagina('scripts', document.querySelectorAll('.nav-link')[1]);
+                    }
+                } else {
+                    alert('Error en el servidor al guardar.');
+                }
+            } catch(e) {
+                alert('No se pudo conectar al servidor para guardar.');
+            }
+            
+            btn.innerText = "Publicar en VPS"; btn.disabled = false;
+        }
+
+        async function eliminarScript(id, event) {
+            event.stopPropagation();
+            if(confirm("Deseas eliminar este script de la base de datos mundial permanentemente?")) {
+                try {
+                    const response = await fetch(`${VPS_API_URL}/${id}`, { method: 'DELETE' });
+                    if(response.ok) {
+                        await cargarScriptsDesdeVPS();
+                    }
+                } catch(e) {
+                    alert("Error al intentar eliminar en el servidor.");
+                }
+            }
+        }
+
+        // ==========================================
+        // PROCESAMIENTO DE IMÁGENES LOCALES
+        // ==========================================
+        function mostrarPreviewImagenes(event) {
+            const files = event.target.files;
+            const container = document.getElementById('preview-container');
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const base64 = e.target.result;
+                    imagenesBase64Cargadas.push(base64);
+                    
+                    const img = document.createElement('img');
+                    img.src = base64;
+                    container.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function generarBadgesRedes(script) {
+            let badges = '';
+            if(script.discord) badges += `<a href="${script.discord}" target="_blank" class="social-badge bg-discord">Discord</a>`;
+            if(script.youtube) badges += `<a href="${script.youtube}" target="_blank" class="social-badge bg-youtube">YouTube</a>`;
+            if(script.tiktok) badges += `<a href="${script.tiktok}" target="_blank" class="social-badge bg-tiktok">TikTok</a>`;
+            if(script.instagram) badges += `<a href="${script.instagram}" target="_blank" class="social-badge bg-ig">IG</a>`;
+            return badges !== '' ? `<div class="badges-container">${badges}</div>` : '';
+        }
+
+        function renderizarScripts() {
+            const container = document.getElementById('dynamic-scripts');
+            container.innerHTML = '';
+            
+            if(scriptsDesdeVPS.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); text-align:center;">No hay scripts en la base de datos todavia.</p>';
+                return;
+            }
+
+            const scriptPrincipal = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
+            if (scriptPrincipal) {
+                let mainKeyBadge = scriptPrincipal.ocupaKey ? '<span class="tag-key">KEY</span>' : '';
+                document.getElementById('main-vip-title').innerText = scriptPrincipal.titulo;
+                document.getElementById('main-vip-games').innerHTML = mainKeyBadge + (scriptPrincipal.juegos || scriptPrincipal.tag);
+                document.getElementById('main-vip-creator').innerText = scriptPrincipal.creador;
+                document.getElementById('main-vip-desc').innerText = scriptPrincipal.descripcion;
+                document.getElementById('scriptCodeMain').innerText = scriptPrincipal.codigo;
+            }
+
+            const scriptsMostrados = [...scriptsDesdeVPS].reverse();
+            
+            const limite = paginaActual * SCRIPTS_POR_PAGINA;
+            const scriptsPagina = scriptsMostrados.slice(0, limite);
+
+            scriptsPagina.forEach((script) => {
+                let adminControls = isAdminLoggedIn ? `
+                <div class="admin-controls-wrapper">
+                    <button class="btn-edit" onclick="editarScript('${script.id}', event)">Editar</button>
+                    <button class="btn-delete" onclick="eliminarScript('${script.id}', event)">Eliminar</button>
+                </div>` : '';
+
+                let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
+                
+                let bannerHtml = '';
+                if (script.imagenes && script.imagenes.length > 0) {
+                    bannerHtml = `
+                    <div class="card-banner-container">
+                        <img src="${script.imagenes[0]}" class="card-banner" alt="Banner del Script">
+                    </div>`;
+                }
+
+                let html = `
+                <div class="script-card glass-box clickable-card" onclick="abrirDetalles('${script.id}')">
+                    ${bannerHtml}
+                    <div class="script-card-header">
+                        <span class="script-title">${script.titulo}</span>
+                        <div style="display: flex; align-items: center; flex-wrap:wrap; justify-content:flex-end;">
+                            ${keyBadge}
+                            <span class="script-game-tag">${script.juegos || script.tag}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex; align-items:center; margin-bottom:10px;">
+                        <span style="font-size:0.8em; color:var(--text-muted);">Autor: <span style="color:#fff;">${script.creador}</span></span>
+                        ${generarBadgesRedes(script)}
+                    </div>
+
+                    <p class="script-desc">${script.descripcion.length > 80 ? script.descripcion.substring(0, 80) + '...' : script.descripcion}</p>
+                    
+                    <div style="margin-top: 15px; font-weight: 800; color: var(--accent-cyan); text-align: right; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text-muted); font-weight: 400;">${script.fecha}</span>
+                        <span>Toca para ver</span>
+                    </div>
+                    ${adminControls}
+                </div>
+                `;
+                container.innerHTML += html;
+            });
+            
+            if (scriptsMostrados.length > limite) {
+                container.innerHTML += `<button class="load-more-btn" onclick="cargarMasScripts()">Cargar más scripts</button>`;
+            }
+        }
+        
+        function cargarMasScripts() {
+            paginaActual++;
+            renderizarScripts();
+        }
+
+        function toggleShowMore(contentId, btnId) {
+            const content = document.getElementById(contentId);
+            const btn = document.getElementById(btnId);
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                btn.innerText = 'Mostrar más';
+            } else {
+                content.classList.add('expanded');
+                btn.innerText = 'Mostrar menos';
+            }
+        }
+
+        let sliderInterval;
+        function abrirDetalles(id) {
+            const script = scriptsDesdeVPS.find(s => s.id === id);
+            if(!script) return;
+
+            const container = document.getElementById('script-details-content');
+            if(sliderInterval) clearInterval(sliderInterval);
+
+            let sliderHtml = '';
+            if (script.imagenes && script.imagenes.length > 0) {
+                sliderHtml = `<div class="slider-wrapper" id="current-slider">`;
+                script.imagenes.forEach(img => {
+                    sliderHtml += `<img src="${img}" class="slider-img">`;
+                });
+                sliderHtml += `</div>`;
+            }
+
+            let featuresHtml = '';
+            if (script.funciones && script.funciones.trim() !== '') {
+                let funcList = script.funciones.split('\n').filter(f => f.trim() !== '').map(f => `<li>${f.trim()}</li>`).join('');
+                featuresHtml = `<div class="detail-title" style="margin-top: 20px;">Funciones Principales</div><ul class="features-list">${funcList}</ul>`;
+            }
+
+            let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
+
+            // GENERAR SECCIÓN DE COMENTARIOS
+            let listaComentarios = script.comentarios || [];
+            let htmlComentarios = '';
+            
+            let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
+
+            if(listaComentarios.length === 0) {
+                htmlComentarios = '<p style="color:var(--text-muted); font-size: 0.9em; text-align: center; padding: 20px 0;">Sin comentarios aun.<br>Se el primero en opinar.</p>';
+            } else {
+                listaComentarios.forEach(c => {
+                    // Si es un comentario viejisimo sin ID, lo dibujamos pero no le damos botones
+                    if(!c.id) {
+                        htmlComentarios += `
+                        <div class="comment-item">
+                            <div class="comment-author"><span>${c.autor}</span> <span class="comment-date">${c.fecha}</span></div>
+                            <div class="comment-text">${c.texto}</div>
+                        </div>`;
+                        return;
+                    }
+
+                    let esMiComentario = misComentariosLocales.includes(c.id);
+                    
+                    let btnEditar = esMiComentario ? `<button onclick="habilitarEdicion('${script.id}', '${c.id}')" style="background:none; border:none; color:var(--accent-cyan); font-size:0.85em; cursor:pointer; font-weight:bold; font-family:inherit;">Editar</button>` : '';
+                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentario('${script.id}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.85em; cursor:pointer; font-weight:bold; font-family:inherit;">Eliminar</button>` : '';
+                    
+                    let etiquetaEditado = c.editado ? `<span style="font-size: 0.75em; color: var(--text-muted); font-style: italic; font-weight: normal; margin-left: 5px;">(editado)</span>` : '';
+
+                    // Escapar las comillas por si el usuario uso comillas en el texto
+                    let safeText = c.texto.replace(/"/g, '&quot;');
+
+                    htmlComentarios += `
+                    <div class="comment-item">
+                        <div class="comment-author">
+                            <span>${c.autor} ${etiquetaEditado}</span> 
+                            <span class="comment-date">${c.fecha}</span>
+                        </div>
+                        
+                        <!-- Texto Normal -->
+                        <div id="comment-text-${c.id}" class="comment-text">${c.texto}</div>
+                        
+                        <!-- Area de Edición Oculta (Inline Edit) -->
+                        <div id="comment-edit-area-${c.id}" style="display:none; margin-top: 10px;">
+                            <input type="text" id="input-edit-${c.id}" class="admin-input" style="width: 100%; padding: 10px 12px; border-radius: 8px; font-size: 0.9em; margin-bottom: 8px;" value="${safeText}">
+                            <div style="display:flex; gap: 10px; justify-content: flex-end;">
+                                <button onclick="cancelarEdicionComentario('${c.id}')" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8em; font-family: inherit;">Cancelar</button>
+                                <button onclick="guardarEdicion('${script.id}', '${c.id}')" style="background: var(--accent-cyan); color: #000; border: none; padding: 6px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8em; font-family: inherit;">Guardar</button>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div id="comment-actions-${c.id}" style="display:flex; gap:10px; margin-top:8px; justify-content:flex-end;">
+                            ${btnEditar}
+                            ${btnEliminar}
+                        </div>
+                    </div>`;
+                });
+            }
+
+            container.innerHTML = `
+                <!-- CAJA PRINCIPAL DETALLES -->
+                <div class="glass-box details-main-box">
+                    <div class="script-card-header" style="flex-direction: column; align-items: flex-start; gap: 10px; border-bottom: none; margin-bottom: 20px;">
+                        <span class="script-title" style="font-size: 1.6em; text-shadow: 0 0 15px var(--accent-glow);">${script.titulo}</span>
+                        <div style="display: flex; gap: 8px; align-items: center; align-self: flex-start;">
+                            ${keyBadge}
+                            <span class="script-game-tag">${script.juegos || script.tag}</span>
+                        </div>
+                    </div>
+                    
+                    ${sliderHtml}
+                    
+                    <div style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 25px; background: rgba(0,0,0,0.3); padding: 12px 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <span style="font-size:0.9em; color:var(--text-muted);">Desarrollador: <span style="color: #fff; margin-right: 15px;">${script.creador}</span></span>
+                        ${generarBadgesRedes(script)}
+                    </div>
+
+                    <div class="detail-box">
+                        <div id="desc-content" class="content-collapse">
+                            <div class="detail-title">Descripcion General</div>
+                            <p style="color: var(--text-muted); font-size: 0.95em; line-height: 1.6;">${script.descripcion}</p>
+                            ${featuresHtml}
+                        </div>
+                        <button id="btn-show-more" class="btn-show-more" onclick="toggleShowMore('desc-content', 'btn-show-more')">Mostrar más</button>
+                    </div>
+
+                    <div class="detail-box" style="border-color: rgba(168, 85, 247, 0.4); box-shadow: inset 0 0 20px rgba(168,85,247,0.05); margin-bottom: 0;">
+                        <div class="detail-title" style="color: var(--accent);">Codigo del Script</div>
+                        <div class="script-code-container" style="margin-bottom: 15px;">
+                            <code id="detalle-codigo">${script.codigo}</code>
+                        </div>
+                        <button class="btn" onclick="copiarTexto('detalle-codigo', this, 'Copiar Script')">Copiar Script</button>
+                    </div>
+                </div>
+
+                <!-- CAJA INDEPENDIENTE COMENTARIOS -->
+                <div class="glass-box comments-main-box">
+                    <div class="comments-title" style="display: flex; align-items: center; gap: 10px;">
+                        Comentarios 
+                        <span style="background: var(--accent-cyan); color: #000; padding: 2px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 800;">${listaComentarios.length}</span>
+                    </div>
+                    
+                    <div id="lista-comentarios-box">
+                        ${htmlComentarios}
+                    </div>
+                    
+                    <div class="comment-input-area">
+                        <input type="text" id="comentario-autor" class="admin-input" placeholder="Tu Nombre de usuario" maxlength="20">
+                        <div class="comment-row">
+                            <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu comentario..." maxlength="120" style="flex: 3;">
+                            <button class="btn" style="flex: 1; padding: 10px; border-radius: 12px; font-size: 0.85em;" onclick="enviarComentario('${script.id}')">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            setTimeout(() => {
+                const contentDiv = document.getElementById('desc-content');
+                const btnMore = document.getElementById('btn-show-more');
+                if (contentDiv && contentDiv.scrollHeight <= 180) {
+                    btnMore.style.display = 'none';
+                    contentDiv.classList.remove('content-collapse'); 
+                }
+
+                const slider = document.getElementById('current-slider');
+                if(slider && slider.children.length > 1) {
+                    sliderInterval = setInterval(() => {
+                        if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
+                            slider.scrollTo({ left: 0, behavior: 'smooth' });
+                        } else {
+                            slider.scrollBy({ left: slider.clientWidth, behavior: 'smooth' });
+                        }
+                    }, 3000);
+                }
+            }, 100);
+
+            cambiarPagina('script-details');
+        }
+
+        // ==========================================
+        // LÓGICA DE MENÚ Y ADMIN SECRETO
+        // ==========================================
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        let menuOpen = false;
+        let isAdminLoggedIn = false;
+        let brandClickCount = 0;
+        let brandClickTimer;
+
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            if(menuOpen) {
+                sidebar.classList.add('active'); overlay.classList.add('active');
+                document.getElementById('bar1').style.transform = 'translateY(7px) rotate(45deg)';
+                document.getElementById('bar2').style.opacity = '0';
+                document.getElementById('bar3').style.transform = 'translateY(-7px) rotate(-45deg)';
+            } else {
+                sidebar.classList.remove('active'); overlay.classList.remove('active');
+                document.getElementById('bar1').style.transform = 'none';
+                document.getElementById('bar2').style.opacity = '1';
+                document.getElementById('bar3').style.transform = 'none';
+                brandClickCount = 0; 
+            }
+        }
+
+        function cambiarPagina(pageId, linkElement = null) {
+            const secciones = document.querySelectorAll('.page-section');
+            secciones.forEach(sec => sec.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+
+            if (linkElement) {
+                const links = document.querySelectorAll('.nav-link');
+                links.forEach(l => l.classList.remove('active'));
+                linkElement.classList.add('active');
+                toggleMenu();
+            }
+            if(pageId !== 'script-details' && typeof sliderInterval !== 'undefined') clearInterval(sliderInterval);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Truco Secreto Admin: Clic 3 veces en "RaikaHub" de la barra superior
+        document.getElementById('brand-title').addEventListener('click', () => {
+            brandClickCount++;
+            clearTimeout(brandClickTimer);
+            if(brandClickCount === 3) {
+                brandClickCount = 0;
+                if(!isAdminLoggedIn) {
+                    let pass = prompt("Acceso Restringido. Contraseña:");
+                    if(pass === "raika2026") {
+                        isAdminLoggedIn = true;
+                        document.getElementById('link-admin').classList.add('visible');
+                        alert("Panel de Control Activado.");
+                        renderizarScripts(); 
+                    }
+                } else {
+                    document.getElementById('link-admin').classList.toggle('visible');
+                }
+            }
+            brandClickTimer = setTimeout(() => { brandClickCount = 0; }, 1000);
+        });
+
+        // ==========================================
+        // UTILIDADES VARIAS
+        // ==========================================
+        function copiarTexto(elementoId, boton, textoOriginal) {
+            var codigo = document.getElementById(elementoId).innerText;
+            navigator.clipboard.writeText(codigo).then(function() {
+                boton.innerText = "Copiado!"; boton.style.background = "#ffffff"; boton.style.color = "#000000";
+                setTimeout(function() { boton.innerText = textoOriginal; boton.style.background = ""; boton.style.color = ""; }, 2000);
+            });
+        }
+        
+        // Anti-Skids
+        document.addEventListener('contextmenu', event => event.preventDefault()); 
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } 
+            if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) { return false; } 
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
+        }
+
+        // ==========================================
+        // FUNCIONES DE COMENTARIOS
+        // ==========================================
+        async function enviarComentario(scriptId) {
+            const autorInput = document.getElementById('comentario-autor').value.trim();
+            const textoInput = document.getElementById('comentario-texto').value.trim();
+
+            if(!autorInput || !textoInput) {
+                alert("Por favor llena tu nombre y el comentario.");
+                return;
+            }
+
+            const nuevoComentario = {
+                autor: autorInput,
+                texto: textoInput,
+                fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })
+            };
+
+            try {
+                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(nuevoComentario)
+                });
+
+                if(response.ok) {
+                    const data = await response.json();
+                    
+                    let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
+                    if (data.comentario && data.comentario.id) {
+                        misComentariosLocales.push(data.comentario.id);
+                        localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentariosLocales));
+                    }
+
+                    await cargarScriptsDesdeVPS();
+                    abrirDetalles(scriptId);
+                } else {
+                    alert("Error al enviar el comentario.");
+                }
+            } catch(e) {
+                alert("No se pudo conectar al servidor.");
+            }
+        }
+
+        // Habilitar edicion inline (mostrar input)
+        function habilitarEdicion(scriptId, commentId) {
+            document.getElementById(`comment-text-${commentId}`).style.display = 'none';
+            document.getElementById(`comment-actions-${commentId}`).style.display = 'none';
+            document.getElementById(`comment-edit-area-${commentId}`).style.display = 'block';
+        }
+
+        // Cancelar edicion inline
+        function cancelarEdicionComentario(commentId) {
+            document.getElementById(`comment-text-${commentId}`).style.display = 'block';
+            document.getElementById(`comment-actions-${commentId}`).style.display = 'flex';
+            document.getElementById(`comment-edit-area-${commentId}`).style.display = 'none';
+        }
+
+        // Guardar la edición
+        async function guardarEdicion(scriptId, commentId) {
+            const nuevoTexto = document.getElementById(`input-edit-${commentId}`).value.trim();
+            if(!nuevoTexto) {
+                alert("El comentario no puede estar vacio.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ texto: nuevoTexto })
+                });
+
+                if(response.ok) {
+                    await cargarScriptsDesdeVPS();
+                    abrirDetalles(scriptId); 
+                } else {
+                    alert("Error al editar el comentario.");
+                }
+            } catch(e) {
+                alert("Error de conexion al editar.");
+            }
+        }
+
+        // Eliminar comentario
+        async function eliminarComentario(scriptId, commentId) {
+            if(!confirm("¿Seguro que deseas eliminar este comentario permanentemente?")) return;
+
+            try {
+                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
+                    method: 'DELETE'
+                });
+
+                if(response.ok) {
+                    let misComentarios = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
+                    misComentarios = misComentarios.filter(id => id !== commentId);
+                    localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentarios));
+
+                    await cargarScriptsDesdeVPS();
+                    abrirDetalles(scriptId);
+                } else {
+                    alert("Error al eliminar el comentario.");
+                }
+            } catch(e) {
+                alert("Error de conexion al eliminar.");
+            }
+        }
+
+        setInterval(function() {
+            let before = new Date().getTime();
+            debugger;
+            let after = new Date().getTime();
+            if (after - before > 100) { document.body.innerHTML = "<h1 style='color:#ff007f; text-align:center; margin-top: 50px;'>No intentes robar el codigo</h1>"; }
+        }, 100);
+
+        // Partículas de fondo
+        const particlesContainer = document.getElementById('particles-container');
+        for (let i = 0; i < 70; i++) {
+            let p = document.createElement('div'); p.className = 'particle';
+            let size = Math.random() * 2 + 1; p.style.width = size + 'px'; p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + 'vw'; p.style.top = Math.random() * 100 + 'vh';
+            p.style.animationDuration = (Math.random() * 8 + 8) + 's'; p.style.animationDelay = (Math.random() * 5) + 's';
+            particlesContainer.appendChild(p);
+        }
+    </script>
 </body>
 </html>

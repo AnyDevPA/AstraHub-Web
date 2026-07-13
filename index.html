@@ -307,10 +307,7 @@
     <div class="main-panel">
         <!-- SUBPÁGINA 1: INICIO -->
         <section id="page-inicio" class="page-section active">
-            <div class="live-stats">
-                <div class="live-dot"></div>
-                Activos: <span class="user-count" id="activeCounter">...</span>
-            </div>
+            
 
             <div class="section-label center" style="margin-bottom: 5px;">Executors Recomendados</div>
             <div style="text-align: center; color: var(--text-muted); font-size: 0.85em; font-family: 'Outfit', sans-serif; margin-bottom: 25px; font-weight: 600;">
@@ -542,29 +539,7 @@
             checkCooldown();
         };
 
-        // ==========================================
-        // LÓGICA DEL CONTADOR DE USUARIOS
-        // ==========================================
-        async function fetchActiveUsers() {
-            try {
-                let response = await fetch('https://hub.astrahub.space/activos', {
-                    method: 'GET',
-                    headers: { 'Astra-Auth': 'AstraVIP2026!' }
-                });
-                
-                if (response.ok) {
-                    let data = await response.json();
-                    let count = Object.keys(data).length;
-                    document.getElementById('activeCounter').innerText = count;
-                } else {
-                    document.getElementById('activeCounter').innerText = "0";
-                }
-            } catch (error) {
-                console.log("Error cargando usuarios", error);
-            }
-        }
-        fetchActiveUsers();
-        setInterval(fetchActiveUsers, 15000);
+    
 
         // ==========================================
         // LÓGICA DEL BYPASS PREMIUM

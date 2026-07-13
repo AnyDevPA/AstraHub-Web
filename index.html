@@ -312,7 +312,10 @@
                 Activos: <span class="user-count" id="activeCounter">...</span>
             </div>
 
-            <div class="section-label center">Executors Recomendados</div>
+            <div class="section-label center" style="margin-bottom: 5px;">Executors Recomendados</div>
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85em; font-family: 'Outfit', sans-serif; margin-bottom: 25px; font-weight: 600;">
+                Última actualización: <span style="color: #00ff88;">12 de Julio, 2026</span>
+            </div>
             <div class="executors-wrapper">
                 <a href="https://www.mediafire.com/file/ajql6gpgr2ulx1j/Delta-2.727.1199-02.apk/file" class="executor-btn">Delta Android <span class="click-hint">(Mediafire)</span></a>
                 <a href="https://www.mediafire.com/file/k4ejfvh8588wv7o/Delta-2.727.1199.ipa/file" target="_blank" class="executor-btn">Delta iOS <span class="click-hint">(MediaFire)</span></a>
@@ -322,6 +325,12 @@
             
             <!-- TARJETA DEL SCRIPT PRINCIPAL -->
             <div class="script-card glass-box" id="main-vip-card" style="border: 1px solid rgba(0, 68, 255, 0.4); box-shadow: 0 0 30px rgba(0, 68, 255, 0.15);">
+                
+                <!-- Contenedor oculto por defecto (display: none) y sin link en el src -->
+                <div class="card-banner-container" id="main-vip-banner-container" style="display: none; margin-bottom: 20px;">
+                    <img id="main-vip-banner" src="" class="card-banner" alt="Banner VIP">
+                </div>
+
                 <div class="script-card-header" style="flex-direction: row;">
                     <span class="script-title" id="main-vip-title" style="color: var(--accent); text-shadow: 0 0 15px var(--accent-glow);">OnyxHub Principal</span>
                     <span class="script-game-tag" id="main-vip-games" style="background: rgba(0, 68, 255, 0.1); color: #fff; border-color: rgba(0, 68, 255, 0.5);">Multi-Juego</span>
@@ -873,7 +882,18 @@
                 document.getElementById('main-vip-creator').innerText = scriptPrincipal.creador;
                 document.getElementById('main-vip-desc').innerText = scriptPrincipal.descripcion;
                 document.getElementById('scriptCodeMain').innerText = scriptPrincipal.codigo;
+                // Actualizar imagen si el script principal tiene una desde el VPS
+                const bannerImg = document.getElementById('main-vip-banner');
+                const bannerContainer = document.getElementById('main-vip-banner-container');
+                if (scriptPrincipal.imagenes && scriptPrincipal.imagenes.length > 0) {
+                    bannerImg.src = scriptPrincipal.imagenes[0];
+                    bannerContainer.style.display = 'block';
+                } else {
+                    // Si no tiene imagen, escondemos el contenedor para que no se vea feo
+                    bannerContainer.style.display = 'none';
+                }
             }
+            
 
             const scriptsMostrados = [...scriptsDesdeVPS].reverse();
             

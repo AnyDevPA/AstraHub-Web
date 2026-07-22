@@ -34,7 +34,7 @@
             min-height: 100vh; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative;
         }
 
-        /* Efectos de fondo minimalista ocultando la aurora */
+        /* Ocultar Aurora para efecto minimalista */
         .aurora-bg { display: none; }
 
         #particles-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; overflow: hidden; }
@@ -179,6 +179,7 @@
         .details-main-box { padding: 35px; margin-bottom: 25px; }
         .slider-wrapper { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border-color); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .slider-wrapper::-webkit-scrollbar { display: none; }
+        .slider-img { flex: 0 0 100%; width: 100%; height: 220px; object-fit: cover; scroll-snap-align: start; }
         
         .detail-box { background: rgba(0,0,0,0.6); padding: 25px; border-radius: 14px; border: 1px solid var(--border-color); margin-bottom: 25px; text-align: left; }
         .detail-title { color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; margin-bottom: 15px; font-size: 1.2em; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
@@ -205,7 +206,7 @@
         .admin-input, .admin-textarea { width: 100%; padding: 15px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: 0.3s; }
         .admin-input:focus, .admin-textarea:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(79, 70, 229, 0.2); background: #000; }
         .admin-textarea { resize: vertical; min-height: 120px; }
-        
+
         .comments-main-box { padding: 30px; margin-top: 0; border-top: 1px solid var(--border-color); border-top-left-radius: 0; border-top-right-radius: 0; }
         .comments-title { font-family: 'Outfit', sans-serif; font-size: 1.4em; font-weight: 800; color: var(--text-main); margin-bottom: 20px; text-align: left; text-transform: uppercase; letter-spacing: 1px; }
         .comment-item { background: rgba(0,0,0,0.6); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--accent); text-align: left; border: 1px solid var(--border-color); border-left: 4px solid var(--accent); transition: 0.3s; }
@@ -221,7 +222,6 @@
         .modal-box { padding: 35px 25px; text-align: center; width: 90%; max-width: 400px; transform: scale(0.9); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .modal-overlay.active .modal-box { transform: scale(1); }
         
-        /* Contador Superior */
         .top-users-counter {
             position: absolute; right: 20px; font-family: 'JetBrains Mono', monospace; 
             color: #00ff80; font-weight: bold; font-size: 0.85em; 
@@ -240,6 +240,7 @@
             .glass-box { border-radius: 12px; }
             .script-title { font-size: 1.25em; }
             .script-card-header { align-items: flex-start; flex-direction: column; }
+            .slider-img { height: 180px; }
             .top-navbar-brand { font-size: 1.6em; }
             .comment-row { flex-direction: column; }
             .top-users-counter { font-size: 0.7em; right: 10px; }
@@ -247,7 +248,6 @@
     </style>
 </head>
 <body>
-    <div class="aurora-bg"></div>
     <div id="particles-container"></div>
     
     <div class="menu-btn" onclick="toggleMenu()">
@@ -258,7 +258,6 @@
         <div class="top-navbar-brand glitch-text" id="brand-title" data-text="OnyxHub">
             OnyxHub
         </div>
-        <!-- Nuevo contador de usuarios activos basado en request al VPS -->
         <div class="top-users-counter" id="active-users-display">
             <div class="ping-dot"></div>
             Activos: <span id="users-count">...</span>
@@ -292,7 +291,6 @@
 
             <div class="section-label center" style="margin-top: 40px; color: #fff;">Script</div>
             
-            <!-- TARJETA ONYX (Modificada sin descripción innecesaria) -->
             <div class="script-card glass-box clickable-card" id="main-vip-card" style="border: 1px solid rgba(79, 70, 229, 0.4); box-shadow: 0 0 30px rgba(79, 70, 229, 0.15);" onclick="abrirDetallesVip()">
                 <div class="card-banner-container" style="display: block; margin-bottom: 20px;">
                     <img src="https://i.imgur.com/h5kuEHa.jpeg" class="card-banner" alt="Banner VIP">
@@ -303,7 +301,6 @@
                     <span class="script-game-tag" style="background: rgba(79, 70, 229, 0.1); color: #fff; border-color: rgba(79, 70, 229, 0.5);">Multi-Juego</span>
                 </div>
                 
-                <!-- Solo la lista de juegos soportados como fue solicitado -->
                 <p class="script-desc" style="margin-top: 10px; color: #fff; font-weight: bold;">Juegos soportados: MM2, MMV, DUELS.</p>
                 
                 <div class="script-code-container" style="margin-top: 20px;" onclick="event.stopPropagation();">
@@ -429,38 +426,73 @@
             };
         }
 
+        function mostrarPromptAdmin() {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            const box = document.createElement('div');
+            box.className = 'glass-box modal-box';
+            box.innerHTML = `
+                <h2 style="color:var(--accent); margin-bottom:20px; font-family: 'Outfit', sans-serif; font-weight: 900; letter-spacing: 1px;">Control de Acceso</h2>
+                <input type="password" id="admin-pass-input" class="bypass-input" placeholder="Ingresa la credencial..." style="margin-bottom:20px; text-align:center;">
+                <button id="btn-admin-submit" class="btn">Verificar</button>
+                <button id="btn-admin-cancel" class="btn-back" style="margin: 15px auto 0 auto;">Cerrar</button>
+            `;
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => overlay.classList.add('active'), 10);
+            document.getElementById('admin-pass-input').focus();
+
+            const checkPass = () => {
+                if(document.getElementById('admin-pass-input').value === "onyx2026") {
+                    isAdminLoggedIn = true;
+                    document.getElementById('link-admin').classList.add('visible');
+                    overlay.classList.remove('active');
+                    setTimeout(() => { document.body.removeChild(overlay); mostrarAlerta("Sistemas Onyx Desbloqueados. Bienvenido."); }, 400);
+                } else {
+                    document.getElementById('admin-pass-input').value = "";
+                    document.getElementById('admin-pass-input').placeholder = "Acceso Denegado";
+                    document.getElementById('admin-pass-input').style.borderColor = "#ff3333";
+                    setTimeout(() => { document.getElementById('admin-pass-input').style.borderColor = "var(--border-color)"; }, 1000);
+                }
+            };
+            
+            document.getElementById('btn-admin-submit').onclick = checkPass;
+            document.getElementById('admin-pass-input').onkeydown = (e) => { if(e.key === 'Enter') checkPass(); };
+            document.getElementById('btn-admin-cancel').onclick = () => { 
+                overlay.classList.remove('active'); 
+                setTimeout(() => document.body.removeChild(overlay), 400); 
+            };
+        }
+
+        // LÓGICA DEL CONTADOR DE USUARIOS VPS
         function iniciarContadorUsuarios() {
             const counterElement = document.getElementById("users-count");
             if (!counterElement) return;
 
-            // Datos dummy ya que estamos en contexto de Web y no de Roblox
             const myName = encodeURIComponent("OnyxWebClient");
             const myJobId = "WebPanel";
 
-            // Hacemos el request usando fetch adaptado de la version de Roblox Lua
             const fetchUsers = async () => {
                 try {
                     const respuesta = await fetch(`https://hub.onyx-scripts.com/ping?user=${myName}&jobid=${myJobId}`, {
                         method: "GET",
                         headers: {
                             "Astra-Auth": "AstraVIP2026!"
-                            // "User-Agent" se omite ya que el navegador bloquea su modificacion por Fetch API
                         }
                     });
                     
                     if (respuesta.ok) {
                         const data = await respuesta.text();
-                        if (data && !isNaN(data)) {
-                            counterElement.innerText = data;
+                        if (data && !isNaN(data.trim())) {
+                            counterElement.innerText = data.trim();
                         }
                     }
                 } catch (error) {
-                    // Si ocurre un error CORS o de red, mantenemos un valor por defecto o no hacemos nada para evitar spam en consola visual
                     console.log("Error consultando usuarios activos:", error);
                 }
             };
 
-            // Primera llamada y loop cada 5 segundos
             fetchUsers();
             setInterval(fetchUsers, 5000);
         }
@@ -473,7 +505,7 @@
         window.onload = function() {
             cargarScriptsDesdeVPS();
             checkCooldown();
-            iniciarContadorUsuarios();
+            iniciarContadorUsuarios(); // Se inicia el ping al VPS
         };
 
         function checkCooldown() {
@@ -590,7 +622,6 @@
         }
 
         function abrirDetallesVip() {
-            // Buscamos un ID real en la base de datos SOLO para poder guardar comentarios.
             let scriptDB = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
             if (!scriptDB && scriptsDesdeVPS.length > 0) scriptDB = scriptsDesdeVPS[scriptsDesdeVPS.length - 1];
             
@@ -602,17 +633,12 @@
             let onyxData = {
                 titulo: "OnyxHub",
                 tag: "Multi-Juego",
-                creador: "AlexDev",
-                descripcion: "Juegos soportados: MM2, MMV, DUELS.", // Quitamos la descripcion larga
-                codigo: 'loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()',
-                imagen: "https://i.imgur.com/h5kuEHa.jpeg",
-                funciones: [] // Quitamos las funciones
+                descripcion: "Juegos soportados: MM2, MMV, DUELS.", // Solo esto, sin funciones
+                codigo: 'loadstring(game:HttpGet("https://onyx-scripts.com/onyxhub"))()',
+                imagen: "https://i.imgur.com/h5kuEHa.jpeg"
             };
 
             const container = document.getElementById('script-details-content');
-            
-            // Ya no construimos lista de funciones.
-            let featuresHtml = '';
 
             let htmlComentarios = '';
             if(listaComentarios.length === 0) {
@@ -632,7 +658,6 @@
                 });
             }
 
-            // Input para comentar
             let inputComentarioHtml = idParaComentarios ? `
                 <div class="comment-input-area">
                     <input type="text" id="comentario-autor" class="admin-input" placeholder="Ingresa tu Alias" maxlength="20">
@@ -655,10 +680,9 @@
                     <div class="slider-wrapper" style="border-radius:12px; margin-bottom:25px; overflow:hidden;">
                         <img src="${onyxData.imagen}" style="width:100%; height:auto; display:block;">
                     </div>
-                    
+
                     <div class="detail-box">
                         <p style="color: var(--text-main); font-size: 1.1em; font-weight: bold; line-height: 1.7; opacity: 0.9; white-space: pre-wrap;">${onyxData.descripcion}</p>
-                        ${featuresHtml}
                     </div>
 
                     <div class="detail-box" style="border-color: rgba(79, 70, 229, 0.5); box-shadow: inset 0 0 25px rgba(79, 70, 229, 0.1); margin-bottom: 0;">
@@ -758,45 +782,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function mostrarPromptAdmin() {
-            const overlayAdmin = document.createElement('div');
-            overlayAdmin.className = 'modal-overlay';
-            const box = document.createElement('div');
-            box.className = 'glass-box modal-box';
-            box.innerHTML = `
-                <h2 style="color:var(--accent); margin-bottom:20px; font-family: 'Outfit', sans-serif; font-weight: 900; letter-spacing: 1px;">Control de Acceso</h2>
-                <input type="password" id="admin-pass-input" class="bypass-input" placeholder="Ingresa la credencial..." style="margin-bottom:20px; text-align:center;">
-                <button id="btn-admin-submit" class="btn">Verificar</button>
-                <button id="btn-admin-cancel" class="btn-back" style="margin: 15px auto 0 auto;">Cerrar</button>
-            `;
-            overlayAdmin.appendChild(box);
-            document.body.appendChild(overlayAdmin);
-            
-            setTimeout(() => overlayAdmin.classList.add('active'), 10);
-            document.getElementById('admin-pass-input').focus();
-
-            const checkPass = () => {
-                if(document.getElementById('admin-pass-input').value === "onyx2026") {
-                    isAdminLoggedIn = true;
-                    document.getElementById('link-admin').classList.add('visible');
-                    overlayAdmin.classList.remove('active');
-                    setTimeout(() => { document.body.removeChild(overlayAdmin); mostrarAlerta("Sistemas Onyx Desbloqueados. Bienvenido."); }, 400);
-                } else {
-                    document.getElementById('admin-pass-input').value = "";
-                    document.getElementById('admin-pass-input').placeholder = "Acceso Denegado";
-                    document.getElementById('admin-pass-input').style.borderColor = "#ff3333";
-                    setTimeout(() => { document.getElementById('admin-pass-input').style.borderColor = "var(--border-color)"; }, 1000);
-                }
-            };
-            
-            document.getElementById('btn-admin-submit').onclick = checkPass;
-            document.getElementById('admin-pass-input').onkeydown = (e) => { if(e.key === 'Enter') checkPass(); };
-            document.getElementById('btn-admin-cancel').onclick = () => { 
-                overlayAdmin.classList.remove('active'); 
-                setTimeout(() => document.body.removeChild(overlayAdmin), 400); 
-            };
-        }
-
         document.getElementById('brand-title').addEventListener('click', () => {
             brandClickCount++;
             clearTimeout(brandClickTimer);
@@ -825,7 +810,6 @@
             document.body.removeChild(tempInput);
         }
         
-        // Anti-devtools
         document.addEventListener('contextmenu', event => event.preventDefault()); 
         document.onkeydown = function(e) {
             if(e.keyCode == 123) return false; 
@@ -833,11 +817,15 @@
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
         }
 
-        // Particle generator
+        setInterval(function() {
+            let before = new Date().getTime(); debugger; let after = new Date().getTime();
+            if (after - before > 100) { document.body.innerHTML = "<h1 style='color:var(--accent); text-align:center; margin-top: 50px; font-family: Outfit, sans-serif;'>Acceso Denegado</h1>"; }
+        }, 100);
+
         const particlesContainer = document.getElementById('particles-container');
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 40; i++) {
             let p = document.createElement('div'); p.className = 'particle';
-            let size = Math.random() * 3 + 1; p.style.width = size + 'px'; p.style.height = size + 'px';
+            let size = Math.random() * 3 + 1.5; p.style.width = size + 'px'; p.style.height = size + 'px';
             p.style.left = Math.random() * 100 + 'vw'; p.style.top = Math.random() * 100 + 'vh';
             p.style.animationDuration = (Math.random() * 15 + 10) + 's'; p.style.animationDelay = (Math.random() * 10) + 's';
             particlesContainer.appendChild(p);

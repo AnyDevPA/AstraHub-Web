@@ -581,8 +581,10 @@
             }, 100); 
 
             try {
-                const response = await fetch("http://api.onyx-scripts.com:8080/api/bypass", {
-                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: link })
+                const response = await fetch("https://api.onyx-scripts.com/api/bypass", {
+                    method: "POST", 
+                    headers: { "Content-Type": "application/json" }, 
+                    body: JSON.stringify({ url: link })
                 });
                 const data = await response.json();
                 clearInterval(cronometroActivo);

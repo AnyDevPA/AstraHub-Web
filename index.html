@@ -4,23 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnyxHub</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Nuevas Fuentes: Space Grotesk (Diseño tech/limpio) y Fira Code (Código y datos) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Space+Grotesk:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Tema Minimalista Oscuro (Pure Black) */
+            /* Colores Onyx Originales */
             --bg-dark: #000000; 
             --accent: #4f46e5; 
-            --accent-glow: rgba(79, 70, 229, 0.4);
+            --accent-hover: #4338ca;
             --accent-cyan: #8a2be2; 
-            --accent-magenta: #15024b; 
             --text-main: #ffffff; 
-            --text-muted: #a1a1aa; 
-            --box-bg: rgba(10, 10, 12, 0.6); 
-            --text-script: #e2e8f0; 
-            --border-color: rgba(255, 255, 255, 0.08); 
-            --sidebar-width: 280px;
+            --text-muted: #9ca3af; 
+            --border-color: #1f1f2e; 
+            --border-light: #2d2d3d;
+            --success-color: #00ff88;
         }
+        
         * { 
             box-sizing: border-box; margin: 0; padding: 0; 
             user-select: none; -webkit-user-select: none;
@@ -28,367 +28,331 @@
         input, textarea, code, .bypass-input, #result-box, #result-box * {
             user-select: text; -webkit-user-select: text;
         }
-        html, body {
-            background-color: var(--bg-dark); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif;
-            display: flex; justify-content: center; align-items: flex-start;
-            min-height: 100vh; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative;
+        body {
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            font-family: 'Space Grotesk', sans-serif; /* Nueva fuente base */
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* Ocultar Aurora para efecto minimalista */
-        .aurora-bg { display: none; }
-
-        #particles-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; overflow: hidden; }
-        .particle { position: absolute; border-radius: 50%; background-color: #ffffff; box-shadow: 0 0 8px #ffffff; opacity: 0; animation: floatParticle linear infinite; }
-        @keyframes floatParticle {
-            0% { transform: translateY(10vh) scale(0.2); opacity: 0; }
-            20% { opacity: 0.3; transform: translateY(0vh) scale(1); }
-            80% { opacity: 0.3; transform: translateY(-20vh) scale(1); }
-            100% { transform: translateY(-30vh) scale(0.2); opacity: 0; }
+        /* ----- TOP NAVBAR ----- */
+        .top-navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; height: 80px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.95);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
         }
-
-        /* EFECTO GLITCH MINIMALISTA */
-        .glitch-text {
-            position: relative;
-            color: white;
+        
+        .brand {
+            font-weight: 900; font-size: 1.8em; letter-spacing: 1px;
+            cursor: pointer; position: relative; color: #fff; text-transform: uppercase;
         }
-        .glitch-text::before, .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-dark);
-        }
-        .glitch-text::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--accent);
-            clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
-        }
-        .glitch-text::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--accent-cyan);
-            clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        .brand::before {
+            content: "ONYXHUB"; position: absolute; left: 2px; text-shadow: -2px 0 var(--accent);
+            clip: rect(24px, 550px, 90px, 0); animation: glitch-anim 3s infinite linear alternate-reverse;
         }
         @keyframes glitch-anim {
             0% { clip: rect(12px, 9999px, 80px, 0); }
             20% { clip: rect(45px, 9999px, 10px, 0); }
             40% { clip: rect(78px, 9999px, 50px, 0); }
             60% { clip: rect(23px, 9999px, 90px, 0); }
-            80% { clip: rect(89px, 9999px, 30px, 0); }
             100% { clip: rect(34px, 9999px, 70px, 0); }
         }
-        @keyframes glitch-anim-2 {
-            0% { clip: rect(65px, 9999px, 100px, 0); }
-            20% { clip: rect(21px, 9999px, 45px, 0); }
-            40% { clip: rect(87px, 9999px, 20px, 0); }
-            60% { clip: rect(12px, 9999px, 80px, 0); }
-            80% { clip: rect(56px, 9999px, 10px, 0); }
-            100% { clip: rect(98px, 9999px, 60px, 0); }
-        }
 
-        .top-navbar {
-            position: fixed; top: 0; left: 0; width: 100%; height: 75px;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid var(--border-color); z-index: 900;
-            display: flex; align-items: center; justify-content: center; padding: 0 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-        }
+        .nav-links { display: flex; align-items: center; gap: 35px; font-weight: 700; font-size: 0.95em; }
+        .nav-link { color: var(--text-muted); text-decoration: none; transition: color 0.2s; cursor: pointer; text-transform: uppercase; }
+        .nav-link:hover, .nav-link.active { color: var(--text-main); text-shadow: 0 0 10px rgba(79, 70, 229, 0.5); }
+        .nav-link-admin { display: none; }
+        .nav-link-admin.visible { display: block; color: var(--accent-cyan); }
         
-        .top-navbar-brand {
-            font-family: 'Outfit', sans-serif; font-size: 2.2em; font-weight: 900; letter-spacing: 1px; cursor: pointer; display: flex; align-items: center;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .btn-dashboard {
+            background: var(--accent); color: #fff; padding: 12px 25px; 
+            text-decoration: none; font-weight: 800; border: none; cursor: pointer;
+            transition: background 0.2s; font-family: 'Fira Code', monospace; text-transform: uppercase;
+            border-radius: 2px;
         }
-        .top-navbar-brand:hover { transform: scale(1.05); }
+        .btn-dashboard:hover { background: var(--accent-hover); box-shadow: 0 0 15px rgba(79, 70, 229, 0.4); }
 
-        .menu-btn {
-            position: fixed; top: 15px; left: 20px; z-index: 1000; cursor: pointer; width: 45px; height: 45px;
-            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color);
-            border-radius: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(5px);
-        }
-        .menu-btn:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); transform: scale(1.05); background: rgba(79, 70, 229, 0.15); }
-        .menu-btn span { display: block; width: 22px; height: 2px; background-color: var(--text-main); border-radius: 2px; transition: all 0.3s ease; }
-        
-        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 998; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
-        .sidebar-overlay.active { opacity: 1; visibility: visible; }
-        
-        .sidebar {
-            position: fixed; top: 0; left: calc(var(--sidebar-width) * -1); width: var(--sidebar-width); height: 100vh;
-            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(25px); border-right: 1px solid var(--border-color);
-            z-index: 999; padding: 90px 0 20px 0; display: flex; flex-direction: column; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 20px 0 50px rgba(0,0,0,0.8); overflow-y: auto;
-        }
-        .sidebar.active { left: 0; }
-        
-        .nav-link { padding: 18px 30px; color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 1.1em; display: flex; align-items: center; gap: 15px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
-        .nav-link::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background: linear-gradient(90deg, rgba(79, 70, 229, 0.15), transparent); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1; }
-        .nav-link:hover, .nav-link.active { color: var(--text-main); padding-left: 40px; }
-        .nav-link:hover::before, .nav-link.active::before { width: 100%; border-left: 4px solid var(--accent); }
-        .nav-link-admin { margin-top: auto; border-top: 1px solid var(--border-color); color: #ff3377; display: none; }
-        .nav-link-admin.visible { display: flex; }
-
-        .main-panel { position: relative; z-index: 10; padding: 110px 20px 50px 20px; width: 95%; max-width: 800px; text-align: center; }
-        .page-section { display: none; animation: fadeInPage 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        /* ----- MAIN CONTAINER ----- */
+        .main-panel { margin-top: 100px; padding: 40px 10vw; flex: 1; }
+        .page-section { display: none; animation: fadeIn 0.4s ease forwards; }
         .page-section.active { display: block; }
-        @keyframes fadeInPage { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .section-label { color: var(--text-muted); font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; text-align: left; margin-left: 5px; margin-top: 30px; }
-        .section-label.center { text-align: center; margin-left: 0; }
-
-        .glass-box { 
-            background: var(--box-bg); 
-            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--border-color); 
-            border-radius: 16px; 
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05); 
-            position: relative; overflow: hidden; z-index: 1; transition: transform 0.4s ease, box-shadow 0.4s ease;
+        /* ----- HERO SECTION ----- */
+        .hero-container {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 50px; margin-top: 40px; margin-bottom: 80px; flex-wrap: wrap;
         }
-        .glass-box:hover { transform: translateY(-3px); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
-        
-        @keyframes scannerLight { 0% { left: -100%; } 25% { left: 200%; } 100% { left: 200%; } }
-        .btn { 
-            background: linear-gradient(135deg, var(--accent), rgba(138, 43, 226, 0.9)); 
-            color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 14px; 
-            font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1em; letter-spacing: 1px; cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            width: 100%; text-transform: uppercase; position: relative; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        .hero-text-side { flex: 1; min-width: 300px; }
+        .hero-title {
+            font-size: 4.5em; font-weight: 900; 
+            line-height: 1.1; margin-bottom: 20px; text-transform: lowercase;
+            letter-spacing: -2px;
         }
-        .btn::before { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent); transform: skewX(-25deg); animation: scannerLight 4s infinite ease-in-out; }
-        .btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 25px rgba(79, 70, 229, 0.5), 0 12px 25px rgba(138, 43, 226, 0.4); border-color: rgba(255,255,255,0.3); }
-        .btn:active { transform: translateY(2px) scale(0.97); box-shadow: 0 2px 10px var(--accent-glow); }
-        
-        .btn-back { background: rgba(255,255,255,0.03); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 25px; border-radius: 14px; cursor: pointer; font-family: inherit; font-weight: 700; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: block; margin-bottom: 25px; width: fit-content; backdrop-filter: blur(5px); }
-        .btn-back:hover { background: rgba(255,255,255,0.1); border-color: var(--text-main); transform: translateX(-5px); }
-        
-        .script-card { padding: 22px; margin-bottom: 25px; text-align: left; position: relative; }
-        .clickable-card { cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        
-        .card-banner-container { width: 100%; height: auto; margin-bottom: 18px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
-        .card-banner { width: 100%; height: auto; display: block; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .clickable-card:hover .card-banner { transform: scale(1.05); }
+        .highlight { background: var(--accent); color: white; padding: 0 12px; display: inline-block; }
+        .hero-subtitle { color: var(--text-muted); font-size: 1.1em; margin-bottom: 40px; font-weight: 400; line-height: 1.5; }
 
-        .script-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .script-title { font-family: 'Outfit', sans-serif; font-size: 1.4em; font-weight: 800; color: var(--text-main); text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
-        .script-game-tag { background: rgba(138, 43, 226, 0.15); color: #b182ff; padding: 6px 12px; border-radius: 10px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(138, 43, 226, 0.3); text-transform: uppercase; letter-spacing: 1.5px; }
-        .script-desc { font-size: 0.9em; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
-        .script-code-container { background: rgba(0, 0, 0, 0.8); padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: inset 0 5px 15px rgba(0,0,0,0.8); display: flex; flex-direction: column; gap: 15px; }
-        code { color: var(--text-script); font-family: 'JetBrains Mono', monospace; font-size: 0.90em; word-break: break-all; }
+        /* ----- CODE BOX ----- */
+        .code-box-wrapper {
+            border: 2px solid var(--border-light); padding: 25px; position: relative; 
+            background: #050508; display: inline-block; width: 100%; max-width: 550px;
+            transition: border-color 0.3s;
+        }
+        .code-box-wrapper:hover { border-color: var(--accent); }
+        .code-content { color: #e2e8f0; font-size: 0.95em; word-break: break-all; font-family: 'Fira Code', monospace; }
         
-        .details-main-box { padding: 35px; margin-bottom: 25px; }
-        .slider-wrapper { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border-color); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .slider-wrapper::-webkit-scrollbar { display: none; }
-        .slider-img { flex: 0 0 100%; width: 100%; height: 220px; object-fit: cover; scroll-snap-align: start; }
-        
-        .detail-box { background: rgba(0,0,0,0.6); padding: 25px; border-radius: 14px; border: 1px solid var(--border-color); margin-bottom: 25px; text-align: left; }
-        .detail-title { color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; margin-bottom: 15px; font-size: 1.2em; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-copy {
+            position: absolute; bottom: -2px; right: -2px;
+            background: var(--accent); color: #fff; border: none;
+            padding: 12px 20px; font-family: 'Fira Code', monospace; font-weight: 700;
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px;
+        }
+        .btn-copy:hover { background: var(--accent-cyan); }
 
-        .executors-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; }
-        .executor-btn { flex: 1; min-width: 140px; padding: 18px 12px; border-radius: 14px; border: 1px solid var(--border-color); background: rgba(0, 0, 0, 0.6); color: var(--text-main); font-family: 'Outfit', sans-serif; font-weight: 800; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(5px); }
-        .executor-btn:hover { background: rgba(79, 70, 229, 0.1); border-color: rgba(79, 70, 229, 0.4); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2); }
-        .click-hint { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75em; color: var(--text-muted); font-weight: 600; }
-        
-        .supported-box { padding: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .tag { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 15px; border-radius: 10px; font-size: 0.8em; font-weight: 700; transition: 0.3s; }
-        .tag:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); }
+        /* ----- HERO IMAGE SIDE ----- */
+        .hero-image-side { flex: 1; min-width: 300px; display: flex; justify-content: center; position: relative; }
+        .hero-image-side img {
+            width: 100%; max-width: 500px; border: 1px solid var(--border-color);
+            border-radius: 4px; box-shadow: 20px 20px 0px rgba(79, 70, 229, 0.1);
+            transition: transform 0.3s;
+        }
+        .hero-image-side img:hover { transform: translate(-5px, -5px); box-shadow: 25px 25px 0px rgba(79, 70, 229, 0.2); }
 
-        .bypass-input { width: 100%; padding: 16px 20px; background-color: rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); border-radius: 14px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1em; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 3px 10px rgba(0,0,0,0.5); }
-        .bypass-input:focus { border-color: var(--accent); background-color: #000; box-shadow: inset 0 3px 10px rgba(0,0,0,0.8), 0 0 15px rgba(79, 70, 229, 0.2); }
-        .btn-pegar { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #ffffff; color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 800; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .btn-pegar:hover { background: var(--accent); color: #fff; transform: translateY(-50%) scale(1.05); }
-        
-        #result-box { margin-top: 20px; padding: 15px; background-color: rgba(0, 0, 0, 0.8); border-radius: 12px; display: none; word-wrap: break-word; font-size: 0.95em; border: 1px solid rgba(79, 70, 229, 0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
-        .clean-link { color: #8a2be2; font-weight: bold; text-decoration: none; display: block; margin-top: 10px; word-break: break-all;}
-        .clean-link:hover { text-decoration: underline; color: #fff;}
-
-        .admin-form { display: flex; flex-direction: column; gap: 15px; text-align: left; }
-        .admin-input, .admin-textarea { width: 100%; padding: 15px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: 0.3s; }
-        .admin-input:focus, .admin-textarea:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(79, 70, 229, 0.2); background: #000; }
-        .admin-textarea { resize: vertical; min-height: 120px; }
-
-        .comments-main-box { padding: 30px; margin-top: 0; border-top: 1px solid var(--border-color); border-top-left-radius: 0; border-top-right-radius: 0; }
-        .comments-title { font-family: 'Outfit', sans-serif; font-size: 1.4em; font-weight: 800; color: var(--text-main); margin-bottom: 20px; text-align: left; text-transform: uppercase; letter-spacing: 1px; }
-        .comment-item { background: rgba(0,0,0,0.6); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--accent); text-align: left; border: 1px solid var(--border-color); border-left: 4px solid var(--accent); transition: 0.3s; }
-        .comment-item:hover { background: rgba(0,0,0,0.8); transform: translateX(5px); }
-        .comment-author { color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1em; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
-        .comment-date { color: var(--text-muted); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8em; font-weight: 600; }
-        .comment-text { color: var(--text-main); font-size: 0.95em; line-height: 1.6; word-break: break-word; }
-        .comment-input-area { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 25px;}
-        .comment-row { display: flex; gap: 12px; }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-box { padding: 35px 25px; text-align: center; width: 90%; max-width: 400px; transform: scale(0.9); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .modal-overlay.active .modal-box { transform: scale(1); }
-        
-        .top-users-counter {
-            position: absolute; right: 20px; font-family: 'JetBrains Mono', monospace; 
-            color: #00ff80; font-weight: bold; font-size: 0.85em; 
-            display: flex; align-items: center; gap: 6px;
+        /* ----- STATS SECTION (VPS REAL CONNECTION) ----- */
+        .stats-section { text-align: center; margin: 80px 0; padding-bottom: 80px; border-bottom: 1px solid var(--border-color); }
+        .stats-title { font-family: 'Fira Code', monospace; font-size: 1.5em; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; color: var(--text-muted); }
+        .stats-number {
+            font-family: 'Space Grotesk', sans-serif; font-size: 7em; font-weight: 900; 
+            color: #fff; line-height: 1; letter-spacing: -2px;
+            text-shadow: 0 0 30px rgba(79, 70, 229, 0.3); margin-top: 20px;
         }
         .ping-dot {
-            width: 8px; height: 8px; background-color: #00ff80; border-radius: 50%;
-            box-shadow: 0 0 8px #00ff80; animation: pulse 1.5s infinite alternate;
+            display: inline-block; width: 12px; height: 12px; background-color: var(--success-color); border-radius: 50%;
+            box-shadow: 0 0 12px var(--success-color); animation: pulse 1.5s infinite alternate; margin-bottom: 15px;
         }
+        .ping-dot.offline { background-color: #ff3333; box-shadow: 0 0 12px #ff3333; animation: none; }
         @keyframes pulse { 0% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
-        @media (max-width: 650px) {
-            .main-panel { width: 100%; padding: 110px 15px 40px 15px; }
-            .details-main-box, .comments-main-box { padding: 20px; }
-            .script-card { padding: 18px; }
-            .glass-box { border-radius: 12px; }
-            .script-title { font-size: 1.25em; }
-            .script-card-header { align-items: flex-start; flex-direction: column; }
-            .slider-img { height: 180px; }
-            .top-navbar-brand { font-size: 1.6em; }
-            .comment-row { flex-direction: column; }
-            .top-users-counter { font-size: 0.7em; right: 10px; }
+        /* ----- CARDS ----- */
+        .section-label { font-size: 2.2em; font-weight: 900; margin-bottom: 40px; text-align: center; text-transform: uppercase; letter-spacing: -1px; }
+        
+        .cards-row { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
+        .onyx-card {
+            border: 1px solid var(--border-light); background: #08080a;
+            padding: 40px 30px; flex: 1; min-width: 300px; max-width: 450px; text-align: left;
+            transition: border-color 0.3s; position: relative; overflow: hidden;
+        }
+        .onyx-card:hover { border-color: var(--accent); }
+        .onyx-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .onyx-card:hover::before { opacity: 1; }
+        
+        .card-title { font-family: 'Fira Code', monospace; font-size: 1.4em; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; color: #fff;}
+        .card-desc { color: var(--text-muted); font-size: 0.9em; line-height: 1.6; margin-bottom: 30px; font-weight: 600;}
+        .btn-card {
+            display: inline-block; padding: 12px 25px; font-weight: 700; text-transform: uppercase;
+            text-decoration: none; cursor: pointer; border: 1px solid var(--border-light); font-family: 'Fira Code', monospace; transition: 0.2s; background: #0a0a0f; color: #fff; text-align: center;
+        }
+        .btn-card:hover { background: var(--accent); border-color: var(--accent); }
+
+        /* ----- INPUTS & FORMS ----- */
+        .onyx-input {
+            width: 100%; padding: 18px 25px; background: #050508; border: 1px solid var(--border-light); 
+            color: #fff; font-family: 'Fira Code', monospace; font-size: 1em; outline: none; margin-bottom: 20px; transition: 0.2s;
+            border-radius: 2px;
+        }
+        .onyx-input:focus { border-color: var(--accent); box-shadow: inset 5px 0 0 var(--accent); }
+        .btn-full { width: 100%; padding: 18px; text-align: center; font-size: 1.1em; background: var(--accent); color: white; border: none; cursor: pointer; font-weight: 900; transition: 0.2s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 1px;}
+        .btn-full:hover { background: var(--accent-hover); }
+        
+        #result-box { margin-top: 20px; padding: 20px; background: #050508; border: 1px dashed var(--accent); display: none; word-wrap: break-word; text-align: center; }
+        .clean-link { color: var(--accent-cyan); font-weight: bold; text-decoration: none; display: block; margin-top: 10px; }
+        .clean-link:hover { text-decoration: underline; color: #fff; }
+
+        .admin-form { display: flex; flex-direction: column; gap: 15px; max-width: 800px; margin: 0 auto; }
+        .onyx-textarea { resize: vertical; min-height: 150px; }
+
+        /* ----- FOOTER ----- */
+        .footer { text-align: center; padding: 40px 20px; font-size: 0.85em; border-top: 1px solid var(--border-color); margin-top: 40px; }
+        .footer-links { margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; color: var(--text-muted); font-family: 'Fira Code', monospace; font-weight: 700;}
+        .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+        .footer-links a:hover { color: var(--accent-cyan); }
+        .copyright { color: var(--text-muted); font-weight: 600;}
+
+        /* ----- MODAL ----- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-box { padding: 40px; background: #050508; border: 1px solid var(--accent); text-align: center; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3em; }
+            .stats-number { font-size: 4.5em; }
+            .top-navbar { padding: 0 20px; }
+            .nav-links { display: none; }
+            .hero-container { margin-top: 20px; }
+            .main-panel { padding: 40px 5vw; }
+            .btn-dashboard { padding: 10px 15px; font-size: 0.9em; }
         }
     </style>
 </head>
 <body>
-    <div id="particles-container"></div>
-    
-    <div class="menu-btn" onclick="toggleMenu()">
-        <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span>
-    </div>
 
-    <div class="top-navbar">
-        <div class="top-navbar-brand glitch-text" id="brand-title" data-text="OnyxHub">
-            OnyxHub
+    <header class="top-navbar">
+        <div class="brand" id="brand-title">ONYXHUB</div>
+        <div class="nav-links">
+            <a onclick="cambiarPagina('inicio')" class="nav-link active">Menu</a>
+            <a onclick="cambiarPagina('bypass')" class="nav-link">Bypass Tool</a>
+            <a onclick="cambiarPagina('admin')" class="nav-link nav-link-admin" id="link-admin">Admin Panel</a>
         </div>
-        <div class="top-users-counter" id="active-users-display">
-            <div class="ping-dot"></div>
-            Activos: <span id="users-count">...</span>
+        <div>
+            <button class="btn-dashboard" onclick="mostrarPromptAdmin()">ACCESO</button>
         </div>
-    </div>
-
-    <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
-
-    <nav class="sidebar" id="sidebar">
-        <div style="text-align: center; margin-bottom: 35px; margin-top: 10px;">
-            <div class="glitch-text" data-text="OnyxHub" style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 2.5em; letter-spacing: 1px; color: #fff;">
-                OnyxHub
-            </div>
-        </div>
-
-        <a href="#" class="nav-link active" onclick="cambiarPagina('inicio', this)">Menú</a>
-        <a href="#" class="nav-link" onclick="cambiarPagina('bypass', this)">Bypass</a>
-        <a href="#" class="nav-link nav-link-admin" id="link-admin" onclick="cambiarPagina('admin', this)">Panel Admin</a>
-    </nav>
+    </header>
 
     <div class="main-panel">
+        
         <section id="page-inicio" class="page-section active">
-            <div class="section-label center" style="margin-bottom: 5px;">Executors Recomendados</div>
-            <div style="text-align: center; color: var(--text-muted); font-size: 0.85em; font-family: 'Outfit', sans-serif; margin-bottom: 25px; font-weight: 600;">
-                Última actualización: <span style="color: #00ff88;">21 de Julio, 2026</span>
-            </div>
-            <div class="executors-wrapper">
-                <a href="https://www.mediafire.com/file/e2lcp29dcop7h2s/Delta-2.729.840.apk/file" target="_blank" class="executor-btn">Delta Android <span class="click-hint">(Mediafire)</span></a>
-                <a href="https://www.mediafire.com/file/hdq67wadwixakqe/Delta-2.729.838.ipa/file" target="_blank" class="executor-btn">Delta iOS <span class="click-hint">(MediaFire)</span></a>
-            </div>
-
-            <div class="section-label center" style="margin-top: 40px; color: #fff;">Script</div>
             
-            <div class="script-card glass-box clickable-card" id="main-vip-card" style="border: 1px solid rgba(79, 70, 229, 0.4); box-shadow: 0 0 30px rgba(79, 70, 229, 0.15);" onclick="abrirDetallesVip()">
-                <div class="card-banner-container" style="display: block; margin-bottom: 20px;">
-                    <img src="https://i.imgur.com/h5kuEHa.jpeg" class="card-banner" alt="Banner VIP">
+            <div class="hero-container">
+                <div class="hero-text-side">
+                    <h1 class="hero-title">
+                        onyx <span class="highlight">hub</span><br>
+                        script menu
+                    </h1>
+                    <p class="hero-subtitle".<br>Juegos soportados: MM2, &  DUELS.</p>
+                    
+                    <div class="code-box-wrapper">
+                        <code class="code-content" id="scriptCodeMain">loadstring(game:HttpGet("https://onyx-scripts.com/onyxhub"))()</code>
+                        <button class="btn-copy" onclick="copiarTexto('scriptCodeMain', this, 'COPIAR SCRIPT')">
+                            COPIAR SCRIPT
+                        </button>
+                    </div>
                 </div>
 
-                <div class="script-card-header" style="flex-direction: row; border-bottom: none; padding-bottom: 0;">
-                    <span class="script-title" style="color: var(--accent); text-shadow: 0 0 15px var(--accent-glow);">OnyxHub Principal</span>
-                    <span class="script-game-tag" style="background: rgba(79, 70, 229, 0.1); color: #fff; border-color: rgba(79, 70, 229, 0.5);">Multi-Juego</span>
-                </div>
-                
-                <p class="script-desc" style="margin-top: 10px; color: #fff; font-weight: bold;">Juegos soportados: MM2, MMV, DUELS.</p>
-                
-                <div class="script-code-container" style="margin-top: 20px;" onclick="event.stopPropagation();">
-                    <code id="scriptCodeMain">loadstring(game:HttpGet("https://onyx-scripts.com/onyxhub"))()</code>
-                    <button class="btn" onclick="copiarTexto('scriptCodeMain', this, 'Copiar Script VIP')" style="margin-top: 5px;">Copiar Script</button>
-                </div>
-                
-                <div style="margin-top: 20px; font-weight: 800; font-family: 'Outfit', sans-serif; color: var(--accent); text-align: center; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px;">
-                    Click aquí para ver Comentarios →
+                <div class="hero-image-side">
+                    <img src="https://i.imgur.com/h5kuEHa.jpeg" alt="Onyx Hub UI">
                 </div>
             </div>
 
-            <div class="section-label center" style="margin-top: 40px;">Sitios que Bypasseamos</div>
-            <div class="glass-box supported-box" style="margin-bottom: 30px; background: rgba(0,0,0,0.3);">
-                <span class="tag">Linkvertise</span>
-                <span class="tag">Lootlinks</span>
-                <span class="tag">Work.ink</span>
-                <span class="tag">Pastebin</span>
+            <!-- CONTADOR REAL DEL VPS -->
+            <div class="stats-section">
+                <div class="ping-dot" id="ping-indicator"></div>
+                <h3 class="stats-title">CONEXIONES ACTIVAS VPS</h3>
+                <div class="stats-number" id="users-count">...</div>
+            </div>
+
+            <h2 class="section-label">Executors Recomendados</h2>
+            <div class="cards-row">
+                <div class="onyx-card">
+                    <h4 class="card-title">DELTA ANDROID</h4>
+                    <p class="card-desc">Descarga el executor recomendado para dispositivos Android.</p>
+                    <a href="https://www.mediafire.com/file/e2lcp29dcop7h2s/Delta-2.729.840.apk/file" target="_blank" class="btn-card">Descargar APK</a>
+                </div>
+                <div class="onyx-card">
+                    <h4 class="card-title">DELTA IOS</h4>
+                    <p class="card-desc">Descarga el executor recomendado para dispositivos Apple</p>
+                    <a href="https://www.mediafire.com/file/hdq67wadwixakqe/Delta-2.729.838.ipa/file" target="_blank" class="btn-card">Descargar IPA</a>
+                </div>
             </div>
         </section>
 
-        <!-- SUBPÁGINA: DETALLES DEL SCRIPT Y COMENTARIOS -->
-        <section id="page-script-details" class="page-section">
-            <button class="btn-back" onclick="cambiarPagina('inicio')">← Volver</button>
-            <div id="script-details-content"></div>
-        </section>
-
-        <!-- SUBPÁGINA 2: BYPASS -->
+        <!-- BYPASS REAL -->
         <section id="page-bypass" class="page-section">
-            <div class="section-label" style="text-align: center; font-size: 1.2em; color: #fff;">Bypass Tool</div>
-            <div class="script-card glass-box" style="padding-bottom: 30px;">
-                <p class="script-desc" style="margin-bottom: 20px; text-align: center; font-size: 1em;">Desbloquea enlaces en segundos de forma automática.</p>
-                <div style="position: relative; width: 100%; margin-bottom: 20px;">
-                    <input type="url" id="linkInput" class="bypass-input" placeholder="Pega la URL aquí..." autocomplete="off" style="padding-right: 90px;">
-                    <button class="btn-pegar" onclick="pegarPortapapeles()">Pegar</button>
+            <h2 class="section-label">Bypass <span style="color: var(--accent);">Tool</span></h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 40px; font-size: 1.1em; font-weight: 600;">
+                Desbloquea enlaces de Linkvertise, Lootlinks, Work.ink y Pastebin al instante.
+            </p>
+            
+            <div style="max-width: 600px; margin: 0 auto; background: #08080a; padding: 40px; border: 1px solid var(--border-light);">
+                <input type="url" id="linkInput" class="onyx-input" placeholder="Pega tu enlace aquí..." autocomplete="off">
+                <div style="display:flex; gap: 15px;">
+                    <button class="btn-card" style="flex: 1;" onclick="pegarPortapapeles()">PEGAR</button>
+                    <button class="btn-full" id="bypassBtn" style="flex: 2; padding: 0;" onclick="procesarBypass()">DESBLOQUEAR</button>
                 </div>
-                <button class="btn" id="bypassBtn" onclick="procesarBypass()">Desbloquear Link</button>
                 <div id="result-box"></div>
             </div>
         </section>
 
-        <!-- SUBPÁGINA 3: PANEL DE ADMIN -->
+        <!-- PANEL ADMIN REAL CONEXIÓN A DB -->
         <section id="page-admin" class="page-section">
-            <div class="section-label" style="text-align: center; font-size: 1.2em; color: #ff3377;">Control VPS</div>
+            <h2 class="section-label">VPS <span style="color: var(--accent-cyan);">CONTROL</span></h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 40px; font-weight: 600;">Gestión directa a la base de datos del nodo principal.</p>
             
-            <div class="glass-box" style="padding: 30px;">
-                <p class="script-desc" style="text-align: center; margin-bottom: 25px;">Agrega o actualiza scripts en la base de datos (Útil para gestionar IDs para comentarios).</p>
+            <form id="form-admin" class="admin-form" onsubmit="publicarScript(event)">
+                <input type="text" id="admin-titulo" class="onyx-input" placeholder="Título del Script (Ej: Onyx Aimbot Pro)" required>
                 
-                <form id="form-admin" class="admin-form" onsubmit="publicarScript(event)">
-                    <input type="text" id="admin-titulo" class="admin-input" placeholder="Título del Script (Ej: Onyx Aimbot Pro)" required>
-                    
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                        <input type="text" id="admin-tag" class="admin-input" placeholder="Categoría/Tag" required style="flex: 1; min-width: 48%;">
-                        <input type="text" id="admin-juegos" class="admin-input" placeholder="Juegos Compatibles" required style="flex: 1; min-width: 48%;">
-                    </div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <input type="text" id="admin-tag" class="onyx-input" placeholder="Categoría/Tag" required style="flex: 1; min-width: 48%;">
+                    <input type="text" id="admin-juegos" class="onyx-input" placeholder="Juegos Soportados" required style="flex: 1; min-width: 48%;">
+                </div>
 
-                    <label style="color: var(--accent); font-family: 'Outfit', sans-serif; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 12px; font-size: 1em; background: rgba(79, 70, 229, 0.05); padding: 15px; border-radius: 12px; border: 1px dashed rgba(79, 70, 229, 0.4); transition: 0.3s;">
-                        <input type="checkbox" id="admin-es-principal" style="width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer;">
-                        Fijar como Script Principal
-                    </label>
-                    
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                        <input type="text" id="admin-creador" class="admin-input" placeholder="Creador" required style="flex: 1; min-width: 100%;">
-                    </div>
-                    
-                    <textarea id="admin-desc" class="admin-textarea" placeholder="Descripción detallada..." required></textarea>
-                    <textarea id="admin-funciones" class="admin-textarea" style="min-height: 100px;" placeholder="Lista de Funciones (Separadas por Enter)"></textarea>
-                    <textarea id="admin-codigo" class="admin-textarea" placeholder="Pegar código fuente (.lua) aquí..." required style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;"></textarea>
-                    
-                    <div style="display:flex; gap: 15px; margin-top: 10px;">
-                        <button type="submit" id="btn-publicar" class="btn" style="flex: 2;">Subir Script</button>
-                        <button type="button" id="btn-cancelar-edicion" class="btn-back" style="flex: 1; display: none; margin:0;" onclick="cancelarEdicion()">Cancelar</button>
-                    </div>
-                </form>
-            </div>
+                <label style="color: #fff; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-family: 'Fira Code', monospace;">
+                    <input type="checkbox" id="admin-es-principal" style="width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer;">
+                    FIJAR COMO SCRIPT PRINCIPAL
+                </label>
+                
+                <input type="text" id="admin-creador" class="onyx-input" placeholder="Creador" required>
+                
+                <textarea id="admin-desc" class="onyx-input onyx-textarea" placeholder="Descripción detallada..." required></textarea>
+                <textarea id="admin-codigo" class="onyx-input onyx-textarea" placeholder="Pega el código (.lua) aquí..." required></textarea>
+                
+                <button type="submit" id="btn-publicar" class="btn-full">SUBIR SCRIPT A LA DB</button>
+            </form>
         </section>
 
     </div>
 
+    <footer class="footer">
+        <div class="footer-links">
+            <a onclick="cambiarPagina('inicio')">[ MENU ]</a>
+            <a onclick="cambiarPagina('bypass')">[ BYPASS ]</a>
+            <a onclick="mostrarPromptAdmin()">[ ADMIN ]</a>
+        </div>
+        <div class="copyright">© 2026 OnyxHub. Todos los derechos reservados.</div>
+    </footer>
+
+    <!-- SCRIPTS LÓGICOS REALES -->
     <script>
+        const VPS_API_URL = 'https://scripts.onyx-scripts.com/api/scripts'; 
+        let isAdminLoggedIn = false;
+        let brandClickCount = 0;
+        let brandClickTimer;
+
+        window.onload = function() {
+            checkCooldown();
+            iniciarContadorUsuarios(); // Se inicia el ping real
+        };
+
+        function cambiarPagina(pageId) {
+            const secciones = document.querySelectorAll('.page-section');
+            secciones.forEach(sec => sec.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+
+            const links = document.querySelectorAll('.nav-links .nav-link');
+            links.forEach(l => l.classList.remove('active'));
+            
+            let linkActive = document.querySelector(`.nav-links a[onclick="cambiarPagina('${pageId}')"]`);
+            if(linkActive) linkActive.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function mostrarAlerta(msg) {
             const overlay = document.createElement('div');
             overlay.className = 'modal-overlay';
             const box = document.createElement('div');
-            box.className = 'glass-box modal-box';
+            box.className = 'modal-box';
             box.innerHTML = `
-                <p style="color:#fff; margin-bottom:25px; font-weight:600; font-size:1.1em; font-family: 'Plus Jakarta Sans', sans-serif;">${msg}</p>
-                <button id="btn-alert-ok" class="btn">Aceptar</button>
+                <p style="color:#fff; margin-bottom:25px; font-weight:700; font-family: 'Fira Code', monospace; text-transform: uppercase;">${msg}</p>
+                <button id="btn-alert-ok" class="btn-full">ACEPTAR</button>
             `;
             overlay.appendChild(box);
             document.body.appendChild(overlay);
@@ -396,46 +360,22 @@
             setTimeout(() => overlay.classList.add('active'), 10);
             document.getElementById('btn-alert-ok').onclick = () => {
                 overlay.classList.remove('active');
-                setTimeout(() => document.body.removeChild(overlay), 400);
-            };
-        }
-
-        function mostrarConfirm(msg, onConfirm) {
-            const overlay = document.createElement('div');
-            overlay.className = 'modal-overlay';
-            const box = document.createElement('div');
-            box.className = 'glass-box modal-box';
-            box.innerHTML = `
-                <p style="color:#fff; margin-bottom:25px; font-weight:600; font-size:1.1em; font-family: 'Plus Jakarta Sans', sans-serif;">${msg}</p>
-                <div style="display:flex;gap:15px;">
-                    <button id="btn-confirm-yes" class="btn" style="flex:1; background: #ff3333; box-shadow: 0 5px 15px rgba(255, 51, 51, 0.3);">Eliminar</button>
-                    <button id="btn-confirm-no" class="btn-back" style="flex:1; margin-bottom:0; text-align: center;">Cancelar</button>
-                </div>
-            `;
-            overlay.appendChild(box);
-            document.body.appendChild(overlay);
-            
-            setTimeout(() => overlay.classList.add('active'), 10);
-            document.getElementById('btn-confirm-yes').onclick = () => { 
-                overlay.classList.remove('active'); 
-                setTimeout(() => { document.body.removeChild(overlay); onConfirm(); }, 400); 
-            };
-            document.getElementById('btn-confirm-no').onclick = () => { 
-                overlay.classList.remove('active');
-                setTimeout(() => document.body.removeChild(overlay), 400);
+                setTimeout(() => document.body.removeChild(overlay), 300);
             };
         }
 
         function mostrarPromptAdmin() {
+            if (isAdminLoggedIn) { cambiarPagina('admin'); return; }
+
             const overlay = document.createElement('div');
             overlay.className = 'modal-overlay';
             const box = document.createElement('div');
-            box.className = 'glass-box modal-box';
+            box.className = 'modal-box';
             box.innerHTML = `
-                <h2 style="color:var(--accent); margin-bottom:20px; font-family: 'Outfit', sans-serif; font-weight: 900; letter-spacing: 1px;">Control de Acceso</h2>
-                <input type="password" id="admin-pass-input" class="bypass-input" placeholder="Ingresa la credencial..." style="margin-bottom:20px; text-align:center;">
-                <button id="btn-admin-submit" class="btn">Verificar</button>
-                <button id="btn-admin-cancel" class="btn-back" style="margin: 15px auto 0 auto;">Cerrar</button>
+                <h2 style="color:var(--text-main); margin-bottom:20px; font-family: 'Space Grotesk'; font-weight: 900;">ADMIN <span style="color:var(--accent);">AUTH</span></h2>
+                <input type="password" id="admin-pass-input" class="onyx-input" placeholder="Ingresar credencial" style="text-align:center;">
+                <button id="btn-admin-submit" class="btn-full" style="margin-bottom: 10px;">VERIFICAR</button>
+                <button id="btn-admin-cancel" class="btn-card" style="width: 100%;">CERRAR</button>
             `;
             overlay.appendChild(box);
             document.body.appendChild(overlay);
@@ -448,12 +388,16 @@
                     isAdminLoggedIn = true;
                     document.getElementById('link-admin').classList.add('visible');
                     overlay.classList.remove('active');
-                    setTimeout(() => { document.body.removeChild(overlay); mostrarAlerta("Sistemas Onyx Desbloqueados. Bienvenido."); }, 400);
+                    setTimeout(() => { 
+                        document.body.removeChild(overlay); 
+                        cambiarPagina('admin');
+                        mostrarAlerta("ACCESO CONCEDIDO."); 
+                    }, 300);
                 } else {
                     document.getElementById('admin-pass-input').value = "";
-                    document.getElementById('admin-pass-input').placeholder = "Acceso Denegado";
-                    document.getElementById('admin-pass-input').style.borderColor = "#ff3333";
-                    setTimeout(() => { document.getElementById('admin-pass-input').style.borderColor = "var(--border-color)"; }, 1000);
+                    document.getElementById('admin-pass-input').placeholder = "ACCESO DENEGADO";
+                    document.getElementById('admin-pass-input').style.borderColor = "var(--accent-cyan)";
+                    setTimeout(() => { document.getElementById('admin-pass-input').style.borderColor = "var(--border-light)"; }, 1000);
                 }
             };
             
@@ -461,13 +405,26 @@
             document.getElementById('admin-pass-input').onkeydown = (e) => { if(e.key === 'Enter') checkPass(); };
             document.getElementById('btn-admin-cancel').onclick = () => { 
                 overlay.classList.remove('active'); 
-                setTimeout(() => document.body.removeChild(overlay), 400); 
+                setTimeout(() => document.body.removeChild(overlay), 300); 
             };
         }
 
-        // LÓGICA DEL CONTADOR DE USUARIOS VPS
+        document.getElementById('brand-title').addEventListener('click', () => {
+            brandClickCount++;
+            clearTimeout(brandClickTimer);
+            if(brandClickCount === 3) {
+                brandClickCount = 0;
+                mostrarPromptAdmin();
+            }
+            brandClickTimer = setTimeout(() => { brandClickCount = 0; }, 1000);
+        });
+
+        // ============================================
+        // LÓGICA DE CONEXIÓN REAL AL VPS (/ping)
+        // ============================================
         function iniciarContadorUsuarios() {
             const counterElement = document.getElementById("users-count");
+            const pingDot = document.getElementById("ping-indicator");
             if (!counterElement) return;
 
             const myName = encodeURIComponent("OnyxWebClient");
@@ -476,20 +433,24 @@
             const fetchUsers = async () => {
                 try {
                     const respuesta = await fetch(`https://hub.onyx-scripts.com/ping?user=${myName}&jobid=${myJobId}`, {
-                        method: "GET",
-                        headers: {
-                            "Astra-Auth": "AstraVIP2026!"
-                        }
+                        method: "GET", headers: { "Astra-Auth": "AstraVIP2026!" }
                     });
                     
                     if (respuesta.ok) {
                         const data = await respuesta.text();
                         if (data && !isNaN(data.trim())) {
-                            counterElement.innerText = data.trim();
+                            counterElement.innerText = parseInt(data.trim()).toLocaleString();
+                            pingDot.classList.remove('offline');
                         }
+                    } else {
+                        // Si el servidor responde con error
+                        counterElement.innerText = "ERR";
+                        pingDot.classList.add('offline');
                     }
                 } catch (error) {
-                    console.log("Error consultando usuarios activos:", error);
+                    // Si el servidor está apagado/offline totalmente
+                    counterElement.innerText = "OFFLINE";
+                    pingDot.classList.add('offline');
                 }
             };
 
@@ -497,17 +458,27 @@
             setInterval(fetchUsers, 5000);
         }
 
-        const VPS_API_URL = 'https://scripts.onyx-scripts.com/api/scripts'; 
-        let scriptsDesdeVPS = [];
-        let scriptEnEdicionId = null; 
-        let isAdminLoggedIn = false;
+        function copiarTexto(elementoId, boton, textoOriginal) {
+            var codigo = document.getElementById(elementoId).innerText;
+            const tempInput = document.createElement("textarea");
+            tempInput.value = codigo;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand("copy");
+                boton.innerHTML = "¡COPIADO!"; 
+                boton.style.background = "#fff"; boton.style.color = "#000";
+                setTimeout(function() { 
+                    boton.innerHTML = textoOriginal; 
+                    boton.style.background = ""; boton.style.color = ""; 
+                }, 2500);
+            } catch (err) { mostrarAlerta("Permiso denegado."); }
+            document.body.removeChild(tempInput);
+        }
 
-        window.onload = function() {
-            cargarScriptsDesdeVPS();
-            checkCooldown();
-            iniciarContadorUsuarios(); // Se inicia el ping al VPS
-        };
-
+        // ============================================
+        // LÓGICA DE BYPASS CON API REAL
+        // ============================================
         function checkCooldown() {
             let lastTime = localStorage.getItem("astra_cooldown");
             if (lastTime) {
@@ -522,13 +493,13 @@
             const btn = document.getElementById("bypassBtn");
             btn.disabled = true;
             btn.style.opacity = "0.5";
-            btn.innerText = "Procesando... " + segundos + "s";
+            btn.innerText = "PROCESANDO... " + segundos + "S";
             let contador = setInterval(function() {
                 segundos--;
-                if (segundos > 0) { btn.innerText = "Procesando... " + segundos + "s"; } 
+                if (segundos > 0) { btn.innerText = "PROCESANDO... " + segundos + "S"; } 
                 else {
                     clearInterval(contador); 
-                    btn.innerText = "Desbloquear Link"; 
+                    btn.innerText = "DESBLOQUEAR"; 
                     btn.disabled = false; 
                     btn.style.opacity = "1";
                     localStorage.removeItem("astra_cooldown");
@@ -541,7 +512,7 @@
                 const texto = await navigator.clipboard.readText();
                 document.getElementById("linkInput").value = texto;
             } catch (err) {
-                mostrarAlerta("Tu navegador bloqueó el acceso. Pégalo manualmente.");
+                mostrarAlerta("El navegador bloqueó el acceso.");
             }
         }
 
@@ -553,31 +524,23 @@
             try {
                 document.execCommand("copy");
                 let textoOriginal = boton.innerText;
-                boton.innerText = "¡Copiado!";
-                boton.style.background = "#ffffff";
-                boton.style.color = "#000000";
-                setTimeout(function() {
-                    boton.innerText = textoOriginal;
-                    boton.style.background = "";
-                    boton.style.color = "";
-                }, 2000);
-            } catch (err) {
-                mostrarAlerta("Error al copiar al portapapeles.");
-            }
+                boton.innerText = "¡COPIADO!";
+                setTimeout(function() { boton.innerText = textoOriginal; }, 2000);
+            } catch (err) { }
             document.body.removeChild(tempInput);
         }
 
         async function procesarBypass() {
             const link = document.getElementById("linkInput").value;
             const resultBox = document.getElementById("result-box");
-            if(!link) { mostrarAlerta("Por favor, ingresa una URL válida primero."); return; }
+            if(!link) { mostrarAlerta("INGRESA UNA URL VÁLIDA PRIMERO."); return; }
             localStorage.setItem("astra_cooldown", Date.now());
             iniciarReloj(15); 
             resultBox.style.display = "block";
             const tiempoInicio = performance.now();
             let cronometroActivo = setInterval(() => {
                 let tiempoActual = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
-                resultBox.innerHTML = `<span style='color: var(--text-main); font-family: "Outfit", sans-serif; font-weight: bold;'>Bypasseando... ${tiempoActual}s</span>`;
+                resultBox.innerHTML = `<span style='color: #fff; font-family: "Fira Code"; font-weight: bold;'>BYPASSEANDO... ${tiempoActual}S</span>`;
             }, 100); 
 
             try {
@@ -594,245 +557,27 @@
                     let resultado = data.url_limpia;
                     if (resultado.startsWith("http")) {
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! (${segundosTardados}s)</span>
+                            <span style="color: var(--success-color); font-weight: bold;">ÉXITO (${segundosTardados}s)</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" class="btn-back" style="margin-top:15px; margin-bottom:0;">Copiar Enlace</button>`;
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" class="btn-card" style="margin-top:20px; font-size:0.8em; padding:8px 15px;">COPIAR LINK</button>`;
                     } else {
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold;">¡Key Generada! (${segundosTardados}s)</span>
-                            <div style="margin-top: 12px; padding: 15px; background: rgba(0,0,0,0.6); border-radius: 12px; color: var(--accent); font-family: 'JetBrains Mono'; word-break: break-all; text-align: center;">${resultado}</div>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" class="btn-back" style="margin-top:15px; margin-bottom:0;">Copiar Key</button>`;
+                            <span style="color: var(--success-color); font-weight: bold;">KEY GENERADA (${segundosTardados}s)</span>
+                            <div style="margin-top: 15px; padding: 15px; background: #000; border: 1px solid var(--border-light); color: var(--accent); font-family: 'Fira Code'; word-break: break-all;">${resultado}</div>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" class="btn-card" style="margin-top:20px; font-size:0.8em; padding:8px 15px;">COPIAR KEY</button>`;
                     }
                 } else {
-                    resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">Fallo (${segundosTardados}s): ${data.error}</span>`;
+                    resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">FALLO (${segundosTardados}s): ${data.error.toUpperCase()}</span>`;
                 }
             } catch (error) {
                 clearInterval(cronometroActivo);
-                resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">Error crítico de red.</span>`;
+                resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">ERROR CRÍTICO DE RED.</span>`;
             }
         }
 
-        async function cargarScriptsDesdeVPS() {
-            try {
-                const respuesta = await fetch(VPS_API_URL);
-                if(respuesta.ok) {
-                    scriptsDesdeVPS = await respuesta.json();
-                }
-            } catch(error) {
-                console.log("No se pudo conectar al VPS para cargar comentarios.");
-            }
-        }
-
-        function abrirDetallesVip() {
-            let scriptDB = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
-            if (!scriptDB && scriptsDesdeVPS.length > 0) scriptDB = scriptsDesdeVPS[scriptsDesdeVPS.length - 1];
-            
-            let idParaComentarios = scriptDB ? scriptDB.id : null;
-            let listaComentarios = scriptDB && scriptDB.comentarios ? scriptDB.comentarios : [];
-            let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
-
-            // FORZAMOS LOS DATOS DE ONYX HUB MINIMALISTAS
-            let onyxData = {
-                titulo: "OnyxHub",
-                tag: "Multi-Juego",
-                descripcion: "Juegos soportados: MM2, MMV, DUELS.", // Solo esto, sin funciones
-                codigo: 'loadstring(game:HttpGet("https://onyx-scripts.com/onyxhub"))()',
-                imagen: "https://i.imgur.com/h5kuEHa.jpeg"
-            };
-
-            const container = document.getElementById('script-details-content');
-
-            let htmlComentarios = '';
-            if(listaComentarios.length === 0) {
-                htmlComentarios = '<p style="color:var(--text-muted); font-size: 0.9em; font-family: \'Outfit\', sans-serif; text-align: center; padding: 25px 0;">No hay comentarios aún. ¡Sé el primero!</p>';
-            } else {
-                listaComentarios.forEach(c => {
-                    let esMiComentario = misComentariosLocales.includes(c.id);
-                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentarioVip('${idParaComentarios}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.85em; cursor:pointer; font-weight:800; font-family:'Outfit', sans-serif; text-transform: uppercase;">Borrar</button>` : '';
-                    let etiquetaEditado = c.editado ? `<span style="font-size: 0.75em; color: var(--text-muted); font-style: italic;">(editado)</span>` : '';
-
-                    htmlComentarios += `
-                    <div class="comment-item">
-                        <div class="comment-author"><span>${c.autor} ${etiquetaEditado}</span> <span class="comment-date">${c.fecha}</span></div>
-                        <div class="comment-text">${c.texto}</div>
-                        <div style="display:flex; gap:15px; margin-top:12px; justify-content:flex-end;">${btnEliminar}</div>
-                    </div>`;
-                });
-            }
-
-            let inputComentarioHtml = idParaComentarios ? `
-                <div class="comment-input-area">
-                    <input type="text" id="comentario-autor" class="admin-input" placeholder="Ingresa tu Alias" maxlength="20">
-                    <div class="comment-row">
-                        <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu opinión de OnyxHub..." maxlength="120" style="flex: 3;">
-                        <button class="btn" style="flex: 1; padding: 12px; border-radius: 12px; box-shadow: none;" onclick="enviarComentarioVip('${idParaComentarios}')">Publicar</button>
-                    </div>
-                </div>
-            ` : `<p style="color:#ff5555; text-align:center; font-family: 'Outfit'; margin-top:20px;">Sin conexión al nodo principal de la base de datos para guardar comentarios.</p>`;
-
-            container.innerHTML = `
-                <div class="glass-box details-main-box">
-                    <div class="script-card-header" style="flex-direction: column; align-items: flex-start; gap: 12px; border-bottom: none; margin-bottom: 25px;">
-                        <span class="script-title" style="font-size: 2.2em; text-shadow: 0 0 20px var(--accent-glow);">${onyxData.titulo}</span>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="script-game-tag">${onyxData.tag}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="slider-wrapper" style="border-radius:12px; margin-bottom:25px; overflow:hidden;">
-                        <img src="${onyxData.imagen}" style="width:100%; height:auto; display:block;">
-                    </div>
-
-                    <div class="detail-box">
-                        <p style="color: var(--text-main); font-size: 1.1em; font-weight: bold; line-height: 1.7; opacity: 0.9; white-space: pre-wrap;">${onyxData.descripcion}</p>
-                    </div>
-
-                    <div class="detail-box" style="border-color: rgba(79, 70, 229, 0.5); box-shadow: inset 0 0 25px rgba(79, 70, 229, 0.1); margin-bottom: 0;">
-                        <div class="detail-title" style="color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2);">Source Code</div>
-                        <div class="script-code-container" style="margin-bottom: 20px;">
-                            <code id="detalle-codigo">${onyxData.codigo}</code>
-                        </div>
-                        <button class="btn" onclick="copiarTexto('detalle-codigo', this, 'Copiar Script')">Copiar Script</button>
-                    </div>
-                </div>
-
-                <div class="glass-box comments-main-box">
-                    <div class="comments-title" style="display: flex; align-items: center; gap: 12px;">
-                        Feedback 
-                        <span style="background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 10px; font-size: 0.7em; font-weight: 800; box-shadow: 0 0 10px var(--accent-glow);">${listaComentarios.length}</span>
-                    </div>
-                    
-                    <div id="lista-comentarios-box">${htmlComentarios}</div>
-                    ${inputComentarioHtml}
-                </div>
-            `;
-            cambiarPagina('script-details');
-        }
-
-        async function enviarComentarioVip(scriptId) {
-            const autorInput = document.getElementById('comentario-autor').value.trim();
-            const textoInput = document.getElementById('comentario-texto').value.trim();
-
-            if(!autorInput || !textoInput) { mostrarAlerta("Ambos campos son requeridos."); return; }
-
-            const nuevoComentario = {
-                autor: autorInput, texto: textoInput, fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })
-            };
-
-            try {
-                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(nuevoComentario)
-                });
-                if(response.ok) {
-                    const data = await response.json();
-                    let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
-                    if (data.comentario && data.comentario.id) {
-                        misComentariosLocales.push(data.comentario.id);
-                        localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentariosLocales));
-                    }
-                    await cargarScriptsDesdeVPS();
-                    abrirDetallesVip(); // Refrescamos
-                } else { mostrarAlerta("Error al publicar."); }
-            } catch(e) { mostrarAlerta("Error de conexión."); }
-        }
-
-        function eliminarComentarioVip(scriptId, commentId) {
-            mostrarConfirm("¿Eliminar este comentario para siempre?", async () => {
-                try {
-                    const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, { method: 'DELETE' });
-                    if(response.ok) {
-                        await cargarScriptsDesdeVPS();
-                        abrirDetallesVip();
-                    } else { mostrarAlerta("Fallo al eliminar."); }
-                } catch(e) { mostrarAlerta("Error de red."); }
-            });
-        }
-
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        let menuOpen = false;
-        let brandClickCount = 0;
-        let brandClickTimer;
-
-        function toggleMenu() {
-            menuOpen = !menuOpen;
-            if(menuOpen) {
-                sidebar.classList.add('active'); overlay.classList.add('active');
-                document.getElementById('bar1').style.transform = 'translateY(7px) rotate(45deg)';
-                document.getElementById('bar2').style.opacity = '0';
-                document.getElementById('bar3').style.transform = 'translateY(-7px) rotate(-45deg)';
-            } else {
-                sidebar.classList.remove('active'); overlay.classList.remove('active');
-                document.getElementById('bar1').style.transform = 'none';
-                document.getElementById('bar2').style.opacity = '1';
-                document.getElementById('bar3').style.transform = 'none';
-                brandClickCount = 0; 
-            }
-        }
-
-        function cambiarPagina(pageId, linkElement = null) {
-            const secciones = document.querySelectorAll('.page-section');
-            secciones.forEach(sec => sec.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-
-            if (linkElement) {
-                const links = document.querySelectorAll('.nav-link');
-                links.forEach(l => l.classList.remove('active'));
-                linkElement.classList.add('active');
-                toggleMenu();
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        document.getElementById('brand-title').addEventListener('click', () => {
-            brandClickCount++;
-            clearTimeout(brandClickTimer);
-            if(brandClickCount === 3) {
-                brandClickCount = 0;
-                if(!isAdminLoggedIn) { mostrarPromptAdmin(); } 
-                else { document.getElementById('link-admin').classList.toggle('visible'); }
-            }
-            brandClickTimer = setTimeout(() => { brandClickCount = 0; }, 1000);
-        });
-
-        function copiarTexto(elementoId, boton, textoOriginal) {
-            var codigo = document.getElementById(elementoId).innerText;
-            const tempInput = document.createElement("textarea");
-            tempInput.value = codigo;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            try {
-                document.execCommand("copy");
-                boton.innerText = "¡Listo!"; 
-                boton.style.background = "#ffffff"; boton.style.color = "#000000";
-                setTimeout(function() { 
-                    boton.innerText = textoOriginal; boton.style.background = ""; boton.style.color = ""; 
-                }, 2500);
-            } catch (err) { mostrarAlerta("Error de permisos."); }
-            document.body.removeChild(tempInput);
-        }
-        
-        document.addEventListener('contextmenu', event => event.preventDefault()); 
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false; 
-            if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
-        }
-
-        setInterval(function() {
-            let before = new Date().getTime(); debugger; let after = new Date().getTime();
-            if (after - before > 100) { document.body.innerHTML = "<h1 style='color:var(--accent); text-align:center; margin-top: 50px; font-family: Outfit, sans-serif;'>Acceso Denegado</h1>"; }
-        }, 100);
-
-        const particlesContainer = document.getElementById('particles-container');
-        for (let i = 0; i < 40; i++) {
-            let p = document.createElement('div'); p.className = 'particle';
-            let size = Math.random() * 3 + 1.5; p.style.width = size + 'px'; p.style.height = size + 'px';
-            p.style.left = Math.random() * 100 + 'vw'; p.style.top = Math.random() * 100 + 'vh';
-            p.style.animationDuration = (Math.random() * 15 + 10) + 's'; p.style.animationDelay = (Math.random() * 10) + 's';
-            particlesContainer.appendChild(p);
-        }
-
+        // ============================================
+        // LÓGICA DE ADMIN (POST A LA BASE DE DATOS REAL)
+        // ============================================
         async function publicarScript(event) {
             event.preventDefault();
             const datosScript = {
@@ -842,18 +587,30 @@
                 esPrincipal: document.getElementById('admin-es-principal').checked,
                 creador: document.getElementById('admin-creador').value,
                 descripcion: document.getElementById('admin-desc').value,
-                funciones: document.getElementById('admin-funciones').value,
                 codigo: document.getElementById('admin-codigo').value,
                 fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
             };
             try {
-                await fetch(VPS_API_URL, {
+                const res = await fetch(VPS_API_URL, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datosScript)
                 });
-                mostrarAlerta('Datos enviados a la DB.');
-                document.getElementById('form-admin').reset();
-                cargarScriptsDesdeVPS();
-            } catch(e) { mostrarAlerta('Error VPS.'); }
+                if(res.ok) {
+                    mostrarAlerta('SCRIPT ENVIADO AL NODO CORRECTAMENTE.');
+                    document.getElementById('form-admin').reset();
+                } else {
+                    mostrarAlerta('ERROR DEL VPS AL RECIBIR DATOS.');
+                }
+            } catch(e) { 
+                mostrarAlerta('ERROR CRÍTICO DE CONEXIÓN CON VPS.'); 
+            }
+        }
+
+        // Anti-Inspect básico
+        document.addEventListener('contextmenu', event => event.preventDefault()); 
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) return false; 
+            if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
         }
     </script>
 </body>

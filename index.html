@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OnyxHub | Scripts</title>
-    <!-- Agregamos la fuente Outfit para los títulos y logos -->
+    <title>OnyxHub</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Tema Midnight OnyxHub */
-            --bg-dark: #050608; 
-            --accent: #0044ff; 
-            --accent-glow: rgba(0, 68, 255, 0.6);
+            /* Tema Minimalista Oscuro (Pure Black) */
+            --bg-dark: #000000; 
+            --accent: #4f46e5; 
+            --accent-glow: rgba(79, 70, 229, 0.4);
             --accent-cyan: #8a2be2; 
             --accent-magenta: #15024b; 
             --text-main: #ffffff; 
-            --text-muted: #8e8a9f; 
-            --box-bg: rgba(12, 15, 30, 0.5); 
-            --text-script: #ffffff; 
-            --border-color: rgba(138, 43, 226, 0.25); 
+            --text-muted: #a1a1aa; 
+            --box-bg: rgba(10, 10, 12, 0.6); 
+            --text-script: #e2e8f0; 
+            --border-color: rgba(255, 255, 255, 0.08); 
             --sidebar-width: 280px;
         }
         * { 
@@ -35,63 +34,81 @@
             min-height: 100vh; width: 100%; max-width: 100vw; overflow-x: hidden; position: relative;
         }
 
-        /* EFECTOS DE FONDO (Aurora y Partículas) */
-        .aurora-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none;
-        }
-        .aurora-blob {
-            position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.3;
-            animation: floatAurora 25s infinite alternate ease-in-out;
-        }
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--accent); }
-        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: var(--accent-cyan); animation-delay: -5s; animation-duration: 30s;}
-        
-        @keyframes floatAurora {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(10vw, 15vh) scale(1.1); }
-            100% { transform: translate(-5vw, 10vh) scale(0.9); }
-        }
+        /* Efectos de fondo minimalista ocultando la aurora */
+        .aurora-bg { display: none; }
 
         #particles-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; overflow: hidden; }
-        .particle { position: absolute; border-radius: 50%; background-color: var(--accent); box-shadow: 0 0 10px var(--accent); opacity: 0; animation: floatParticle linear infinite; }
+        .particle { position: absolute; border-radius: 50%; background-color: #ffffff; box-shadow: 0 0 8px #ffffff; opacity: 0; animation: floatParticle linear infinite; }
         @keyframes floatParticle {
             0% { transform: translateY(10vh) scale(0.2); opacity: 0; }
-            20% { opacity: 0.4; transform: translateY(0vh) scale(1); }
-            80% { opacity: 0.4; transform: translateY(-20vh) scale(1); }
+            20% { opacity: 0.3; transform: translateY(0vh) scale(1); }
+            80% { opacity: 0.3; transform: translateY(-20vh) scale(1); }
             100% { transform: translateY(-30vh) scale(0.2); opacity: 0; }
         }
 
-        /* BARRA SUPERIOR (NAVBAR) */
+        /* EFECTO GLITCH MINIMALISTA */
+        .glitch-text {
+            position: relative;
+            color: white;
+        }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--accent);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--accent-cyan);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(12px, 9999px, 80px, 0); }
+            20% { clip: rect(45px, 9999px, 10px, 0); }
+            40% { clip: rect(78px, 9999px, 50px, 0); }
+            60% { clip: rect(23px, 9999px, 90px, 0); }
+            80% { clip: rect(89px, 9999px, 30px, 0); }
+            100% { clip: rect(34px, 9999px, 70px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            20% { clip: rect(21px, 9999px, 45px, 0); }
+            40% { clip: rect(87px, 9999px, 20px, 0); }
+            60% { clip: rect(12px, 9999px, 80px, 0); }
+            80% { clip: rect(56px, 9999px, 10px, 0); }
+            100% { clip: rect(98px, 9999px, 60px, 0); }
+        }
+
         .top-navbar {
             position: fixed; top: 0; left: 0; width: 100%; height: 75px;
-            background: rgba(5, 6, 8, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 900;
-            display: flex; align-items: center; justify-content: center; padding: 0 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-color); z-index: 900;
+            display: flex; align-items: center; justify-content: center; padding: 0 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
         
-        /* ESTILO NUEVO DEL LOGO TEXTUAL */
         .top-navbar-brand {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2em; 
-            font-weight: 900; 
-            letter-spacing: 1px; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center;
+            font-family: 'Outfit', sans-serif; font-size: 2.2em; font-weight: 900; letter-spacing: 1px; cursor: pointer; display: flex; align-items: center;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .top-navbar-brand:hover { transform: scale(1.05); }
-        .brand-onyx { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
-        .brand-hub { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
 
-        /* Menú Sidebar Botón GLOBAL */
         .menu-btn {
             position: fixed; top: 15px; left: 20px; z-index: 1000; cursor: pointer; width: 45px; height: 45px;
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color);
             border-radius: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(5px);
         }
-        .menu-btn:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); transform: scale(1.05); background: rgba(0, 68, 255, 0.15); }
+        .menu-btn:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); transform: scale(1.05); background: rgba(79, 70, 229, 0.15); }
         .menu-btn span { display: block; width: 22px; height: 2px; background-color: var(--text-main); border-radius: 2px; transition: all 0.3s ease; }
         
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 998; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
@@ -99,192 +116,152 @@
         
         .sidebar {
             position: fixed; top: 0; left: calc(var(--sidebar-width) * -1); width: var(--sidebar-width); height: 100vh;
-            background: rgba(10, 12, 20, 0.95); backdrop-filter: blur(25px); border-right: 1px solid rgba(255,255,255,0.05);
+            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(25px); border-right: 1px solid var(--border-color);
             z-index: 999; padding: 90px 0 20px 0; display: flex; flex-direction: column; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 20px 0 50px rgba(0,0,0,0.8); overflow-y: auto;
         }
         .sidebar.active { left: 0; }
         
         .nav-link { padding: 18px 30px; color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 1.1em; display: flex; align-items: center; gap: 15px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
-        .nav-link::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background: linear-gradient(90deg, rgba(0, 68, 255, 0.15), transparent); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1; }
+        .nav-link::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background: linear-gradient(90deg, rgba(79, 70, 229, 0.15), transparent); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1; }
         .nav-link:hover, .nav-link.active { color: var(--text-main); padding-left: 40px; }
         .nav-link:hover::before, .nav-link.active::before { width: 100%; border-left: 4px solid var(--accent); }
-        .nav-link-admin { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); color: #ff3377; display: none; }
+        .nav-link-admin { margin-top: auto; border-top: 1px solid var(--border-color); color: #ff3377; display: none; }
         .nav-link-admin.visible { display: flex; }
 
-        /* Estructura Principal */
         .main-panel { position: relative; z-index: 10; padding: 110px 20px 50px 20px; width: 95%; max-width: 800px; text-align: center; }
         .page-section { display: none; animation: fadeInPage 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .page-section.active { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* Stats */
-        .live-stats { margin-bottom: 30px; font-size: 0.9em; color: var(--text-muted); font-weight: 700; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.6); padding: 12px 25px; border-radius: 25px; width: fit-content; margin: 0 auto 30px auto; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .live-dot { width: 10px; height: 10px; background-color: var(--accent); border-radius: 50%; margin-right: 10px; animation: pulseBlue 2s infinite; }
-        @keyframes pulseBlue { 0% { box-shadow: 0 0 2px var(--accent); } 50% { box-shadow: 0 0 12px var(--accent-glow); } 100% { box-shadow: 0 0 2px var(--accent); } }
-        .user-count { color: #fff; margin-left: 6px; font-weight: 800; font-size: 1.1em;}
-        
         .section-label { color: var(--text-muted); font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; text-align: left; margin-left: 5px; margin-top: 30px; }
         .section-label.center { text-align: center; margin-left: 0; }
 
-        /* Componentes Globales (Glassmorphism Avanzado) */
         .glass-box { 
-            background: var(--box-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            border-top: 1px solid rgba(255, 255, 255, 0.1); 
-            border-left: 1px solid rgba(255, 255, 255, 0.08); 
-            border-radius: 24px; box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.5); 
-            position: relative; overflow: hidden; z-index: 1; transition: all 0.4s ease;
+            background: var(--box-bg); 
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-color); 
+            border-radius: 16px; 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05); 
+            position: relative; overflow: hidden; z-index: 1; transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
-        .glass-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top left, rgba(0, 68, 255, 0.15) 0%, transparent 60%); z-index: -1; pointer-events: none; }
+        .glass-box:hover { transform: translateY(-3px); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
         
-        /* Botones Mejorados */
         @keyframes scannerLight { 0% { left: -100%; } 25% { left: 200%; } 100% { left: 200%; } }
         .btn { 
-            background: linear-gradient(135deg, rgba(0, 68, 255, 0.9), rgba(138, 43, 226, 0.9)); 
-            color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 20px; 
+            background: linear-gradient(135deg, var(--accent), rgba(138, 43, 226, 0.9)); 
+            color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 14px; 
             font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1em; letter-spacing: 1px; cursor: pointer; 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             width: 100%; text-transform: uppercase; position: relative; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         .btn::before { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent); transform: skewX(-25deg); animation: scannerLight 4s infinite ease-in-out; }
-        .btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 25px rgba(0, 68, 255, 0.5), 0 12px 25px rgba(138, 43, 226, 0.4); border-color: rgba(255,255,255,0.3); }
+        .btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 25px rgba(79, 70, 229, 0.5), 0 12px 25px rgba(138, 43, 226, 0.4); border-color: rgba(255,255,255,0.3); }
         .btn:active { transform: translateY(2px) scale(0.97); box-shadow: 0 2px 10px var(--accent-glow); }
         
-        .btn-back { background: rgba(255,255,255,0.03); color: var(--text-main); border: 1px solid rgba(255,255,255,0.08); padding: 12px 25px; border-radius: 20px; cursor: pointer; font-family: inherit; font-weight: 700; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: block; margin-bottom: 25px; width: fit-content; backdrop-filter: blur(5px); }
+        .btn-back { background: rgba(255,255,255,0.03); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 25px; border-radius: 14px; cursor: pointer; font-family: inherit; font-weight: 700; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: block; margin-bottom: 25px; width: fit-content; backdrop-filter: blur(5px); }
         .btn-back:hover { background: rgba(255,255,255,0.1); border-color: var(--text-main); transform: translateX(-5px); }
         
-        /* Script Cards con Efecto Resorte */
         .script-card { padding: 22px; margin-bottom: 25px; text-align: left; position: relative; }
         .clickable-card { cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .clickable-card:hover { border-color: rgba(255,255,255,0.2); box-shadow: 0 15px 40px rgba(0, 68, 255, 0.2); transform: translateY(-5px); background: rgba(20, 25, 45, 0.7); }
         
-        .card-banner-container { width: 100%; height: auto; margin-bottom: 18px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .card-banner-container { width: 100%; height: auto; margin-bottom: 18px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
         .card-banner { width: 100%; height: auto; display: block; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .clickable-card:hover .card-banner { transform: scale(1.08); }
-        
-        .load-more-btn { background: rgba(0, 68, 255, 0.05); border: 1px solid rgba(0, 68, 255, 0.4); color: var(--text-main); padding: 14px 35px; border-radius: 25px; font-family: 'Outfit', sans-serif; font-weight: 800; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin: 20px auto 40px auto; display: block; width: fit-content; text-transform: uppercase; letter-spacing: 1px; backdrop-filter: blur(5px); }
-        .load-more-btn:hover { background: var(--accent); color: #fff; box-shadow: 0 0 20px var(--accent-glow); transform: translateY(-3px); }
+        .clickable-card:hover .card-banner { transform: scale(1.05); }
 
-        .script-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .script-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .script-title { font-family: 'Outfit', sans-serif; font-size: 1.4em; font-weight: 800; color: var(--text-main); text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
-        .script-game-tag { background: rgba(138, 43, 226, 0.15); color: #b182ff; padding: 6px 12px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(138, 43, 226, 0.3); text-transform: uppercase; letter-spacing: 1.5px; }
-        .tag-key { background: rgba(255, 215, 0, 0.1); color: #ffd700; padding: 6px 12px; border-radius: 12px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(255, 215, 0, 0.3); letter-spacing: 1px; margin-right: 8px; }
+        .script-game-tag { background: rgba(138, 43, 226, 0.15); color: #b182ff; padding: 6px 12px; border-radius: 10px; font-size: 0.75em; font-weight: 800; border: 1px solid rgba(138, 43, 226, 0.3); text-transform: uppercase; letter-spacing: 1.5px; }
         .script-desc { font-size: 0.9em; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
-        .script-code-container { background: rgba(0, 0, 0, 0.5); padding: 18px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: inset 0 5px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 15px; }
+        .script-code-container { background: rgba(0, 0, 0, 0.8); padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: inset 0 5px 15px rgba(0,0,0,0.8); display: flex; flex-direction: column; gap: 15px; }
         code { color: var(--text-script); font-family: 'JetBrains Mono', monospace; font-size: 0.90em; word-break: break-all; }
         
-        /* Detalles, Slider y Mostrar Más */
         .details-main-box { padding: 35px; margin-bottom: 25px; }
-        .slider-wrapper { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 16px; margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .slider-wrapper { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border-color); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .slider-wrapper::-webkit-scrollbar { display: none; }
-        .slider-img { flex: 0 0 100%; width: 100%; height: 220px; object-fit: cover; scroll-snap-align: start; }
         
-        .detail-box { background: rgba(0,0,0,0.3); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 25px; text-align: left; }
+        .detail-box { background: rgba(0,0,0,0.6); padding: 25px; border-radius: 14px; border: 1px solid var(--border-color); margin-bottom: 25px; text-align: left; }
         .detail-title { color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; margin-bottom: 15px; font-size: 1.2em; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .features-list { list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95em; line-height: 1.8; }
-        .features-list li { margin-bottom: 8px; padding-left: 25px; position: relative; }
-        .features-list li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--accent); font-weight: bold; font-size: 1.1em; line-height: 1.2; }
 
-        .content-collapse { max-height: 200px; overflow: hidden; position: relative; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .content-collapse::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(to bottom, transparent, rgba(12, 15, 30, 0.9)); pointer-events: none; transition: opacity 0.3s; }
-        .content-collapse.expanded { max-height: 3000px; }
-        .content-collapse.expanded::after { opacity: 0; }
-        
-        .btn-show-more { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 10px 20px; border-radius: 14px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.85em; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin-top: 15px; display: inline-block; }
-        .btn-show-more:hover { background: #fff; color: #000; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
-
-        /* Botones e Inputs */
         .executors-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; }
-        .executor-btn { flex: 1; min-width: 140px; padding: 18px 12px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(0, 0, 0, 0.3); color: var(--text-main); font-family: 'Outfit', sans-serif; font-weight: 800; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(5px); }
-        .executor-btn:hover { background: rgba(0, 68, 255, 0.1); border-color: rgba(0, 68, 255, 0.4); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 68, 255, 0.2); }
+        .executor-btn { flex: 1; min-width: 140px; padding: 18px 12px; border-radius: 14px; border: 1px solid var(--border-color); background: rgba(0, 0, 0, 0.6); color: var(--text-main); font-family: 'Outfit', sans-serif; font-weight: 800; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(5px); }
+        .executor-btn:hover { background: rgba(79, 70, 229, 0.1); border-color: rgba(79, 70, 229, 0.4); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2); }
         .click-hint { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75em; color: var(--text-muted); font-weight: 600; }
         
         .supported-box { padding: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .tag { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-muted); padding: 8px 15px; border-radius: 20px; font-size: 0.8em; font-weight: 700; transition: 0.3s; }
-        .tag:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
-        .tag-premium { border-color: rgba(138, 43, 226, 0.4); color: #d0aeff; background: rgba(138, 43, 226, 0.1); }
-        .tag-premium:hover { border-color: rgba(138, 43, 226, 0.8); background: rgba(138, 43, 226, 0.2); color: #fff; }
+        .tag { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 15px; border-radius: 10px; font-size: 0.8em; font-weight: 700; transition: 0.3s; }
+        .tag:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); }
 
-        .bypass-input { width: 100%; padding: 16px 20px; background-color: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1em; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 3px 10px rgba(0,0,0,0.3); }
-        .bypass-input:focus { border-color: var(--accent); background-color: rgba(0, 0, 0, 0.6); box-shadow: inset 0 3px 10px rgba(0,0,0,0.5), 0 0 15px rgba(0, 68, 255, 0.2); }
-        .btn-pegar { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #ffffff; color: #000; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 800; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .bypass-input { width: 100%; padding: 16px 20px; background-color: rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); border-radius: 14px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1em; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 3px 10px rgba(0,0,0,0.5); }
+        .bypass-input:focus { border-color: var(--accent); background-color: #000; box-shadow: inset 0 3px 10px rgba(0,0,0,0.8), 0 0 15px rgba(79, 70, 229, 0.2); }
+        .btn-pegar { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #ffffff; color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 800; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .btn-pegar:hover { background: var(--accent); color: #fff; transform: translateY(-50%) scale(1.05); }
         
-        #result-box { margin-top: 20px; padding: 15px; background-color: rgba(0, 0, 0, 0.5); border-radius: 16px; display: none; word-wrap: break-word; font-size: 0.95em; border: 1px solid rgba(0, 68, 255, 0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+        #result-box { margin-top: 20px; padding: 15px; background-color: rgba(0, 0, 0, 0.8); border-radius: 12px; display: none; word-wrap: break-word; font-size: 0.95em; border: 1px solid rgba(79, 70, 229, 0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
         .clean-link { color: #8a2be2; font-weight: bold; text-decoration: none; display: block; margin-top: 10px; word-break: break-all;}
         .clean-link:hover { text-decoration: underline; color: #fff;}
 
-        /* Badges Redes y Admin */
-        .badges-container { display: flex; gap: 8px; flex-wrap: wrap; margin-left: 10px; align-items: center; }
-        .social-badge { padding: 5px 10px; border-radius: 10px; font-family: 'Outfit', sans-serif; font-size: 0.7em; font-weight: 900; color: #fff; text-decoration: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .social-badge:hover { transform: translateY(-2px) scale(1.05); filter: brightness(1.1); box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
-        .bg-discord { background: #5865F2; } .bg-youtube { background: #FF0000; } .bg-tiktok { background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.2); } .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-
         .admin-form { display: flex; flex-direction: column; gap: 15px; text-align: left; }
-        .admin-input, .admin-textarea { width: 100%; padding: 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: 0.3s; }
-        .admin-input:focus, .admin-textarea:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 68, 255, 0.2); background: rgba(0, 0, 0, 0.6); }
+        .admin-input, .admin-textarea { width: 100%; padding: 15px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: 0.3s; }
+        .admin-input:focus, .admin-textarea:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(79, 70, 229, 0.2); background: #000; }
         .admin-textarea { resize: vertical; min-height: 120px; }
-        .admin-controls-wrapper { display: flex; gap: 10px; margin-top: 15px; }
-        .btn-delete { background: rgba(255, 50, 50, 0.05); color: #ff5555; border: 1px solid rgba(255, 50, 50, 0.3); padding: 12px; border-radius: 14px; font-family: 'Outfit', sans-serif; font-weight: 800; cursor: pointer; flex: 1; transition: 0.3s; text-transform: uppercase; }
-        .btn-delete:hover { background: #ff5555; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 50, 50, 0.3); }
-        .btn-edit { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 14px; font-family: 'Outfit', sans-serif; font-weight: 800; cursor: pointer; flex: 1; transition: 0.3s; text-transform: uppercase; }
-        .btn-edit:hover { background: #fff; color: #000; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); }
         
-        .upload-area { background: rgba(0,0,0,0.3); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 16px; transition: 0.3s; }
-        .upload-area:hover { border-color: rgba(255,255,255,0.4); background: rgba(0,0,0,0.5); }
-        .upload-btn-custom { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 14px; cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.9em; display: inline-block; margin-bottom: 12px; transition: 0.3s; }
-        .upload-btn-custom:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.2); }
-        input[type="file"] { display: none; }
-        .preview-images { display: flex; gap: 12px; overflow-x: auto; margin-top: 10px; padding-bottom: 5px; }
-        .preview-images img { height: 70px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-
-        /* Estilos de Comentarios */
-        .comments-main-box { padding: 30px; margin-top: 0; border-top: 1px solid rgba(255, 255, 255, 0.05); border-top-left-radius: 0; border-top-right-radius: 0; }
+        .comments-main-box { padding: 30px; margin-top: 0; border-top: 1px solid var(--border-color); border-top-left-radius: 0; border-top-right-radius: 0; }
         .comments-title { font-family: 'Outfit', sans-serif; font-size: 1.4em; font-weight: 800; color: var(--text-main); margin-bottom: 20px; text-align: left; text-transform: uppercase; letter-spacing: 1px; }
-        .comment-item { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--accent); text-align: left; border-top: 1px solid rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.3s; }
-        .comment-item:hover { background: rgba(0,0,0,0.5); transform: translateX(5px); }
+        .comment-item { background: rgba(0,0,0,0.6); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--accent); text-align: left; border: 1px solid var(--border-color); border-left: 4px solid var(--accent); transition: 0.3s; }
+        .comment-item:hover { background: rgba(0,0,0,0.8); transform: translateX(5px); }
         .comment-author { color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1em; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
         .comment-date { color: var(--text-muted); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8em; font-weight: 600; }
         .comment-text { color: var(--text-main); font-size: 0.95em; line-height: 1.6; word-break: break-word; }
-        .comment-input-area { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px;}
+        .comment-input-area { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 25px;}
         .comment-row { display: flex; gap: 12px; }
 
-        /* Custom Modal UI */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-box { padding: 35px 25px; text-align: center; width: 90%; max-width: 400px; transform: scale(0.9); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .modal-overlay.active .modal-box { transform: scale(1); }
         
-        /* Responsive Mobile Ajustes Finales */
+        /* Contador Superior */
+        .top-users-counter {
+            position: absolute; right: 20px; font-family: 'JetBrains Mono', monospace; 
+            color: #00ff80; font-weight: bold; font-size: 0.85em; 
+            display: flex; align-items: center; gap: 6px;
+        }
+        .ping-dot {
+            width: 8px; height: 8px; background-color: #00ff80; border-radius: 50%;
+            box-shadow: 0 0 8px #00ff80; animation: pulse 1.5s infinite alternate;
+        }
+        @keyframes pulse { 0% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+
         @media (max-width: 650px) {
             .main-panel { width: 100%; padding: 110px 15px 40px 15px; }
             .details-main-box, .comments-main-box { padding: 20px; }
             .script-card { padding: 18px; }
-            .glass-box { border-radius: 20px; }
+            .glass-box { border-radius: 12px; }
             .script-title { font-size: 1.25em; }
             .script-card-header { align-items: flex-start; flex-direction: column; }
-            .slider-img { height: 180px; }
             .top-navbar-brand { font-size: 1.6em; }
             .comment-row { flex-direction: column; }
+            .top-users-counter { font-size: 0.7em; right: 10px; }
         }
     </style>
 </head>
 <body>
-    <div class="aurora-bg">
-        <div class="aurora-blob blob-1"></div>
-        <div class="aurora-blob blob-2"></div>
-    </div>
+    <div class="aurora-bg"></div>
     <div id="particles-container"></div>
     
     <div class="menu-btn" onclick="toggleMenu()">
         <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span>
     </div>
 
-    <!-- BARRA SUPERIOR FIJA -->
     <div class="top-navbar">
-        <div class="top-navbar-brand" id="brand-title">
-            <span class="brand-onyx">Onyx</span><span class="brand-hub">Hub</span>
+        <div class="top-navbar-brand glitch-text" id="brand-title" data-text="OnyxHub">
+            OnyxHub
+        </div>
+        <!-- Nuevo contador de usuarios activos basado en request al VPS -->
+        <div class="top-users-counter" id="active-users-display">
+            <div class="ping-dot"></div>
+            Activos: <span id="users-count">...</span>
         </div>
     </div>
 
@@ -292,58 +269,55 @@
 
     <nav class="sidebar" id="sidebar">
         <div style="text-align: center; margin-bottom: 35px; margin-top: 10px;">
-            <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 2.5em; letter-spacing: 1px;">
-                <span class="brand-onyx">Onyx</span><br><span class="brand-hub">Hub</span>
+            <div class="glitch-text" data-text="OnyxHub" style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 2.5em; letter-spacing: 1px; color: #fff;">
+                OnyxHub
             </div>
         </div>
 
-        <a href="#" class="nav-link active" onclick="cambiarPagina('inicio', this)">Menú Principal</a>
-        <a href="#" class="nav-link" onclick="cambiarPagina('scripts', this)">Más Scripts</a>
-        <a href="#" class="nav-link" onclick="cambiarPagina('bypass', this)">Bypass Delta</a>
-        
+        <a href="#" class="nav-link active" onclick="cambiarPagina('inicio', this)">Menú</a>
+        <a href="#" class="nav-link" onclick="cambiarPagina('bypass', this)">Bypass</a>
         <a href="#" class="nav-link nav-link-admin" id="link-admin" onclick="cambiarPagina('admin', this)">Panel Admin</a>
     </nav>
 
     <div class="main-panel">
-        <!-- SUBPÁGINA 1: INICIO -->
         <section id="page-inicio" class="page-section active">
-            
-
             <div class="section-label center" style="margin-bottom: 5px;">Executors Recomendados</div>
             <div style="text-align: center; color: var(--text-muted); font-size: 0.85em; font-family: 'Outfit', sans-serif; margin-bottom: 25px; font-weight: 600;">
                 Última actualización: <span style="color: #00ff88;">21 de Julio, 2026</span>
             </div>
             <div class="executors-wrapper">
-                <a href="https://www.mediafire.com/file/e2lcp29dcop7h2s/Delta-2.729.840.apk/file" class="executor-btn">Delta Android <span class="click-hint">(Mediafire)</span></a>
+                <a href="https://www.mediafire.com/file/e2lcp29dcop7h2s/Delta-2.729.840.apk/file" target="_blank" class="executor-btn">Delta Android <span class="click-hint">(Mediafire)</span></a>
                 <a href="https://www.mediafire.com/file/hdq67wadwixakqe/Delta-2.729.838.ipa/file" target="_blank" class="executor-btn">Delta iOS <span class="click-hint">(MediaFire)</span></a>
             </div>
 
-            <div class="section-label center" style="margin-top: 40px; color: #fff;">Script Principal</div>
+            <div class="section-label center" style="margin-top: 40px; color: #fff;">Script</div>
             
-            <!-- TARJETA DEL SCRIPT PRINCIPAL -->
-            <div class="script-card glass-box" id="main-vip-card" style="border: 1px solid rgba(0, 68, 255, 0.4); box-shadow: 0 0 30px rgba(0, 68, 255, 0.15);">
-                
-                <!-- Imagen del Banner Fija -->
-                <div class="card-banner-container" id="main-vip-banner-container" style="display: block; margin-bottom: 20px;">
-                    <img id="main-vip-banner" src="https://i.imgur.com/h5kuEHa.jpeg" class="card-banner" alt="Banner VIP">
+            <!-- TARJETA ONYX (Modificada sin descripción innecesaria) -->
+            <div class="script-card glass-box clickable-card" id="main-vip-card" style="border: 1px solid rgba(79, 70, 229, 0.4); box-shadow: 0 0 30px rgba(79, 70, 229, 0.15);" onclick="abrirDetallesVip()">
+                <div class="card-banner-container" style="display: block; margin-bottom: 20px;">
+                    <img src="https://i.imgur.com/h5kuEHa.jpeg" class="card-banner" alt="Banner VIP">
                 </div>
 
-                <div class="script-card-header" style="flex-direction: row;">
-                    <span class="script-title" id="main-vip-title" style="color: var(--accent); text-shadow: 0 0 15px var(--accent-glow);">OnyxHub Principal</span>
-                    <span class="script-game-tag" id="main-vip-games" style="background: rgba(0, 68, 255, 0.1); color: #fff; border-color: rgba(0, 68, 255, 0.5);">Multi-Juego</span>
+                <div class="script-card-header" style="flex-direction: row; border-bottom: none; padding-bottom: 0;">
+                    <span class="script-title" style="color: var(--accent); text-shadow: 0 0 15px var(--accent-glow);">OnyxHub Principal</span>
+                    <span class="script-game-tag" style="background: rgba(79, 70, 229, 0.1); color: #fff; border-color: rgba(79, 70, 229, 0.5);">Multi-Juego</span>
                 </div>
-                <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 10px; font-family: 'Outfit', sans-serif; font-weight: 600;">Desarrollado por: <span id="main-vip-creator" style="color:#fff; font-weight: 800;">OnyxDev</span></div>
-                <p class="script-desc" id="main-vip-desc">Juegos soportados: MM2, MMV, DUELS.</p>
                 
-                <div class="script-code-container" style="margin-top: 20px;">
-                    <code id="scriptCodeMain">loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()</code>
+                <!-- Solo la lista de juegos soportados como fue solicitado -->
+                <p class="script-desc" style="margin-top: 10px; color: #fff; font-weight: bold;">Juegos soportados: MM2, MMV, DUELS.</p>
+                
+                <div class="script-code-container" style="margin-top: 20px;" onclick="event.stopPropagation();">
+                    <code id="scriptCodeMain">loadstring(game:HttpGet("https://onyx-scripts.com/onyxhub"))()</code>
                     <button class="btn" onclick="copiarTexto('scriptCodeMain', this, 'Copiar Script VIP')" style="margin-top: 5px;">Copiar Script</button>
+                </div>
+                
+                <div style="margin-top: 20px; font-weight: 800; font-family: 'Outfit', sans-serif; color: var(--accent); text-align: center; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px;">
+                    Click aquí para ver Comentarios →
                 </div>
             </div>
 
             <div class="section-label center" style="margin-top: 40px;">Sitios que Bypasseamos</div>
             <div class="glass-box supported-box" style="margin-bottom: 30px; background: rgba(0,0,0,0.3);">
-                
                 <span class="tag">Linkvertise</span>
                 <span class="tag">Lootlinks</span>
                 <span class="tag">Work.ink</span>
@@ -351,21 +325,13 @@
             </div>
         </section>
 
-        <!-- SUBPÁGINA 2: CATÁLOGO DE SCRIPTS -->
-        <section id="page-scripts" class="page-section">
-            <div class="section-label" style="text-align: center; font-size: 1.2em; color: #fff;">Base de Datos de Scripts</div>
-            <div id="dynamic-scripts">
-                <p style="text-align: center; color: var(--text-muted); font-family: 'Outfit', sans-serif;">Sincronizando servidores Onyx...</p>
-            </div>
-        </section>
-
-        <!-- SUBPÁGINA INDIVIDUAL DEL SCRIPT -->
+        <!-- SUBPÁGINA: DETALLES DEL SCRIPT Y COMENTARIOS -->
         <section id="page-script-details" class="page-section">
-            <button class="btn-back" onclick="cambiarPagina('scripts')">← Regresar</button>
+            <button class="btn-back" onclick="cambiarPagina('inicio')">← Volver</button>
             <div id="script-details-content"></div>
         </section>
 
-        <!-- SUBPÁGINA 3: BYPASS -->
+        <!-- SUBPÁGINA 2: BYPASS -->
         <section id="page-bypass" class="page-section">
             <div class="section-label" style="text-align: center; font-size: 1.2em; color: #fff;">Bypass Tool</div>
             <div class="script-card glass-box" style="padding-bottom: 30px;">
@@ -379,53 +345,37 @@
             </div>
         </section>
 
-        <!-- SUBPÁGINA 4: PANEL DE ADMIN -->
+        <!-- SUBPÁGINA 3: PANEL DE ADMIN -->
         <section id="page-admin" class="page-section">
-            <div class="section-label" style="text-align: center; font-size: 1.2em; color: #ff3377;">Control Maestro VPS</div>
+            <div class="section-label" style="text-align: center; font-size: 1.2em; color: #ff3377;">Control VPS</div>
             
             <div class="glass-box" style="padding: 30px;">
-                <p class="script-desc" style="text-align: center; margin-bottom: 25px;">Agrega o actualiza scripts en la base de datos global de OnyxHub.</p>
+                <p class="script-desc" style="text-align: center; margin-bottom: 25px;">Agrega o actualiza scripts en la base de datos (Útil para gestionar IDs para comentarios).</p>
                 
                 <form id="form-admin" class="admin-form" onsubmit="publicarScript(event)">
                     <input type="text" id="admin-titulo" class="admin-input" placeholder="Título del Script (Ej: Onyx Aimbot Pro)" required>
                     
                     <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                        <input type="text" id="admin-tag" class="admin-input" placeholder="Categoría/Tag (Ej: Combat)" required style="flex: 1; min-width: 48%;">
-                        <input type="text" id="admin-juegos" class="admin-input" placeholder="Juegos Compatibles (Ej: Blox Fruits, Todos)" required style="flex: 1; min-width: 48%;">
+                        <input type="text" id="admin-tag" class="admin-input" placeholder="Categoría/Tag" required style="flex: 1; min-width: 48%;">
+                        <input type="text" id="admin-juegos" class="admin-input" placeholder="Juegos Compatibles" required style="flex: 1; min-width: 48%;">
                     </div>
-                    
-                    <label style="color: #ffd700; font-family: 'Outfit', sans-serif; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 12px; font-size: 1em; background: rgba(255, 215, 0, 0.05); padding: 15px; border-radius: 16px; border: 1px dashed rgba(255, 215, 0, 0.3); transition: 0.3s;">
-                        <input type="checkbox" id="admin-ocupa-key" style="width: 20px; height: 20px; accent-color: #ffd700; cursor: pointer;">
-                        Este script requiere Key
-                    </label>
 
-                    <label style="color: var(--accent); font-family: 'Outfit', sans-serif; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 12px; font-size: 1em; background: rgba(0, 68, 255, 0.05); padding: 15px; border-radius: 16px; border: 1px dashed rgba(0, 68, 255, 0.4); transition: 0.3s;">
+                    <label style="color: var(--accent); font-family: 'Outfit', sans-serif; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 12px; font-size: 1em; background: rgba(79, 70, 229, 0.05); padding: 15px; border-radius: 12px; border: 1px dashed rgba(79, 70, 229, 0.4); transition: 0.3s;">
                         <input type="checkbox" id="admin-es-principal" style="width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer;">
-                        Fijar como Script Principal VIP
+                        Fijar como Script Principal
                     </label>
-                    
-                    <div class="upload-area">
-                        <label style="color: #fff; font-family: 'Outfit', sans-serif; font-size: 1em; font-weight: 800; display: block; margin-bottom: 12px;">Imágenes del Slider</label>
-                        <label for="admin-imagen-local" class="upload-btn-custom">Seleccionar Imágenes</label>
-                        <input type="file" id="admin-imagen-local" accept="image/*" multiple onchange="mostrarPreviewImagenes(event)">
-                        <div class="preview-images" id="preview-container"></div>
-                    </div>
                     
                     <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                        <input type="text" id="admin-creador" class="admin-input" placeholder="Creador (Tu Nombre)" required style="flex: 1; min-width: 100%;">
-                        <input type="url" id="admin-discord" class="admin-input" placeholder="Link Discord (Opcional)" style="flex: 1; min-width: 48%;">
-                        <input type="url" id="admin-youtube" class="admin-input" placeholder="Link YouTube (Opcional)" style="flex: 1; min-width: 48%;">
-                        <input type="url" id="admin-tiktok" class="admin-input" placeholder="Link TikTok (Opcional)" style="flex: 1; min-width: 48%;">
-                        <input type="url" id="admin-instagram" class="admin-input" placeholder="Link Instagram (Opcional)" style="flex: 1; min-width: 48%;">
+                        <input type="text" id="admin-creador" class="admin-input" placeholder="Creador" required style="flex: 1; min-width: 100%;">
                     </div>
                     
-                    <textarea id="admin-desc" class="admin-textarea" placeholder="Descripción detallada de la actualización o script..." required></textarea>
+                    <textarea id="admin-desc" class="admin-textarea" placeholder="Descripción detallada..." required></textarea>
                     <textarea id="admin-funciones" class="admin-textarea" style="min-height: 100px;" placeholder="Lista de Funciones (Separadas por Enter)"></textarea>
                     <textarea id="admin-codigo" class="admin-textarea" placeholder="Pegar código fuente (.lua) aquí..." required style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;"></textarea>
                     
                     <div style="display:flex; gap: 15px; margin-top: 10px;">
                         <button type="submit" id="btn-publicar" class="btn" style="flex: 2;">Subir Script</button>
-                        <button type="button" id="btn-cancelar-edicion" class="btn-back" style="flex: 1; display: none; margin:0;" onclick="cancelarEdicion()">Cancelar Edición</button>
+                        <button type="button" id="btn-cancelar-edicion" class="btn-back" style="flex: 1; display: none; margin:0;" onclick="cancelarEdicion()">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -434,9 +384,6 @@
     </div>
 
     <script>
-        // ==========================================
-        // UTILIDADES Y VENTANAS MODALES CUSTOM
-        // ==========================================
         function mostrarAlerta(msg) {
             const overlay = document.createElement('div');
             overlay.className = 'modal-overlay';
@@ -482,79 +429,60 @@
             };
         }
 
-        function mostrarPromptAdmin() {
-            const overlay = document.createElement('div');
-            overlay.className = 'modal-overlay';
-            const box = document.createElement('div');
-            box.className = 'glass-box modal-box';
-            box.innerHTML = `
-                <h2 style="color:var(--accent); margin-bottom:20px; font-family: 'Outfit', sans-serif; font-weight: 900; letter-spacing: 1px;">Control de Acceso</h2>
-                <input type="password" id="admin-pass-input" class="bypass-input" placeholder="Ingresa la credencial..." style="margin-bottom:20px; text-align:center;">
-                <button id="btn-admin-submit" class="btn">Verificar</button>
-                <button id="btn-admin-cancel" class="btn-back" style="margin: 15px auto 0 auto;">Cerrar</button>
-            `;
-            overlay.appendChild(box);
-            document.body.appendChild(overlay);
-            
-            setTimeout(() => overlay.classList.add('active'), 10);
-            document.getElementById('admin-pass-input').focus();
+        function iniciarContadorUsuarios() {
+            const counterElement = document.getElementById("users-count");
+            if (!counterElement) return;
 
-            const checkPass = () => {
-                // LA CONTRASEÑA NUEVA ES onyx2026
-                if(document.getElementById('admin-pass-input').value === "onyx2026") {
-                    isAdminLoggedIn = true;
-                    document.getElementById('link-admin').classList.add('visible');
-                    overlay.classList.remove('active');
-                    setTimeout(() => { document.body.removeChild(overlay); mostrarAlerta("Sistemas Onyx Desbloqueados. Bienvenido."); renderizarScripts(); }, 400);
-                } else {
-                    document.getElementById('admin-pass-input').value = "";
-                    document.getElementById('admin-pass-input').placeholder = "Acceso Denegado";
-                    document.getElementById('admin-pass-input').style.borderColor = "#ff3333";
-                    setTimeout(() => { document.getElementById('admin-pass-input').style.borderColor = "var(--border-color)"; }, 1000);
+            // Datos dummy ya que estamos en contexto de Web y no de Roblox
+            const myName = encodeURIComponent("OnyxWebClient");
+            const myJobId = "WebPanel";
+
+            // Hacemos el request usando fetch adaptado de la version de Roblox Lua
+            const fetchUsers = async () => {
+                try {
+                    const respuesta = await fetch(`https://hub.onyx-scripts.com/ping?user=${myName}&jobid=${myJobId}`, {
+                        method: "GET",
+                        headers: {
+                            "Astra-Auth": "AstraVIP2026!"
+                            // "User-Agent" se omite ya que el navegador bloquea su modificacion por Fetch API
+                        }
+                    });
+                    
+                    if (respuesta.ok) {
+                        const data = await respuesta.text();
+                        if (data && !isNaN(data)) {
+                            counterElement.innerText = data;
+                        }
+                    }
+                } catch (error) {
+                    // Si ocurre un error CORS o de red, mantenemos un valor por defecto o no hacemos nada para evitar spam en consola visual
+                    console.log("Error consultando usuarios activos:", error);
                 }
             };
-            
-            document.getElementById('btn-admin-submit').onclick = checkPass;
-            document.getElementById('admin-pass-input').onkeydown = (e) => { if(e.key === 'Enter') checkPass(); };
-            document.getElementById('btn-admin-cancel').onclick = () => { 
-                overlay.classList.remove('active'); 
-                setTimeout(() => document.body.removeChild(overlay), 400); 
-            };
+
+            // Primera llamada y loop cada 5 segundos
+            fetchUsers();
+            setInterval(fetchUsers, 5000);
         }
 
-        // ==========================================
-        // CONFIGURACIÓN DE TU VPS
-        // ==========================================
-        const VPS_API_URL = 'https://scripts.astrahub.space/api/scripts'; 
-        
+        const VPS_API_URL = 'https://scripts.onyx-scripts.com/api/scripts'; 
         let scriptsDesdeVPS = [];
-        let imagenesBase64Cargadas = [];
         let scriptEnEdicionId = null; 
-        
-        let paginaActual = 1;
-        const SCRIPTS_POR_PAGINA = 5; 
+        let isAdminLoggedIn = false;
 
         window.onload = function() {
             cargarScriptsDesdeVPS();
             checkCooldown();
+            iniciarContadorUsuarios();
         };
 
-    
-
-        // ==========================================
-        // LÓGICA DEL BYPASS PREMIUM
-        // ==========================================
         function checkCooldown() {
             let lastTime = localStorage.getItem("astra_cooldown");
             if (lastTime) {
                 let tiempoPasado = Math.floor((Date.now() - parseInt(lastTime)) / 1000);
                 let tiempoRestante = 15 - tiempoPasado; 
-
-                if (tiempoRestante > 0) {
-                    iniciarReloj(tiempoRestante);
-                } else {
-                    localStorage.removeItem("astra_cooldown");
-                }
+                if (tiempoRestante > 0) iniciarReloj(tiempoRestante);
+                else localStorage.removeItem("astra_cooldown");
             }
         }
 
@@ -563,12 +491,10 @@
             btn.disabled = true;
             btn.style.opacity = "0.5";
             btn.innerText = "Procesando... " + segundos + "s";
-
             let contador = setInterval(function() {
                 segundos--;
-                if (segundos > 0) {
-                    btn.innerText = "Procesando... " + segundos + "s";
-                } else {
+                if (segundos > 0) { btn.innerText = "Procesando... " + segundos + "s"; } 
+                else {
                     clearInterval(contador); 
                     btn.innerText = "Desbloquear Link"; 
                     btn.disabled = false; 
@@ -583,7 +509,7 @@
                 const texto = await navigator.clipboard.readText();
                 document.getElementById("linkInput").value = texto;
             } catch (err) {
-                mostrarAlerta("Tu navegador bloqueó el acceso al portapapeles. Pégalo manualmente manteniendo presionado o usando Ctrl+V.");
+                mostrarAlerta("Tu navegador bloqueó el acceso. Pégalo manualmente.");
             }
         }
 
@@ -592,21 +518,19 @@
             tempInput.value = texto;
             document.body.appendChild(tempInput);
             tempInput.select();
-            
             try {
                 document.execCommand("copy");
                 let textoOriginal = boton.innerText;
                 boton.innerText = "¡Copiado!";
                 boton.style.background = "#ffffff";
                 boton.style.color = "#000000";
-                
                 setTimeout(function() {
                     boton.innerText = textoOriginal;
                     boton.style.background = "";
                     boton.style.color = "";
                 }, 2000);
             } catch (err) {
-                mostrarAlerta("Ocurrió un error al intentar copiar al portapapeles.");
+                mostrarAlerta("Error al copiar al portapapeles.");
             }
             document.body.removeChild(tempInput);
         }
@@ -614,502 +538,193 @@
         async function procesarBypass() {
             const link = document.getElementById("linkInput").value;
             const resultBox = document.getElementById("result-box");
-
-            if(!link) {
-                mostrarAlerta("Por favor, ingresa una URL válida primero.");
-                return;
-            }
-
+            if(!link) { mostrarAlerta("Por favor, ingresa una URL válida primero."); return; }
             localStorage.setItem("astra_cooldown", Date.now());
             iniciarReloj(15); 
-
             resultBox.style.display = "block";
-
             const tiempoInicio = performance.now();
             let cronometroActivo = setInterval(() => {
                 let tiempoActual = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
-                resultBox.innerHTML = `<span style='color: var(--text-main); font-family: "Outfit", sans-serif; font-weight: bold;'>Analizando red y bypasseando... ${tiempoActual}s</span>`;
+                resultBox.innerHTML = `<span style='color: var(--text-main); font-family: "Outfit", sans-serif; font-weight: bold;'>Bypasseando... ${tiempoActual}s</span>`;
             }, 100); 
 
             try {
-                const response = await fetch("https://api.astrahub.space/api/bypass", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ url: link })
+                const response = await fetch("https://api.onyx-scripts.com/api/bypass", {
+                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: link })
                 });
-
                 const data = await response.json();
-                
                 clearInterval(cronometroActivo);
-                const tiempoFin = performance.now();
-                const segundosTardados = ((tiempoFin - tiempoInicio) / 1000).toFixed(1);
+                const segundosTardados = ((performance.now() - tiempoInicio) / 1000).toFixed(1);
 
                 if(data.success) {
                     let resultado = data.url_limpia;
-                    
                     if (resultado.startsWith("http")) {
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold; font-family: 'Outfit', sans-serif;">¡Extracción Exitosa! (${segundosTardados}s)</span>
+                            <span style="color: #00ff88; font-weight: bold;">¡Éxito! (${segundosTardados}s)</span>
                             <a href="${resultado}" target="_blank" class="clean-link">${resultado}</a>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 15px; background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.2s;">Copiar Enlace</button>
-                        `;
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" class="btn-back" style="margin-top:15px; margin-bottom:0;">Copiar Enlace</button>`;
                     } else {
                         resultBox.innerHTML = `
-                            <span style="color: #00ff88; font-weight: bold; font-family: 'Outfit', sans-serif;">¡Key Generada! (${segundosTardados}s)</span>
-                            <div style="margin-top: 12px; padding: 15px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: var(--accent); font-family: 'JetBrains Mono', monospace; word-break: break-all; text-align: center; font-size: 1.1em; letter-spacing: 1px;">
-                                ${resultado}
-                            </div>
-                            <button onclick="copiarAlPortapapeles('${resultado}', this)" style="margin-top: 15px; background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.2s;">Copiar Key</button>
-                        `;
+                            <span style="color: #00ff88; font-weight: bold;">¡Key Generada! (${segundosTardados}s)</span>
+                            <div style="margin-top: 12px; padding: 15px; background: rgba(0,0,0,0.6); border-radius: 12px; color: var(--accent); font-family: 'JetBrains Mono'; word-break: break-all; text-align: center;">${resultado}</div>
+                            <button onclick="copiarAlPortapapeles('${resultado}', this)" class="btn-back" style="margin-top:15px; margin-bottom:0;">Copiar Key</button>`;
                     }
                 } else {
-                    resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold; font-family: 'Outfit', sans-serif;">Fallo en la operación (${segundosTardados}s): ${data.error}</span>`;
+                    resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">Fallo (${segundosTardados}s): ${data.error}</span>`;
                 }
             } catch (error) {
                 clearInterval(cronometroActivo);
-                resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold; font-family: 'Outfit', sans-serif;">Error crítico de red. El servidor puede estar fuera de línea.</span>`;
+                resultBox.innerHTML = `<span style="color: #ff3333; font-weight: bold;">Error crítico de red.</span>`;
             }
         }
 
-        // ==========================================
-        // CONEXIÓN CON EL BACKEND (VPS) Y EDICIÓN
-        // ==========================================
         async function cargarScriptsDesdeVPS() {
             try {
                 const respuesta = await fetch(VPS_API_URL);
                 if(respuesta.ok) {
                     scriptsDesdeVPS = await respuesta.json();
-                    renderizarScripts();
-                } else {
-                    document.getElementById('dynamic-scripts').innerHTML = '<p style="color:#ff3333; text-align:center; font-family: \'Outfit\', sans-serif; font-weight: 800;">Fallo de conexión con el nodo Onyx.</p>';
                 }
             } catch(error) {
-                console.log("No se pudo conectar al VPS.", error);
-                document.getElementById('dynamic-scripts').innerHTML = '<p style="color:var(--text-muted); text-align:center; font-family: \'Outfit\', sans-serif; font-weight: 600;">El servidor de OnyxHub está actualmente en mantenimiento.</p>';
+                console.log("No se pudo conectar al VPS para cargar comentarios.");
             }
         }
 
-        function editarScript(id, event) {
-            event.stopPropagation(); 
+        function abrirDetallesVip() {
+            // Buscamos un ID real en la base de datos SOLO para poder guardar comentarios.
+            let scriptDB = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
+            if (!scriptDB && scriptsDesdeVPS.length > 0) scriptDB = scriptsDesdeVPS[scriptsDesdeVPS.length - 1];
             
-            const script = scriptsDesdeVPS.find(s => s.id === id);
-            if(!script) return;
-
-            document.getElementById('admin-titulo').value = script.titulo || '';
-            document.getElementById('admin-tag').value = script.tag || '';
-            document.getElementById('admin-juegos').value = script.juegos || '';
-            document.getElementById('admin-es-principal').checked = script.esPrincipal || false;
-            document.getElementById('admin-ocupa-key').checked = script.ocupaKey || false;
-            document.getElementById('admin-creador').value = script.creador || '';
-            document.getElementById('admin-discord').value = script.discord || '';
-            document.getElementById('admin-youtube').value = script.youtube || '';
-            document.getElementById('admin-tiktok').value = script.tiktok || '';
-            document.getElementById('admin-instagram').value = script.instagram || '';
-            document.getElementById('admin-desc').value = script.descripcion || '';
-            document.getElementById('admin-funciones').value = script.funciones || '';
-            document.getElementById('admin-codigo').value = script.codigo || '';
-
-            imagenesBase64Cargadas = script.imagenes || [];
-            const container = document.getElementById('preview-container');
-            container.innerHTML = '';
-            imagenesBase64Cargadas.forEach(base64 => {
-                const img = document.createElement('img');
-                img.src = base64;
-                container.appendChild(img);
-            });
-
-            scriptEnEdicionId = id; 
-            
-            document.getElementById('btn-publicar').innerText = "Guardar Cambios";
-            document.getElementById('btn-cancelar-edicion').style.display = "block";
-
-            cambiarPagina('admin', document.getElementById('link-admin'));
-        }
-
-        function cancelarEdicion() {
-            scriptEnEdicionId = null;
-            document.getElementById('form-admin').reset();
-            document.getElementById('preview-container').innerHTML = '';
-            imagenesBase64Cargadas = [];
-            
-            document.getElementById('btn-publicar').innerText = "Subir Script";
-            document.getElementById('btn-cancelar-edicion').style.display = "none";
-        }
-
-        async function publicarScript(event) {
-            event.preventDefault();
-            const btn = document.getElementById('btn-publicar');
-            btn.innerText = "Sincronizando..."; btn.disabled = true;
-
-            const datosScript = {
-                titulo: document.getElementById('admin-titulo').value,
-                tag: document.getElementById('admin-tag').value,
-                juegos: document.getElementById('admin-juegos').value,
-                esPrincipal: document.getElementById('admin-es-principal').checked,
-                ocupaKey: document.getElementById('admin-ocupa-key').checked,
-                imagenes: imagenesBase64Cargadas, 
-                creador: document.getElementById('admin-creador').value,
-                discord: document.getElementById('admin-discord').value,
-                youtube: document.getElementById('admin-youtube').value,
-                tiktok: document.getElementById('admin-tiktok').value,
-                instagram: document.getElementById('admin-instagram').value,
-                descripcion: document.getElementById('admin-desc').value,
-                funciones: document.getElementById('admin-funciones').value,
-                codigo: document.getElementById('admin-codigo').value,
-                fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
-            };
-            
-            try {
-                let url = VPS_API_URL;
-                let metodo = 'POST'; 
-                
-                if (scriptEnEdicionId) {
-                    url = `${VPS_API_URL}/${scriptEnEdicionId}`;
-                    metodo = 'PUT';
-                }
-
-                const response = await fetch(url, {
-                    method: metodo,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(datosScript)
-                });
-
-                if(response.ok) {
-                    mostrarAlerta(scriptEnEdicionId ? 'Datos del script actualizados en el clúster.' : 'Nuevo script indexado y publicado.');
-                    cancelarEdicion();
-                    await cargarScriptsDesdeVPS();
-                    
-                    if(datosScript.esPrincipal) {
-                        cambiarPagina('inicio', document.querySelectorAll('.nav-link')[0]);
-                    } else {
-                        cambiarPagina('scripts', document.querySelectorAll('.nav-link')[1]);
-                    }
-                } else {
-                    mostrarAlerta('Error interno del servidor al intentar guardar.');
-                }
-            } catch(e) {
-                mostrarAlerta('Conexión rechazada o perdida. Revisa el estado del VPS.');
-            }
-            
-            btn.innerText = "Subir Script"; btn.disabled = false;
-        }
-
-        function eliminarScript(id, event) {
-            event.stopPropagation();
-            mostrarConfirm("Se borrará este script del servidor global. Esta acción no se puede deshacer.", async () => {
-                try {
-                    const response = await fetch(`${VPS_API_URL}/${id}`, { method: 'DELETE' });
-                    if(response.ok) {
-                        await cargarScriptsDesdeVPS();
-                    }
-                } catch(e) {
-                    mostrarAlerta("Error al procesar la eliminación en el VPS.");
-                }
-            });
-        }
-
-        // ==========================================
-        // PROCESAMIENTO DE IMÁGENES LOCALES
-        // ==========================================
-        function mostrarPreviewImagenes(event) {
-            const files = event.target.files;
-            const container = document.getElementById('preview-container');
-            
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    const base64 = e.target.result;
-                    imagenesBase64Cargadas.push(base64);
-                    
-                    const img = document.createElement('img');
-                    img.src = base64;
-                    container.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function generarBadgesRedes(script) {
-            let badges = '';
-            if(script.discord) badges += `<a href="${script.discord}" target="_blank" class="social-badge bg-discord">Discord</a>`;
-            if(script.youtube) badges += `<a href="${script.youtube}" target="_blank" class="social-badge bg-youtube">YouTube</a>`;
-            if(script.tiktok) badges += `<a href="${script.tiktok}" target="_blank" class="social-badge bg-tiktok">TikTok</a>`;
-            if(script.instagram) badges += `<a href="${script.instagram}" target="_blank" class="social-badge bg-ig">IG</a>`;
-            return badges !== '' ? `<div class="badges-container">${badges}</div>` : '';
-        }
-
-        function renderizarScripts() {
-            const container = document.getElementById('dynamic-scripts');
-            container.innerHTML = '';
-            
-            if(scriptsDesdeVPS.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); text-align:center; font-family: \'Outfit\', sans-serif; font-weight: 600;">La base de datos se encuentra vacía.</p>';
-                return;
-            }
-
-            const scriptPrincipal = [...scriptsDesdeVPS].reverse().find(s => s.esPrincipal);
-            if (scriptPrincipal) {
-                let mainKeyBadge = scriptPrincipal.ocupaKey ? '<span class="tag-key">KEY</span>' : '';
-                document.getElementById('main-vip-title').innerText = scriptPrincipal.titulo;
-                document.getElementById('main-vip-games').innerHTML = mainKeyBadge + (scriptPrincipal.juegos || scriptPrincipal.tag);
-                document.getElementById('main-vip-creator').innerText = scriptPrincipal.creador;
-                document.getElementById('main-vip-desc').innerText = scriptPrincipal.descripcion;
-                document.getElementById('scriptCodeMain').innerText = scriptPrincipal.codigo;
-                // Actualizar imagen si el script principal tiene una desde el VPS
-                const bannerImg = document.getElementById('main-vip-banner');
-                const bannerContainer = document.getElementById('main-vip-banner-container');
-                if (scriptPrincipal.imagenes && scriptPrincipal.imagenes.length > 0) {
-                    bannerImg.src = scriptPrincipal.imagenes[0];
-                    bannerContainer.style.display = 'block';
-                } else {
-                    // Si no tiene imagen, escondemos el contenedor para que no se vea feo
-                    bannerContainer.style.display = 'none';
-                }
-            }
-            
-
-            const scriptsMostrados = [...scriptsDesdeVPS].reverse();
-            
-            const limite = paginaActual * SCRIPTS_POR_PAGINA;
-            const scriptsPagina = scriptsMostrados.slice(0, limite);
-
-            scriptsPagina.forEach((script) => {
-                let adminControls = isAdminLoggedIn ? `
-                <div class="admin-controls-wrapper">
-                    <button class="btn-edit" onclick="editarScript('${script.id}', event)">Modificar</button>
-                    <button class="btn-delete" onclick="eliminarScript('${script.id}', event)">Borrar</button>
-                </div>` : '';
-
-                let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
-                
-                let bannerHtml = '';
-                if (script.imagenes && script.imagenes.length > 0) {
-                    bannerHtml = `
-                    <div class="card-banner-container">
-                        <img src="${script.imagenes[0]}" class="card-banner" alt="Banner">
-                    </div>`;
-                }
-
-                let html = `
-                <div class="script-card glass-box clickable-card" onclick="abrirDetalles('${script.id}')">
-                    ${bannerHtml}
-                    <div class="script-card-header">
-                        <span class="script-title">${script.titulo}</span>
-                        <div style="display: flex; align-items: center; flex-wrap:wrap; justify-content:flex-end; margin-top:5px;">
-                            ${keyBadge}
-                            <span class="script-game-tag">${script.juegos || script.tag}</span>
-                        </div>
-                    </div>
-                    
-                    <div style="display:flex; align-items:center; margin-bottom:15px; font-family: 'Outfit', sans-serif;">
-                        <span style="font-size:0.85em; color:var(--text-muted); font-weight:600;">Dev: <span style="color:#fff; font-weight:800;">${script.creador}</span></span>
-                        ${generarBadgesRedes(script)}
-                    </div>
-
-                    <p class="script-desc">${script.descripcion.length > 85 ? script.descripcion.substring(0, 85) + '...' : script.descripcion}</p>
-                    
-                    <div style="margin-top: 20px; font-weight: 800; font-family: 'Outfit', sans-serif; color: var(--accent); text-align: right; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: var(--text-muted); font-weight: 400;">${script.fecha}</span>
-                        <span style="text-transform: uppercase; letter-spacing: 1px;">Click para expandir →</span>
-                    </div>
-                    ${adminControls}
-                </div>
-                `;
-                container.innerHTML += html;
-            });
-            
-            if (scriptsMostrados.length > limite) {
-                container.innerHTML += `<button class="load-more-btn" onclick="cargarMasScripts()">Cargar más resultados</button>`;
-            }
-        }
-        
-        function cargarMasScripts() {
-            paginaActual++;
-            renderizarScripts();
-        }
-
-        function toggleShowMore(contentId, btnId) {
-            const content = document.getElementById(contentId);
-            const btn = document.getElementById(btnId);
-            if (content.classList.contains('expanded')) {
-                content.classList.remove('expanded');
-                btn.innerText = 'Mostrar detalles completos';
-            } else {
-                content.classList.add('expanded');
-                btn.innerText = 'Contraer información';
-            }
-        }
-
-        let sliderInterval;
-        function abrirDetalles(id) {
-            const script = scriptsDesdeVPS.find(s => s.id === id);
-            if(!script) return;
-
-            const container = document.getElementById('script-details-content');
-            if(sliderInterval) clearInterval(sliderInterval);
-
-            let sliderHtml = '';
-            if (script.imagenes && script.imagenes.length > 0) {
-                sliderHtml = `<div class="slider-wrapper" id="current-slider">`;
-                script.imagenes.forEach(img => {
-                    sliderHtml += `<img src="${img}" class="slider-img">`;
-                });
-                sliderHtml += `</div>`;
-            }
-
-            let featuresHtml = '';
-            if (script.funciones && script.funciones.trim() !== '') {
-                let funcList = script.funciones.split('\n').filter(f => f.trim() !== '').map(f => `<li>${f.trim()}</li>`).join('');
-                featuresHtml = `<div class="detail-title" style="margin-top: 25px; font-size: 1em;">Funciones</div><ul class="features-list">${funcList}</ul>`;
-            }
-
-            let keyBadge = script.ocupaKey ? `<span class="tag-key">KEY</span>` : '';
-
-            // GENERAR SECCIÓN DE COMENTARIOS
-            let listaComentarios = script.comentarios || [];
-            let htmlComentarios = '';
-            
+            let idParaComentarios = scriptDB ? scriptDB.id : null;
+            let listaComentarios = scriptDB && scriptDB.comentarios ? scriptDB.comentarios : [];
             let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
 
+            // FORZAMOS LOS DATOS DE ONYX HUB MINIMALISTAS
+            let onyxData = {
+                titulo: "OnyxHub",
+                tag: "Multi-Juego",
+                creador: "AlexDev",
+                descripcion: "Juegos soportados: MM2, MMV, DUELS.", // Quitamos la descripcion larga
+                codigo: 'loadstring(game:HttpGet("http://74.208.118.5/astrahub"))()',
+                imagen: "https://i.imgur.com/h5kuEHa.jpeg",
+                funciones: [] // Quitamos las funciones
+            };
+
+            const container = document.getElementById('script-details-content');
+            
+            // Ya no construimos lista de funciones.
+            let featuresHtml = '';
+
+            let htmlComentarios = '';
             if(listaComentarios.length === 0) {
-                htmlComentarios = '<p style="color:var(--text-muted); font-size: 0.9em; font-family: \'Outfit\', sans-serif; text-align: center; padding: 25px 0;">No hay comentarios aún.<br>.</p>';
+                htmlComentarios = '<p style="color:var(--text-muted); font-size: 0.9em; font-family: \'Outfit\', sans-serif; text-align: center; padding: 25px 0;">No hay comentarios aún. ¡Sé el primero!</p>';
             } else {
                 listaComentarios.forEach(c => {
-                    if(!c.id) {
-                        htmlComentarios += `
-                        <div class="comment-item">
-                            <div class="comment-author"><span>${c.autor}</span> <span class="comment-date">${c.fecha}</span></div>
-                            <div class="comment-text">${c.texto}</div>
-                        </div>`;
-                        return;
-                    }
-
                     let esMiComentario = misComentariosLocales.includes(c.id);
-                    
-                    let btnEditar = esMiComentario ? `<button onclick="habilitarEdicion('${script.id}', '${c.id}')" style="background:none; border:none; color:var(--accent); font-size:0.85em; cursor:pointer; font-weight:800; font-family:'Outfit', sans-serif; text-transform: uppercase;">Editar</button>` : '';
-                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentario('${script.id}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.85em; cursor:pointer; font-weight:800; font-family:'Outfit', sans-serif; text-transform: uppercase;">Borrar</button>` : '';
-                    
-                    let etiquetaEditado = c.editado ? `<span style="font-size: 0.75em; color: var(--text-muted); font-style: italic; font-weight: normal; margin-left: 8px;">(editado)</span>` : '';
-
-                    let safeText = c.texto.replace(/"/g, '&quot;');
+                    let btnEliminar = (esMiComentario || isAdminLoggedIn) ? `<button onclick="eliminarComentarioVip('${idParaComentarios}', '${c.id}')" style="background:none; border:none; color:#ff5555; font-size:0.85em; cursor:pointer; font-weight:800; font-family:'Outfit', sans-serif; text-transform: uppercase;">Borrar</button>` : '';
+                    let etiquetaEditado = c.editado ? `<span style="font-size: 0.75em; color: var(--text-muted); font-style: italic;">(editado)</span>` : '';
 
                     htmlComentarios += `
                     <div class="comment-item">
-                        <div class="comment-author">
-                            <span>${c.autor} ${etiquetaEditado}</span> 
-                            <span class="comment-date">${c.fecha}</span>
-                        </div>
-                        
-                        <!-- Texto Normal -->
-                        <div id="comment-text-${c.id}" class="comment-text">${c.texto}</div>
-                        
-                        <!-- Area de Edición Oculta -->
-                        <div id="comment-edit-area-${c.id}" style="display:none; margin-top: 15px;">
-                            <input type="text" id="input-edit-${c.id}" class="admin-input" style="width: 100%; padding: 12px 15px; border-radius: 12px; font-size: 0.9em; margin-bottom: 10px;" value="${safeText}">
-                            <div style="display:flex; gap: 10px; justify-content: flex-end;">
-                                <button onclick="cancelarEdicionComentario('${c.id}')" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 10px; font-weight: 800; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.8em; transition: 0.2s;">Cancelar</button>
-                                <button onclick="guardarEdicion('${script.id}', '${c.id}')" style="background: #fff; color: #000; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 800; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.8em; transition: 0.2s;">Guardar Cambios</button>
-                            </div>
-                        </div>
-
-                        <!-- Botones de Acción -->
-                        <div id="comment-actions-${c.id}" style="display:flex; gap:15px; margin-top:12px; justify-content:flex-end;">
-                            ${btnEditar}
-                            ${btnEliminar}
-                        </div>
+                        <div class="comment-author"><span>${c.autor} ${etiquetaEditado}</span> <span class="comment-date">${c.fecha}</span></div>
+                        <div class="comment-text">${c.texto}</div>
+                        <div style="display:flex; gap:15px; margin-top:12px; justify-content:flex-end;">${btnEliminar}</div>
                     </div>`;
                 });
             }
 
+            // Input para comentar
+            let inputComentarioHtml = idParaComentarios ? `
+                <div class="comment-input-area">
+                    <input type="text" id="comentario-autor" class="admin-input" placeholder="Ingresa tu Alias" maxlength="20">
+                    <div class="comment-row">
+                        <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu opinión de OnyxHub..." maxlength="120" style="flex: 3;">
+                        <button class="btn" style="flex: 1; padding: 12px; border-radius: 12px; box-shadow: none;" onclick="enviarComentarioVip('${idParaComentarios}')">Publicar</button>
+                    </div>
+                </div>
+            ` : `<p style="color:#ff5555; text-align:center; font-family: 'Outfit'; margin-top:20px;">Sin conexión al nodo principal de la base de datos para guardar comentarios.</p>`;
+
             container.innerHTML = `
-                <!-- CAJA PRINCIPAL DETALLES -->
                 <div class="glass-box details-main-box">
                     <div class="script-card-header" style="flex-direction: column; align-items: flex-start; gap: 12px; border-bottom: none; margin-bottom: 25px;">
-                        <span class="script-title" style="font-size: 2em; text-shadow: 0 0 20px var(--accent-glow);">${script.titulo}</span>
-                        <div style="display: flex; gap: 10px; align-items: center; align-self: flex-start;">
-                            ${keyBadge}
-                            <span class="script-game-tag">${script.juegos || script.tag}</span>
+                        <span class="script-title" style="font-size: 2.2em; text-shadow: 0 0 20px var(--accent-glow);">${onyxData.titulo}</span>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="script-game-tag">${onyxData.tag}</span>
                         </div>
                     </div>
                     
-                    ${sliderHtml}
-                    
-                    <div style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 30px; background: rgba(0,0,0,0.5); padding: 15px 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
-                        <span style="font-size:0.95em; color:var(--text-muted); font-family: 'Outfit', sans-serif; font-weight: 600;">Desarrollador: <span style="color: #fff; font-weight: 800; margin-right: 20px; font-size: 1.05em;">${script.creador}</span></span>
-                        ${generarBadgesRedes(script)}
+                    <div class="slider-wrapper" style="border-radius:12px; margin-bottom:25px; overflow:hidden;">
+                        <img src="${onyxData.imagen}" style="width:100%; height:auto; display:block;">
                     </div>
-
+                    
                     <div class="detail-box">
-                        <div id="desc-content" class="content-collapse">
-                            <div class="detail-title">Visión General</div>
-                            <p style="color: var(--text-main); font-size: 0.95em; line-height: 1.7; opacity: 0.9;">${script.descripcion}</p>
-                            ${featuresHtml}
-                        </div>
-                        <button id="btn-show-more" class="btn-show-more" onclick="toggleShowMore('desc-content', 'btn-show-more')">Mostrar detalles completos</button>
+                        <p style="color: var(--text-main); font-size: 1.1em; font-weight: bold; line-height: 1.7; opacity: 0.9; white-space: pre-wrap;">${onyxData.descripcion}</p>
+                        ${featuresHtml}
                     </div>
 
-                    <div class="detail-box" style="border-color: rgba(0, 68, 255, 0.5); box-shadow: inset 0 0 25px rgba(0,68,255,0.1); margin-bottom: 0;">
+                    <div class="detail-box" style="border-color: rgba(79, 70, 229, 0.5); box-shadow: inset 0 0 25px rgba(79, 70, 229, 0.1); margin-bottom: 0;">
                         <div class="detail-title" style="color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2);">Source Code</div>
                         <div class="script-code-container" style="margin-bottom: 20px;">
-                            <code id="detalle-codigo">${script.codigo}</code>
+                            <code id="detalle-codigo">${onyxData.codigo}</code>
                         </div>
                         <button class="btn" onclick="copiarTexto('detalle-codigo', this, 'Copiar Script')">Copiar Script</button>
                     </div>
                 </div>
 
-                <!-- CAJA INDEPENDIENTE COMENTARIOS -->
                 <div class="glass-box comments-main-box">
                     <div class="comments-title" style="display: flex; align-items: center; gap: 12px;">
                         Feedback 
-                        <span style="background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 0.7em; font-weight: 800; box-shadow: 0 0 10px var(--accent-glow);">${listaComentarios.length}</span>
+                        <span style="background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 10px; font-size: 0.7em; font-weight: 800; box-shadow: 0 0 10px var(--accent-glow);">${listaComentarios.length}</span>
                     </div>
                     
-                    <div id="lista-comentarios-box">
-                        ${htmlComentarios}
-                    </div>
-                    
-                    <div class="comment-input-area">
-                        <input type="text" id="comentario-autor" class="admin-input" placeholder="Ingresa tu Alias" maxlength="20">
-                        <div class="comment-row">
-                            <input type="text" id="comentario-texto" class="admin-input" placeholder="Escribe tu review..." maxlength="120" style="flex: 3;">
-                            <button class="btn" style="flex: 1; padding: 12px; border-radius: 14px; font-size: 0.9em; box-shadow: none;" onclick="enviarComentario('${script.id}')">Publicar</button>
-                        </div>
-                    </div>
+                    <div id="lista-comentarios-box">${htmlComentarios}</div>
+                    ${inputComentarioHtml}
                 </div>
             `;
-
-            setTimeout(() => {
-                const contentDiv = document.getElementById('desc-content');
-                const btnMore = document.getElementById('btn-show-more');
-                if (contentDiv && contentDiv.scrollHeight <= 200) {
-                    btnMore.style.display = 'none';
-                    contentDiv.classList.remove('content-collapse'); 
-                }
-
-                const slider = document.getElementById('current-slider');
-                if(slider && slider.children.length > 1) {
-                    sliderInterval = setInterval(() => {
-                        if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
-                            slider.scrollTo({ left: 0, behavior: 'smooth' });
-                        } else {
-                            slider.scrollBy({ left: slider.clientWidth, behavior: 'smooth' });
-                        }
-                    }, 4000);
-                }
-            }, 100);
-
             cambiarPagina('script-details');
         }
 
-        // ==========================================
-        // LÓGICA DE MENÚ Y ADMIN SECRETO
-        // ==========================================
+        async function enviarComentarioVip(scriptId) {
+            const autorInput = document.getElementById('comentario-autor').value.trim();
+            const textoInput = document.getElementById('comentario-texto').value.trim();
+
+            if(!autorInput || !textoInput) { mostrarAlerta("Ambos campos son requeridos."); return; }
+
+            const nuevoComentario = {
+                autor: autorInput, texto: textoInput, fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })
+            };
+
+            try {
+                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(nuevoComentario)
+                });
+                if(response.ok) {
+                    const data = await response.json();
+                    let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
+                    if (data.comentario && data.comentario.id) {
+                        misComentariosLocales.push(data.comentario.id);
+                        localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentariosLocales));
+                    }
+                    await cargarScriptsDesdeVPS();
+                    abrirDetallesVip(); // Refrescamos
+                } else { mostrarAlerta("Error al publicar."); }
+            } catch(e) { mostrarAlerta("Error de conexión."); }
+        }
+
+        function eliminarComentarioVip(scriptId, commentId) {
+            mostrarConfirm("¿Eliminar este comentario para siempre?", async () => {
+                try {
+                    const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, { method: 'DELETE' });
+                    if(response.ok) {
+                        await cargarScriptsDesdeVPS();
+                        abrirDetallesVip();
+                    } else { mostrarAlerta("Fallo al eliminar."); }
+                } catch(e) { mostrarAlerta("Error de red."); }
+            });
+        }
+
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         let menuOpen = false;
-        let isAdminLoggedIn = false;
         let brandClickCount = 0;
         let brandClickTimer;
 
@@ -1140,186 +755,116 @@
                 linkElement.classList.add('active');
                 toggleMenu();
             }
-            if(pageId !== 'script-details' && typeof sliderInterval !== 'undefined') clearInterval(sliderInterval);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Truco Secreto Admin: Clic 3 veces en la marca superior
+        function mostrarPromptAdmin() {
+            const overlayAdmin = document.createElement('div');
+            overlayAdmin.className = 'modal-overlay';
+            const box = document.createElement('div');
+            box.className = 'glass-box modal-box';
+            box.innerHTML = `
+                <h2 style="color:var(--accent); margin-bottom:20px; font-family: 'Outfit', sans-serif; font-weight: 900; letter-spacing: 1px;">Control de Acceso</h2>
+                <input type="password" id="admin-pass-input" class="bypass-input" placeholder="Ingresa la credencial..." style="margin-bottom:20px; text-align:center;">
+                <button id="btn-admin-submit" class="btn">Verificar</button>
+                <button id="btn-admin-cancel" class="btn-back" style="margin: 15px auto 0 auto;">Cerrar</button>
+            `;
+            overlayAdmin.appendChild(box);
+            document.body.appendChild(overlayAdmin);
+            
+            setTimeout(() => overlayAdmin.classList.add('active'), 10);
+            document.getElementById('admin-pass-input').focus();
+
+            const checkPass = () => {
+                if(document.getElementById('admin-pass-input').value === "onyx2026") {
+                    isAdminLoggedIn = true;
+                    document.getElementById('link-admin').classList.add('visible');
+                    overlayAdmin.classList.remove('active');
+                    setTimeout(() => { document.body.removeChild(overlayAdmin); mostrarAlerta("Sistemas Onyx Desbloqueados. Bienvenido."); }, 400);
+                } else {
+                    document.getElementById('admin-pass-input').value = "";
+                    document.getElementById('admin-pass-input').placeholder = "Acceso Denegado";
+                    document.getElementById('admin-pass-input').style.borderColor = "#ff3333";
+                    setTimeout(() => { document.getElementById('admin-pass-input').style.borderColor = "var(--border-color)"; }, 1000);
+                }
+            };
+            
+            document.getElementById('btn-admin-submit').onclick = checkPass;
+            document.getElementById('admin-pass-input').onkeydown = (e) => { if(e.key === 'Enter') checkPass(); };
+            document.getElementById('btn-admin-cancel').onclick = () => { 
+                overlayAdmin.classList.remove('active'); 
+                setTimeout(() => document.body.removeChild(overlayAdmin), 400); 
+            };
+        }
+
         document.getElementById('brand-title').addEventListener('click', () => {
             brandClickCount++;
             clearTimeout(brandClickTimer);
             if(brandClickCount === 3) {
                 brandClickCount = 0;
-                if(!isAdminLoggedIn) {
-                    mostrarPromptAdmin();
-                } else {
-                    document.getElementById('link-admin').classList.toggle('visible');
-                }
+                if(!isAdminLoggedIn) { mostrarPromptAdmin(); } 
+                else { document.getElementById('link-admin').classList.toggle('visible'); }
             }
             brandClickTimer = setTimeout(() => { brandClickCount = 0; }, 1000);
         });
 
-        // ==========================================
-        // UTILIDADES VARIAS
-        // ==========================================
         function copiarTexto(elementoId, boton, textoOriginal) {
             var codigo = document.getElementById(elementoId).innerText;
             const tempInput = document.createElement("textarea");
             tempInput.value = codigo;
             document.body.appendChild(tempInput);
             tempInput.select();
-            
             try {
                 document.execCommand("copy");
                 boton.innerText = "¡Listo!"; 
-                boton.style.background = "#ffffff"; 
-                boton.style.color = "#000000";
+                boton.style.background = "#ffffff"; boton.style.color = "#000000";
                 setTimeout(function() { 
-                    boton.innerText = textoOriginal; 
-                    boton.style.background = ""; 
-                    boton.style.color = ""; 
+                    boton.innerText = textoOriginal; boton.style.background = ""; boton.style.color = ""; 
                 }, 2500);
-            } catch (err) {
-                mostrarAlerta("Error de permisos al copiar.");
-            }
+            } catch (err) { mostrarAlerta("Error de permisos."); }
             document.body.removeChild(tempInput);
         }
         
-        // Anti-Skids
+        // Anti-devtools
         document.addEventListener('contextmenu', event => event.preventDefault()); 
         document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; } 
-            if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) { return false; } 
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
+            if(e.keyCode == 123) return false; 
+            if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
         }
 
-        // ==========================================
-        // FUNCIONES DE COMENTARIOS
-        // ==========================================
-        async function enviarComentario(scriptId) {
-            const autorInput = document.getElementById('comentario-autor').value.trim();
-            const textoInput = document.getElementById('comentario-texto').value.trim();
-
-            if(!autorInput || !textoInput) {
-                mostrarAlerta("Ambos campos son requeridos para publicar el review.");
-                return;
-            }
-
-            const nuevoComentario = {
-                autor: autorInput,
-                texto: textoInput,
-                fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })
-            };
-
-            try {
-                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(nuevoComentario)
-                });
-
-                if(response.ok) {
-                    const data = await response.json();
-                    
-                    let misComentariosLocales = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
-                    if (data.comentario && data.comentario.id) {
-                        misComentariosLocales.push(data.comentario.id);
-                        localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentariosLocales));
-                    }
-
-                    await cargarScriptsDesdeVPS();
-                    abrirDetalles(scriptId);
-                } else {
-                    mostrarAlerta("El servidor rechazó la solicitud.");
-                }
-            } catch(e) {
-                mostrarAlerta("Se perdió la conexión con la base de datos.");
-            }
-        }
-
-        // Habilitar edicion inline (mostrar input)
-        function habilitarEdicion(scriptId, commentId) {
-            document.getElementById(`comment-text-${commentId}`).style.display = 'none';
-            document.getElementById(`comment-actions-${commentId}`).style.display = 'none';
-            document.getElementById(`comment-edit-area-${commentId}`).style.display = 'block';
-        }
-
-        // Cancelar edicion inline
-        function cancelarEdicionComentario(commentId) {
-            document.getElementById(`comment-text-${commentId}`).style.display = 'block';
-            document.getElementById(`comment-actions-${commentId}`).style.display = 'flex';
-            document.getElementById(`comment-edit-area-${commentId}`).style.display = 'none';
-        }
-
-        // Guardar la edición
-        async function guardarEdicion(scriptId, commentId) {
-            const nuevoTexto = document.getElementById(`input-edit-${commentId}`).value.trim();
-            if(!nuevoTexto) {
-                mostrarAlerta("El comentario no puede dejarse en blanco.");
-                return;
-            }
-
-            try {
-                const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ texto: nuevoTexto })
-                });
-
-                if(response.ok) {
-                    await cargarScriptsDesdeVPS();
-                    abrirDetalles(scriptId); 
-                } else {
-                    mostrarAlerta("Fallo en la actualización.");
-                }
-            } catch(e) {
-                mostrarAlerta("Error de red.");
-            }
-        }
-
-        // Eliminar comentario
-        function eliminarComentario(scriptId, commentId) {
-            mostrarConfirm("¿Seguro que deseas eliminar este comentario? Ya no será visible para los usuarios.", async () => {
-                try {
-                    const response = await fetch(`${VPS_API_URL}/${scriptId}/comentarios/${commentId}`, {
-                        method: 'DELETE'
-                    });
-
-                    if(response.ok) {
-                        let misComentarios = JSON.parse(localStorage.getItem('mis_comentarios_guardados')) || [];
-                        misComentarios = misComentarios.filter(id => id !== commentId);
-                        localStorage.setItem('mis_comentarios_guardados', JSON.stringify(misComentarios));
-
-                        await cargarScriptsDesdeVPS();
-                        abrirDetalles(scriptId);
-                    } else {
-                        mostrarAlerta("Fallo al eliminar.");
-                    }
-                } catch(e) {
-                    mostrarAlerta("Error de red.");
-                }
-            });
-        }
-
-        setInterval(function() {
-            let before = new Date().getTime();
-            debugger;
-            let after = new Date().getTime();
-            if (after - before > 100) { document.body.innerHTML = "<h1 style='color:var(--accent); text-align:center; margin-top: 50px; font-family: Outfit, sans-serif;'>No intentes robar el código fuente</h1>"; }
-        }, 100);
-
-        // Sistema de Partículas Avanzado (hacia arriba)
+        // Particle generator
         const particlesContainer = document.getElementById('particles-container');
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 50; i++) {
             let p = document.createElement('div'); p.className = 'particle';
-            let size = Math.random() * 3 + 1.5; p.style.width = size + 'px'; p.style.height = size + 'px';
+            let size = Math.random() * 3 + 1; p.style.width = size + 'px'; p.style.height = size + 'px';
             p.style.left = Math.random() * 100 + 'vw'; p.style.top = Math.random() * 100 + 'vh';
             p.style.animationDuration = (Math.random() * 15 + 10) + 's'; p.style.animationDelay = (Math.random() * 10) + 's';
             particlesContainer.appendChild(p);
         }
+
+        async function publicarScript(event) {
+            event.preventDefault();
+            const datosScript = {
+                titulo: document.getElementById('admin-titulo').value,
+                tag: document.getElementById('admin-tag').value,
+                juegos: document.getElementById('admin-juegos').value,
+                esPrincipal: document.getElementById('admin-es-principal').checked,
+                creador: document.getElementById('admin-creador').value,
+                descripcion: document.getElementById('admin-desc').value,
+                funciones: document.getElementById('admin-funciones').value,
+                codigo: document.getElementById('admin-codigo').value,
+                fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+            };
+            try {
+                await fetch(VPS_API_URL, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datosScript)
+                });
+                mostrarAlerta('Datos enviados a la DB.');
+                document.getElementById('form-admin').reset();
+                cargarScriptsDesdeVPS();
+            } catch(e) { mostrarAlerta('Error VPS.'); }
+        }
     </script>
 </body>
 </html>
-
-
-

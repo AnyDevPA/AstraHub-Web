@@ -1,16 +1,17 @@
 // ====== main.js ======
+// VERSIÓN LIMPIA - PRUEBA ESTO PRIMERO
 
 const VPS_API_URL = 'https://scripts.onyx-scripts.com/api/scripts'; 
 let isAdminLoggedIn = false;
 let brandClickCount = 0;
 let brandClickTimer;
 
-window.onload = function() {
+// Nos aseguramos de que el DOM cargue antes de iniciar
+window.addEventListener('DOMContentLoaded', (event) => {
     checkCooldown();
     iniciarContadorUsuarios(); 
-};
+});
 
-// AL PONER "window." PROTEGEMOS LA FUNCIÓN DEL OFUSCADOR PARA QUE EL HTML LA ENCUENTRE
 window.cambiarPagina = function(pageId) {
     const secciones = document.querySelectorAll('.page-section');
     secciones.forEach(sec => sec.classList.remove('active'));
@@ -25,8 +26,7 @@ window.cambiarPagina = function(pageId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// Función interna (No necesita window)
-function mostrarAlerta(msg) {
+window.mostrarAlerta = function(msg) {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
     const box = document.createElement('div');
@@ -43,7 +43,7 @@ function mostrarAlerta(msg) {
         overlay.classList.remove('active');
         setTimeout(() => document.body.removeChild(overlay), 300);
     };
-}
+};
 
 window.mostrarPromptAdmin = function() {
     if (isAdminLoggedIn) { window.cambiarPagina('admin'); return; }
@@ -83,7 +83,7 @@ window.mostrarPromptAdmin = function() {
                 setTimeout(() => { 
                     document.body.removeChild(overlay); 
                     window.cambiarPagina('admin');
-                    mostrarAlerta("Acceso concedido al panel."); 
+                    window.mostrarAlerta("Acceso concedido al panel."); 
                 }, 300);
             } else {
                 inputElement.value = "";
@@ -92,7 +92,7 @@ window.mostrarPromptAdmin = function() {
                 setTimeout(() => { inputElement.style.borderColor = "var(--border-color)"; }, 1000);
             }
         } catch(e) {
-            mostrarAlerta("Error al conectar con la base de datos.");
+            window.mostrarAlerta("Error al conectar con la base de datos.");
         }
     };
     
@@ -103,13 +103,6 @@ window.mostrarPromptAdmin = function() {
         setTimeout(() => document.body.removeChild(overlay), 300); 
     };
 };
-
-document.getElementById('brand-title').addEventListener('click', () => {
-    brandClickCount++;
-    clearTimeout(brandClickTimer);
-    if(brandClickCount === 3) { brandClickCount = 0; window.mostrarPromptAdmin(); }
-    brandClickTimer = setTimeout(() => { brandClickCount = 0; }, 1000);
-});
 
 function iniciarContadorUsuarios() {
     const counterElement = document.getElementById("users-count");
@@ -129,13 +122,13 @@ function iniciarContadorUsuarios() {
                 const data = await respuesta.text();
                 if (data && !isNaN(data.trim())) {
                     counterElement.innerText = parseInt(data.trim()).toLocaleString();
-                    pingDot.classList.remove('offline');
+                    if(pingDot) pingDot.classList.remove('offline');
                 }
             } else {
-                counterElement.innerText = "ERR"; pingDot.classList.add('offline');
+                counterElement.innerText = "ERR"; if(pingDot) pingDot.classList.add('offline');
             }
         } catch (error) {
-            counterElement.innerText = "OFFLINE"; pingDot.classList.add('offline');
+            counterElement.innerText = "OFFLINE"; if(pingDot) pingDot.classList.add('offline');
         }
     };
 
@@ -166,6 +159,7 @@ function checkCooldown() {
 
 function iniciarReloj(segundos) {
     const btn = document.getElementById("bypassBtn");
+    if(!btn) return;
     btn.disabled = true; btn.style.opacity = "0.5";
     btn.innerText = "Cargando " + segundos + "s";
     let contador = setInterval(function() {
@@ -180,7 +174,7 @@ function iniciarReloj(segundos) {
 
 window.pegarPortapapeles = async function() {
     try { document.getElementById("linkInput").value = await navigator.clipboard.readText(); } 
-    catch (err) { mostrarAlerta("El navegador bloqueó pegar automáticamente."); }
+    catch (err) { window.mostrarAlerta("El navegador bloqueó pegar automáticamente."); }
 };
 
 window.copiarAlPortapapeles = function(texto, boton) {
@@ -197,7 +191,7 @@ window.copiarAlPortapapeles = function(texto, boton) {
 window.procesarBypass = async function() {
     const link = document.getElementById("linkInput").value;
     const resultBox = document.getElementById("result-box");
-    if(!link) { mostrarAlerta("Oye, pon un link válido primero."); return; }
+    if(!link) { window.mostrarAlerta("Oye, pon un link válido primero."); return; }
     localStorage.setItem("astra_cooldown", Date.now()); iniciarReloj(15); 
     resultBox.style.display = "block"; const start = performance.now();
     let crono = setInterval(() => {
@@ -218,12 +212,12 @@ window.procesarBypass = async function() {
                 resultBox.innerHTML = `
                     <span style="color:var(--success); font-weight:bold;">¡Éxito! (${secs}s)</span>
                     <a href="${r}" target="_blank" class="clean-link">${r}</a>
-                    <button onclick="copiarAlPortapapeles('${r}', this)" class="btn-action" style="margin-top:15px; font-size:0.85em; padding:8px;">Copiar Link</button>`;
+                    <button onclick="window.copiarAlPortapapeles('${r}', this)" class="btn-action" style="margin-top:15px; font-size:0.85em; padding:8px;">Copiar Link</button>`;
             } else {
                 resultBox.innerHTML = `
                     <span style="color:var(--success); font-weight:bold;">¡Key Lista! (${secs}s)</span>
                     <div style="margin-top:15px; padding:15px; background:var(--bg-panel); border:1px solid var(--border-color); color:var(--text-main); font-family:'Fira Code'; word-break:break-all;">${r}</div>
-                    <button onclick="copiarAlPortapapeles('${r}', this)" class="btn-action" style="margin-top:15px; font-size:0.85em; padding:8px;">Copiar Key</button>`;
+                    <button onclick="window.copiarAlPortapapeles('${r}', this)" class="btn-action" style="margin-top:15px; font-size:0.85em; padding:8px;">Copiar Key</button>`;
             }
         } else {
             resultBox.innerHTML = `<span style="color:var(--danger); font-weight:bold;">Fallo (${secs}s): ${data.error}</span>`;
@@ -250,10 +244,23 @@ window.publicarScript = async function(event) {
             method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datosScript)
         });
         if(res.ok) {
-            mostrarAlerta('Script subido a la base de datos.'); document.getElementById('form-admin').reset();
-        } else { mostrarAlerta('Error en el VPS.'); }
-    } catch(e) { mostrarAlerta('Sin conexión al nodo.'); }
+            window.mostrarAlerta('Script subido a la base de datos.'); document.getElementById('form-admin').reset();
+        } else { window.mostrarAlerta('Error en el VPS.'); }
+    } catch(e) { window.mostrarAlerta('Sin conexión al nodo.'); }
 };
+
+// Se ejecuta tras cargar
+setTimeout(() => {
+    const bTitle = document.getElementById('brand-title');
+    if(bTitle) {
+        bTitle.addEventListener('click', () => {
+            brandClickCount++;
+            clearTimeout(brandClickTimer);
+            if(brandClickCount === 3) { brandClickCount = 0; window.mostrarPromptAdmin(); }
+            brandClickTimer = setTimeout(() => { brandClickCount = 0; }, 1000);
+        });
+    }
+}, 500);
 
 // Anti-Inspect
 document.addEventListener('contextmenu', event => event.preventDefault()); 

@@ -1,1 +1,264 @@
-const _0x49b5ec=_0x3c75;(function(_0x3fa44c,_0x314a93){const _0x12c75a=_0x3c75,_0x1c4da6=_0x3fa44c();while(!![]){try{const _0x3999ab=-parseInt(_0x12c75a(0x23e))/0x1*(-parseInt(_0x12c75a(0x245))/0x2)+parseInt(_0x12c75a(0x21e))/0x3*(-parseInt(_0x12c75a(0x254))/0x4)+-parseInt(_0x12c75a(0x242))/0x5*(-parseInt(_0x12c75a(0x1f8))/0x6)+-parseInt(_0x12c75a(0x1e0))/0x7+parseInt(_0x12c75a(0x231))/0x8*(-parseInt(_0x12c75a(0x216))/0x9)+parseInt(_0x12c75a(0x230))/0xa*(-parseInt(_0x12c75a(0x22f))/0xb)+-parseInt(_0x12c75a(0x25a))/0xc*(-parseInt(_0x12c75a(0x209))/0xd);if(_0x3999ab===_0x314a93)break;else _0x1c4da6['push'](_0x1c4da6['shift']());}catch(_0x5955e5){_0x1c4da6['push'](_0x1c4da6['shift']());}}}(_0x52b1,0xbf8af));const VPS_API_URL=_0x49b5ec(0x1f0);function _0x3c75(_0xfbc1b1,_0x42e81e){_0xfbc1b1=_0xfbc1b1-0x1d5;const _0x52b12e=_0x52b1();let _0x3c751c=_0x52b12e[_0xfbc1b1];return _0x3c751c;}let isAdminLoggedIn=![],brandClickCount=0x0,brandClickTimer;window[_0x49b5ec(0x211)]=function(){checkCooldown(),iniciarContadorUsuarios();},window['cambiarPagina']=function(_0x44c57d){const _0x12e399=_0x49b5ec,_0x12f8e5=document[_0x12e399(0x226)](_0x12e399(0x23b));_0x12f8e5[_0x12e399(0x25d)](_0x3c89cc=>_0x3c89cc[_0x12e399(0x258)][_0x12e399(0x214)](_0x12e399(0x259))),document[_0x12e399(0x217)](_0x12e399(0x1fb)+_0x44c57d)[_0x12e399(0x258)][_0x12e399(0x1de)](_0x12e399(0x259));const _0x46ee27=document[_0x12e399(0x226)](_0x12e399(0x1ec));_0x46ee27[_0x12e399(0x25d)](_0xf15c55=>_0xf15c55[_0x12e399(0x258)]['remove']('active'));let _0x18c4ff=document[_0x12e399(0x1fa)]('.nav-links\x20a[onclick=\x22cambiarPagina(\x27'+_0x44c57d+_0x12e399(0x1da));if(_0x18c4ff)_0x18c4ff[_0x12e399(0x258)][_0x12e399(0x1de)](_0x12e399(0x259));window[_0x12e399(0x213)]({'top':0x0,'behavior':_0x12e399(0x1e9)});};function mostrarAlerta(_0x4aefed){const _0x1f2b7c=_0x49b5ec,_0x450e0c=document[_0x1f2b7c(0x203)](_0x1f2b7c(0x22d));_0x450e0c['className']=_0x1f2b7c(0x248);const _0x43fe1f=document[_0x1f2b7c(0x203)](_0x1f2b7c(0x22d));_0x43fe1f['className']=_0x1f2b7c(0x1e5),_0x43fe1f[_0x1f2b7c(0x24d)]=_0x1f2b7c(0x1e8)+_0x4aefed+_0x1f2b7c(0x234),_0x450e0c[_0x1f2b7c(0x1d5)](_0x43fe1f),document[_0x1f2b7c(0x25b)]['appendChild'](_0x450e0c),setTimeout(()=>_0x450e0c[_0x1f2b7c(0x258)][_0x1f2b7c(0x1de)](_0x1f2b7c(0x259)),0xa),document['getElementById'](_0x1f2b7c(0x1fe))[_0x1f2b7c(0x244)]=()=>{const _0x2802e1=_0x1f2b7c;_0x450e0c[_0x2802e1(0x258)][_0x2802e1(0x214)](_0x2802e1(0x259)),setTimeout(()=>document[_0x2802e1(0x25b)]['removeChild'](_0x450e0c),0x12c);};}window[_0x49b5ec(0x249)]=function(){const _0x28a16a=_0x49b5ec;if(isAdminLoggedIn){window[_0x28a16a(0x235)]('admin');return;}const _0x4cef26=document[_0x28a16a(0x203)](_0x28a16a(0x22d));_0x4cef26[_0x28a16a(0x1d8)]=_0x28a16a(0x248);const _0xbd3235=document[_0x28a16a(0x203)](_0x28a16a(0x22d));_0xbd3235['className']=_0x28a16a(0x1e5),_0xbd3235[_0x28a16a(0x24d)]=_0x28a16a(0x1ef),_0x4cef26[_0x28a16a(0x1d5)](_0xbd3235),document[_0x28a16a(0x25b)][_0x28a16a(0x1d5)](_0x4cef26),setTimeout(()=>_0x4cef26[_0x28a16a(0x258)][_0x28a16a(0x1de)]('active'),0xa),document['getElementById'](_0x28a16a(0x1f4))[_0x28a16a(0x1f6)]();const _0x600f2e=async()=>{const _0x4e6091=_0x28a16a,_0x23c361=document[_0x4e6091(0x217)](_0x4e6091(0x1f4)),_0xbf89a3=_0x23c361[_0x4e6091(0x22e)];try{const _0x5928f9=await fetch(_0x4e6091(0x239),{'method':'POST','headers':{'Content-Type':_0x4e6091(0x1d7)},'body':JSON[_0x4e6091(0x232)]({'password':_0xbf89a3})}),_0x2da1a4=await _0x5928f9['json']();_0x2da1a4[_0x4e6091(0x24f)]?(isAdminLoggedIn=!![],document[_0x4e6091(0x217)](_0x4e6091(0x22a))[_0x4e6091(0x258)][_0x4e6091(0x1de)]('visible'),_0x4cef26[_0x4e6091(0x258)][_0x4e6091(0x214)](_0x4e6091(0x259)),setTimeout(()=>{const _0x5ca8e1=_0x4e6091;document['body'][_0x5ca8e1(0x257)](_0x4cef26),window[_0x5ca8e1(0x235)](_0x5ca8e1(0x1ee)),mostrarAlerta('Acceso\x20concedido\x20al\x20panel.');},0x12c)):(_0x23c361[_0x4e6091(0x22e)]='',_0x23c361[_0x4e6091(0x1d6)]=_0x4e6091(0x228),_0x23c361[_0x4e6091(0x1e6)][_0x4e6091(0x20e)]='var(--danger)',setTimeout(()=>{const _0x2645d7=_0x4e6091;_0x23c361[_0x2645d7(0x1e6)][_0x2645d7(0x20e)]='var(--border-color)';},0x3e8));}catch(_0x42c9fe){mostrarAlerta(_0x4e6091(0x24b));}};document[_0x28a16a(0x217)](_0x28a16a(0x243))[_0x28a16a(0x244)]=_0x600f2e,document['getElementById']('admin-pass-input')[_0x28a16a(0x1ea)]=_0xe97428=>{const _0x135dae=_0x28a16a;if(_0xe97428[_0x135dae(0x222)]===_0x135dae(0x1df))_0x600f2e();},document[_0x28a16a(0x217)]('btn-admin-cancel')[_0x28a16a(0x244)]=()=>{const _0x5ab5d6=_0x28a16a;_0x4cef26[_0x5ab5d6(0x258)][_0x5ab5d6(0x214)](_0x5ab5d6(0x259)),setTimeout(()=>document['body'][_0x5ab5d6(0x257)](_0x4cef26),0x12c);};},document[_0x49b5ec(0x217)](_0x49b5ec(0x224))[_0x49b5ec(0x215)](_0x49b5ec(0x240),()=>{const _0xa93b7e=_0x49b5ec;brandClickCount++,clearTimeout(brandClickTimer),brandClickCount===0x3&&(brandClickCount=0x0,window[_0xa93b7e(0x249)]()),brandClickTimer=setTimeout(()=>{brandClickCount=0x0;},0x3e8);});function iniciarContadorUsuarios(){const _0x51bdb7=_0x49b5ec,_0x2b2e69=document[_0x51bdb7(0x217)](_0x51bdb7(0x20d)),_0x11cd86=document[_0x51bdb7(0x217)]('ping-indicator');if(!_0x2b2e69)return;const _0xfcf65d=encodeURIComponent(_0x51bdb7(0x1f3)),_0x11dc90=_0x51bdb7(0x21f),_0x26c418=async()=>{const _0xa524ad=_0x51bdb7;try{const _0x55f3f7=await fetch('https://hub.onyx-scripts.com/ping?user='+_0xfcf65d+_0xa524ad(0x20a)+_0x11dc90,{'method':_0xa524ad(0x220),'headers':{'Astra-Auth':_0xa524ad(0x223)}});if(_0x55f3f7['ok']){const _0xbb02b8=await _0x55f3f7[_0xa524ad(0x23c)]();_0xbb02b8&&!isNaN(_0xbb02b8[_0xa524ad(0x237)]())&&(_0x2b2e69['innerText']=parseInt(_0xbb02b8['trim']())[_0xa524ad(0x24a)](),_0x11cd86[_0xa524ad(0x258)][_0xa524ad(0x214)](_0xa524ad(0x204)));}else _0x2b2e69[_0xa524ad(0x1d9)]=_0xa524ad(0x1dd),_0x11cd86[_0xa524ad(0x258)][_0xa524ad(0x1de)]('offline');}catch(_0x5d9a5f){_0x2b2e69[_0xa524ad(0x1d9)]=_0xa524ad(0x21c),_0x11cd86[_0xa524ad(0x258)][_0xa524ad(0x1de)](_0xa524ad(0x204));}};_0x26c418(),setInterval(_0x26c418,0x1388);}window[_0x49b5ec(0x22b)]=function(_0x2ff3e2,_0x2cbc5b,_0x36ee03){const _0x293795=_0x49b5ec;var _0x378e79=document[_0x293795(0x217)](_0x2ff3e2)[_0x293795(0x1d9)];const _0x285e10=document[_0x293795(0x203)]('textarea');_0x285e10['value']=_0x378e79,document['body'][_0x293795(0x1d5)](_0x285e10),_0x285e10['select']();try{document[_0x293795(0x200)](_0x293795(0x1ff)),_0x2cbc5b['innerHTML']=_0x293795(0x1f2),setTimeout(function(){const _0x20b72c=_0x293795;_0x2cbc5b[_0x20b72c(0x24d)]=_0x36ee03;},0x9c4);}catch(_0x5cf1b0){}document[_0x293795(0x25b)][_0x293795(0x257)](_0x285e10);};function checkCooldown(){const _0x20ef54=_0x49b5ec;let _0xf8a713=localStorage[_0x20ef54(0x241)](_0x20ef54(0x256));if(_0xf8a713){let _0x39c729=Math[_0x20ef54(0x1e7)]((Date[_0x20ef54(0x202)]()-parseInt(_0xf8a713))/0x3e8),_0x4ce38e=0xf-_0x39c729;if(_0x4ce38e>0x0)iniciarReloj(_0x4ce38e);else localStorage[_0x20ef54(0x1f1)](_0x20ef54(0x256));}}function iniciarReloj(_0x4a65c7){const _0x3aa20e=_0x49b5ec,_0x25b7a3=document[_0x3aa20e(0x217)](_0x3aa20e(0x25c));_0x25b7a3[_0x3aa20e(0x22c)]=!![],_0x25b7a3['style'][_0x3aa20e(0x1eb)]='0.5',_0x25b7a3[_0x3aa20e(0x1d9)]=_0x3aa20e(0x20b)+_0x4a65c7+'s';let _0x514df2=setInterval(function(){const _0xea5481=_0x3aa20e;_0x4a65c7--,_0x4a65c7>0x0?_0x25b7a3[_0xea5481(0x1d9)]=_0xea5481(0x20b)+_0x4a65c7+'s':(clearInterval(_0x514df2),_0x25b7a3[_0xea5481(0x1d9)]=_0xea5481(0x253),_0x25b7a3[_0xea5481(0x22c)]=![],_0x25b7a3['style'][_0xea5481(0x1eb)]='1',localStorage[_0xea5481(0x1f1)](_0xea5481(0x256)));},0x3e8);}function _0x52b1(){const _0x39a58b=['612699IVOxMg','WebPanel','GET','http','key','AstraVIP2026!','brand-title','admin-juegos','querySelectorAll','admin-codigo','Contraseña\x20incorrecta','es-ES','link-admin','copiarTexto','disabled','div','value','17776ZRmZqj','9590xVdihJ','24bYUtfU','stringify','preventDefault','</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22btn-alert-ok\x22\x20class=\x22btn-action\x20btn-primary\x22\x20style=\x22border:none;\x22>Ok</button>\x0a\x20\x20\x20\x20','cambiarPagina','numeric','trim','reset','https://api.onyx-scripts.com/api/admin-login','admin-creador','.page-section','text','form-admin','653051HeNmqs','</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20onclick=\x22copiarAlPortapapeles(\x27','click','getItem','7614335LiFBXT','btn-admin-submit','onclick','4ByZIxs','shiftKey','Error\x20en\x20el\x20VPS.','modal-overlay','mostrarPromptAdmin','toLocaleString','Error\x20al\x20conectar\x20con\x20la\x20base\x20de\x20datos.','admin-desc','innerHTML','</span>','success','procesarBypass','s)</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20style=\x22margin-top:15px;\x20padding:15px;\x20background:var(--bg-panel);\x20border:1px\x20solid\x20var(--border-color);\x20color:var(--text-main);\x20font-family:\x27Fira\x20Code\x27;\x20word-break:break-all;\x22>','pegarPortapapeles','Desbloquear','20TJQzox','admin-tag','astra_cooldown','removeChild','classList','active','303156OgszUT','body','bypassBtn','forEach','ctrlKey','appendChild','placeholder','application/json','className','innerText','\x27)\x22]','<span\x20style=\x22color:var(--danger);\x20font-weight:bold;\x22>Fallo\x20(','long','ERR','add','Enter','9836470YzJbJI','contextmenu','result-box','\x22\x20target=\x22_blank\x22\x20class=\x22clean-link\x22>','Oye,\x20pon\x20un\x20link\x20válido\x20primero.','modal-box','style','floor','\x0a\x20\x20\x20\x20\x20\x20\x20\x20<p\x20style=\x22color:#fff;\x20margin-bottom:25px;\x20font-weight:600;\x20font-family:\x20\x27Space\x20Grotesk\x27;\x20font-size:\x201.1em;\x22>','smooth','onkeydown','opacity','.nav-links\x20.nav-link','s</span>','admin','\x0a\x20\x20\x20\x20\x20\x20\x20\x20<h2\x20style=\x22color:var(--text-main);\x20margin-bottom:25px;\x20font-family:\x20\x27Space\x20Grotesk\x27;\x20font-weight:\x20900;\x22>ACCESO\x20<span\x20class=\x22text-gradient\x22>ADMIN</span></h2>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<input\x20type=\x22password\x22\x20id=\x22admin-pass-input\x22\x20class=\x22form-control\x22\x20placeholder=\x22Ingresa\x20la\x20contraseña\x22\x20style=\x22text-align:center;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22btn-admin-submit\x22\x20class=\x22btn-action\x20btn-primary\x22\x20style=\x22margin-bottom:\x2010px;\x20border:none;\x22>Entrar</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22btn-admin-cancel\x22\x20class=\x22btn-action\x22\x20style=\x22border:1px\x20solid\x20var(--border-color);\x20background:transparent;\x20color:#fff;\x22>Cerrar</button>\x0a\x20\x20\x20\x20','https://scripts.onyx-scripts.com/api/scripts','removeItem','¡Copiado!','OnyxWebClient','admin-pass-input','charCodeAt','focus','readText','6Mlldkg','setItem','querySelector','page-','keyCode','POST','btn-alert-ok','copy','execCommand','<span\x20style=\x27color:var(--text-muted);\x20font-family:\x22Fira\x20Code\x22;\x27>Saltando\x20acortador...\x20','now','createElement','offline','publicarScript','toFixed','select','copiarAlPortapapeles','1079GFPFwR','&jobid=','Cargando\x20','</a>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20onclick=\x22copiarAlPortapapeles(\x27','users-count','borderColor','El\x20navegador\x20bloqueó\x20pegar\x20automáticamente.','linkInput','onload','block','scrollTo','remove','addEventListener','495360TYlROl','getElementById','Script\x20subido\x20a\x20la\x20base\x20de\x20datos.','display','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22color:var(--success);\x20font-weight:bold;\x22>¡Éxito!\x20(','clipboard','OFFLINE','textarea'];_0x52b1=function(){return _0x39a58b;};return _0x52b1();}window[_0x49b5ec(0x252)]=async function(){const _0x2feda6=_0x49b5ec;try{document[_0x2feda6(0x217)](_0x2feda6(0x210))[_0x2feda6(0x22e)]=await navigator[_0x2feda6(0x21b)][_0x2feda6(0x1f7)]();}catch(_0x2129ca){mostrarAlerta(_0x2feda6(0x20f));}},window[_0x49b5ec(0x208)]=function(_0x2701f8,_0x17d1f7){const _0x3fcb58=_0x49b5ec,_0x52ade8=document['createElement'](_0x3fcb58(0x21d));_0x52ade8[_0x3fcb58(0x22e)]=_0x2701f8,document[_0x3fcb58(0x25b)][_0x3fcb58(0x1d5)](_0x52ade8),_0x52ade8[_0x3fcb58(0x207)]();try{document[_0x3fcb58(0x200)](_0x3fcb58(0x1ff));let _0xc589e=_0x17d1f7[_0x3fcb58(0x1d9)];_0x17d1f7['innerText']='¡Listo!',setTimeout(function(){const _0x563395=_0x3fcb58;_0x17d1f7[_0x563395(0x1d9)]=_0xc589e;},0x7d0);}catch(_0x2bb049){}document[_0x3fcb58(0x25b)][_0x3fcb58(0x257)](_0x52ade8);},window[_0x49b5ec(0x250)]=async function(){const _0x897e6f=_0x49b5ec,_0x4b3101=document['getElementById'](_0x897e6f(0x210))[_0x897e6f(0x22e)],_0x327061=document[_0x897e6f(0x217)](_0x897e6f(0x1e2));if(!_0x4b3101){mostrarAlerta(_0x897e6f(0x1e4));return;}localStorage[_0x897e6f(0x1f9)](_0x897e6f(0x256),Date[_0x897e6f(0x202)]()),iniciarReloj(0xf),_0x327061[_0x897e6f(0x1e6)][_0x897e6f(0x219)]=_0x897e6f(0x212);const _0x40fa99=performance[_0x897e6f(0x202)]();let _0x582972=setInterval(()=>{const _0x13e856=_0x897e6f;let _0x572ccb=((performance[_0x13e856(0x202)]()-_0x40fa99)/0x3e8)[_0x13e856(0x206)](0x1);_0x327061['innerHTML']=_0x13e856(0x201)+_0x572ccb+_0x13e856(0x1ed);},0x64);try{const _0x1f5b04=await fetch('https://api.onyx-scripts.com/api/bypass',{'method':_0x897e6f(0x1fd),'headers':{'Content-Type':_0x897e6f(0x1d7)},'body':JSON[_0x897e6f(0x232)]({'url':_0x4b3101})}),_0x4cf8cb=await _0x1f5b04['json']();clearInterval(_0x582972);const _0x3298fd=((performance['now']()-_0x40fa99)/0x3e8)[_0x897e6f(0x206)](0x1);if(_0x4cf8cb[_0x897e6f(0x24f)]){let _0x53f6e0=_0x4cf8cb['url_limpia'];_0x53f6e0['startsWith'](_0x897e6f(0x221))?_0x327061[_0x897e6f(0x24d)]=_0x897e6f(0x21a)+_0x3298fd+'s)</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<a\x20href=\x22'+_0x53f6e0+_0x897e6f(0x1e3)+_0x53f6e0+_0x897e6f(0x20c)+_0x53f6e0+'\x27,\x20this)\x22\x20class=\x22btn-action\x22\x20style=\x22margin-top:15px;\x20font-size:0.85em;\x20padding:8px;\x22>Copiar\x20Link</button>':_0x327061['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20style=\x22color:var(--success);\x20font-weight:bold;\x22>¡Key\x20Lista!\x20('+_0x3298fd+_0x897e6f(0x251)+_0x53f6e0+_0x897e6f(0x23f)+_0x53f6e0+'\x27,\x20this)\x22\x20class=\x22btn-action\x22\x20style=\x22margin-top:15px;\x20font-size:0.85em;\x20padding:8px;\x22>Copiar\x20Key</button>';}else _0x327061[_0x897e6f(0x24d)]=_0x897e6f(0x1db)+_0x3298fd+'s):\x20'+_0x4cf8cb['error']+_0x897e6f(0x24e);}catch(_0x52c4a5){clearInterval(_0x582972),_0x327061[_0x897e6f(0x24d)]='<span\x20style=\x22color:var(--danger);\x20font-weight:bold;\x22>Error\x20de\x20red.</span>';}},window[_0x49b5ec(0x205)]=async function(_0x37d71d){const _0x31de9a=_0x49b5ec;_0x37d71d[_0x31de9a(0x233)]();const _0x478016={'titulo':document[_0x31de9a(0x217)]('admin-titulo')[_0x31de9a(0x22e)],'tag':document[_0x31de9a(0x217)](_0x31de9a(0x255))[_0x31de9a(0x22e)],'juegos':document['getElementById'](_0x31de9a(0x225))['value'],'esPrincipal':document[_0x31de9a(0x217)]('admin-es-principal')['checked'],'creador':document[_0x31de9a(0x217)](_0x31de9a(0x23a))[_0x31de9a(0x22e)],'descripcion':document[_0x31de9a(0x217)](_0x31de9a(0x24c))[_0x31de9a(0x22e)],'codigo':document[_0x31de9a(0x217)](_0x31de9a(0x227))[_0x31de9a(0x22e)],'fecha':new Date()['toLocaleDateString'](_0x31de9a(0x229),{'day':'2-digit','month':_0x31de9a(0x1dc),'year':_0x31de9a(0x236)})};try{const _0x300216=await fetch(VPS_API_URL,{'method':'POST','headers':{'Content-Type':_0x31de9a(0x1d7)},'body':JSON[_0x31de9a(0x232)](_0x478016)});_0x300216['ok']?(mostrarAlerta(_0x31de9a(0x218)),document['getElementById'](_0x31de9a(0x23d))[_0x31de9a(0x238)]()):mostrarAlerta(_0x31de9a(0x247));}catch(_0x4be742){mostrarAlerta('Sin\x20conexión\x20al\x20nodo.');}},document['addEventListener'](_0x49b5ec(0x1e1),_0x292e08=>_0x292e08[_0x49b5ec(0x233)]()),document['onkeydown']=function(_0x144912){const _0x209f8d=_0x49b5ec;if(_0x144912[_0x209f8d(0x1fc)]==0x7b)return![];if(_0x144912[_0x209f8d(0x25e)]&&_0x144912[_0x209f8d(0x246)]&&(_0x144912[_0x209f8d(0x1fc)]=='I'[_0x209f8d(0x1f5)](0x0)||_0x144912['keyCode']=='C'[_0x209f8d(0x1f5)](0x0)||_0x144912[_0x209f8d(0x1fc)]=='J'['charCodeAt'](0x0)))return![];if(_0x144912[_0x209f8d(0x25e)]&&_0x144912[_0x209f8d(0x1fc)]=='U'['charCodeAt'](0x0))return![];};
+// ====== main.js ======
+
+const VPS_API_URL = 'https://scripts.onyx-scripts.com/api/scripts'; 
+let isAdminLoggedIn = false;
+let brandClickCount = 0;
+let brandClickTimer;
+
+window.onload = function() {
+    checkCooldown();
+    iniciarContadorUsuarios(); 
+};
+
+// AL PONER "window." PROTEGEMOS LA FUNCIÓN DEL OFUSCADOR PARA QUE EL HTML LA ENCUENTRE
+window.cambiarPagina = function(pageId) {
+    const secciones = document.querySelectorAll('.page-section');
+    secciones.forEach(sec => sec.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+
+    const links = document.querySelectorAll('.nav-links .nav-link');
+    links.forEach(l => l.classList.remove('active'));
+    
+    let linkActive = document.querySelector(`.nav-links a[onclick="cambiarPagina('${pageId}')"]`);
+    if(linkActive) linkActive.classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+// Función interna (No necesita window)
+function mostrarAlerta(msg) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+    box.innerHTML = `
+        <p style="color:#fff; margin-bottom:25px; font-weight:600; font-family: 'Space Grotesk'; font-size: 1.1em;">${msg}</p>
+        <button id="btn-alert-ok" class="btn-action btn-primary" style="border:none;">Ok</button>
+    `;
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => overlay.classList.add('active'), 10);
+    document.getElementById('btn-alert-ok').onclick = () => {
+        overlay.classList.remove('active');
+        setTimeout(() => document.body.removeChild(overlay), 300);
+    };
+}
+
+window.mostrarPromptAdmin = function() {
+    if (isAdminLoggedIn) { window.cambiarPagina('admin'); return; }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+    box.innerHTML = `
+        <h2 style="color:var(--text-main); margin-bottom:25px; font-family: 'Space Grotesk'; font-weight: 900;">ACCESO <span class="text-gradient">ADMIN</span></h2>
+        <input type="password" id="admin-pass-input" class="form-control" placeholder="Ingresa la contraseña" style="text-align:center;">
+        <button id="btn-admin-submit" class="btn-action btn-primary" style="margin-bottom: 10px; border:none;">Entrar</button>
+        <button id="btn-admin-cancel" class="btn-action" style="border:1px solid var(--border-color); background:transparent; color:#fff;">Cerrar</button>
+    `;
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => overlay.classList.add('active'), 10);
+    document.getElementById('admin-pass-input').focus();
+
+    const checkPass = async () => {
+        const inputElement = document.getElementById('admin-pass-input');
+        const pwd = inputElement.value;
+        
+        try {
+            const res = await fetch("https://api.onyx-scripts.com/api/admin-login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password: pwd })
+            });
+            const data = await res.json();
+            
+            if(data.success) {
+                isAdminLoggedIn = true;
+                document.getElementById('link-admin').classList.add('visible');
+                overlay.classList.remove('active');
+                setTimeout(() => { 
+                    document.body.removeChild(overlay); 
+                    window.cambiarPagina('admin');
+                    mostrarAlerta("Acceso concedido al panel."); 
+                }, 300);
+            } else {
+                inputElement.value = "";
+                inputElement.placeholder = "Contraseña incorrecta";
+                inputElement.style.borderColor = "var(--danger)";
+                setTimeout(() => { inputElement.style.borderColor = "var(--border-color)"; }, 1000);
+            }
+        } catch(e) {
+            mostrarAlerta("Error al conectar con la base de datos.");
+        }
+    };
+    
+    document.getElementById('btn-admin-submit').onclick = checkPass;
+    document.getElementById('admin-pass-input').onkeydown = (e) => { if(e.key === 'Enter') checkPass(); };
+    document.getElementById('btn-admin-cancel').onclick = () => { 
+        overlay.classList.remove('active'); 
+        setTimeout(() => document.body.removeChild(overlay), 300); 
+    };
+};
+
+document.getElementById('brand-title').addEventListener('click', () => {
+    brandClickCount++;
+    clearTimeout(brandClickTimer);
+    if(brandClickCount === 3) { brandClickCount = 0; window.mostrarPromptAdmin(); }
+    brandClickTimer = setTimeout(() => { brandClickCount = 0; }, 1000);
+});
+
+function iniciarContadorUsuarios() {
+    const counterElement = document.getElementById("users-count");
+    const pingDot = document.getElementById("ping-indicator");
+    if (!counterElement) return;
+
+    const myName = encodeURIComponent("OnyxWebClient");
+    const myJobId = "WebPanel";
+
+    const fetchUsers = async () => {
+        try {
+            const respuesta = await fetch(`https://hub.onyx-scripts.com/ping?user=${myName}&jobid=${myJobId}`, {
+                method: "GET", headers: { "Astra-Auth": "AstraVIP2026!" }
+            });
+            
+            if (respuesta.ok) {
+                const data = await respuesta.text();
+                if (data && !isNaN(data.trim())) {
+                    counterElement.innerText = parseInt(data.trim()).toLocaleString();
+                    pingDot.classList.remove('offline');
+                }
+            } else {
+                counterElement.innerText = "ERR"; pingDot.classList.add('offline');
+            }
+        } catch (error) {
+            counterElement.innerText = "OFFLINE"; pingDot.classList.add('offline');
+        }
+    };
+
+    fetchUsers(); setInterval(fetchUsers, 5000);
+}
+
+window.copiarTexto = function(elementoId, boton, textoOriginal) {
+    var codigo = document.getElementById(elementoId).innerText;
+    const tempInput = document.createElement("textarea");
+    tempInput.value = codigo;
+    document.body.appendChild(tempInput); tempInput.select();
+    try {
+        document.execCommand("copy");
+        boton.innerHTML = "¡Copiado!"; 
+        setTimeout(function() { boton.innerHTML = textoOriginal; }, 2500);
+    } catch (err) {}
+    document.body.removeChild(tempInput);
+};
+
+function checkCooldown() {
+    let lastTime = localStorage.getItem("astra_cooldown");
+    if (lastTime) {
+        let tp = Math.floor((Date.now() - parseInt(lastTime)) / 1000);
+        let tr = 15 - tp; 
+        if (tr > 0) iniciarReloj(tr); else localStorage.removeItem("astra_cooldown");
+    }
+}
+
+function iniciarReloj(segundos) {
+    const btn = document.getElementById("bypassBtn");
+    btn.disabled = true; btn.style.opacity = "0.5";
+    btn.innerText = "Cargando " + segundos + "s";
+    let contador = setInterval(function() {
+        segundos--;
+        if (segundos > 0) { btn.innerText = "Cargando " + segundos + "s"; } 
+        else {
+            clearInterval(contador); btn.innerText = "Desbloquear"; btn.disabled = false; btn.style.opacity = "1";
+            localStorage.removeItem("astra_cooldown");
+        }
+    }, 1000);
+}
+
+window.pegarPortapapeles = async function() {
+    try { document.getElementById("linkInput").value = await navigator.clipboard.readText(); } 
+    catch (err) { mostrarAlerta("El navegador bloqueó pegar automáticamente."); }
+};
+
+window.copiarAlPortapapeles = function(texto, boton) {
+    const tempInput = document.createElement("textarea");
+    tempInput.value = texto; document.body.appendChild(tempInput); tempInput.select();
+    try {
+        document.execCommand("copy");
+        let old = boton.innerText; boton.innerText = "¡Listo!";
+        setTimeout(function() { boton.innerText = old; }, 2000);
+    } catch (err) { }
+    document.body.removeChild(tempInput);
+};
+
+window.procesarBypass = async function() {
+    const link = document.getElementById("linkInput").value;
+    const resultBox = document.getElementById("result-box");
+    if(!link) { mostrarAlerta("Oye, pon un link válido primero."); return; }
+    localStorage.setItem("astra_cooldown", Date.now()); iniciarReloj(15); 
+    resultBox.style.display = "block"; const start = performance.now();
+    let crono = setInterval(() => {
+        let t = ((performance.now() - start) / 1000).toFixed(1);
+        resultBox.innerHTML = `<span style='color:var(--text-muted); font-family:"Fira Code";'>Saltando acortador... ${t}s</span>`;
+    }, 100); 
+
+    try {
+        const response = await fetch("https://api.onyx-scripts.com/api/bypass", {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: link })
+        });
+        const data = await response.json(); clearInterval(crono);
+        const secs = ((performance.now() - start) / 1000).toFixed(1);
+
+        if(data.success) {
+            let r = data.url_limpia;
+            if (r.startsWith("http")) {
+                resultBox.innerHTML = `
+                    <span style="color:var(--success); font-weight:bold;">¡Éxito! (${secs}s)</span>
+                    <a href="${r}" target="_blank" class="clean-link">${r}</a>
+                    <button onclick="copiarAlPortapapeles('${r}', this)" class="btn-action" style="margin-top:15px; font-size:0.85em; padding:8px;">Copiar Link</button>`;
+            } else {
+                resultBox.innerHTML = `
+                    <span style="color:var(--success); font-weight:bold;">¡Key Lista! (${secs}s)</span>
+                    <div style="margin-top:15px; padding:15px; background:var(--bg-panel); border:1px solid var(--border-color); color:var(--text-main); font-family:'Fira Code'; word-break:break-all;">${r}</div>
+                    <button onclick="copiarAlPortapapeles('${r}', this)" class="btn-action" style="margin-top:15px; font-size:0.85em; padding:8px;">Copiar Key</button>`;
+            }
+        } else {
+            resultBox.innerHTML = `<span style="color:var(--danger); font-weight:bold;">Fallo (${secs}s): ${data.error}</span>`;
+        }
+    } catch (error) {
+        clearInterval(crono); resultBox.innerHTML = `<span style="color:var(--danger); font-weight:bold;">Error de red.</span>`;
+    }
+};
+
+window.publicarScript = async function(event) {
+    event.preventDefault();
+    const datosScript = {
+        titulo: document.getElementById('admin-titulo').value,
+        tag: document.getElementById('admin-tag').value,
+        juegos: document.getElementById('admin-juegos').value,
+        esPrincipal: document.getElementById('admin-es-principal').checked,
+        creador: document.getElementById('admin-creador').value,
+        descripcion: document.getElementById('admin-desc').value,
+        codigo: document.getElementById('admin-codigo').value,
+        fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+    };
+    try {
+        const res = await fetch(VPS_API_URL, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datosScript)
+        });
+        if(res.ok) {
+            mostrarAlerta('Script subido a la base de datos.'); document.getElementById('form-admin').reset();
+        } else { mostrarAlerta('Error en el VPS.'); }
+    } catch(e) { mostrarAlerta('Sin conexión al nodo.'); }
+};
+
+// Anti-Inspect
+document.addEventListener('contextmenu', event => event.preventDefault()); 
+document.onkeydown = function(e) {
+    if(e.keyCode == 123) return false; 
+    if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
+};
